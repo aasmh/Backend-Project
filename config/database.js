@@ -5,7 +5,7 @@ const connection = mysql.createConnection({
     host:'localhost',
     user:'admin',
     password:'admin',
-    database:'test'
+    database:'orcl'
 });
 
 const connectDB =() =>{
