@@ -1,7 +1,37 @@
+const { json } = require('express');
 const express = require('express');
 const mysql = require('mysql2');
 const dbconnect = require('../config/database');
 const con = dbconnect.connection;
+
+const getcountrycode = async (name) => {
+    return new Promise((resolve , reject)=> {
+        var sql = `SELECT Country_code FROM countries WHERE Country_name='${name}';`;
+        con.query(sql, (err,result) =>{
+            if(err){ 
+                reject(err);
+            }
+            else{
+                resolve(result[0].Country_code);
+            }
+        })
+    });
+}
+
+const getportcode = async (name) => {
+    return new Promise((resolve , reject)=> {
+        var sql = `SELECT Port_Code FROM countries WHERE Port_Name='${name}';`;
+        con.query(sql, (err,result) =>{
+            if(err){ 
+                reject(err);
+            }
+            else{
+                resolve(result[0].Port_Code);
+            }
+        })
+    });
+}
+
 
 
 const usergetid = async (req, res) => {
@@ -30,4 +60,4 @@ const gettable = async (req, res) => {
     });
 };
 
-module.exports = { usergetid , gettable };
+module.exports = { usergetid , gettable , getcountrycode };
