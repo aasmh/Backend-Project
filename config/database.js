@@ -1,8 +1,8 @@
-const express = require('express');
 const mysql = require('mysql2');
 
 const connection = mysql.createConnection({
-    host:'localhost',
+    host:'41.47.181.225',
+    port:'5000',
     user:'admin',
     password:'admin',
     database:'orcl'
