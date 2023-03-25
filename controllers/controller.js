@@ -14,11 +14,24 @@ const getcountrycode = async (name) => {
             else{
                 resolve(result[0].Country_code);
             }
-        
         })
-    
     });
 }
+
+const getportcode = async (name) => {
+    return new Promise((resolve , reject)=> {
+        var sql = `SELECT Port_Code FROM countries WHERE Port_Name='${name}';`;
+        con.query(sql, (err,result) =>{
+            if(err){ 
+                reject(err);
+            }
+            else{
+                resolve(result[0].Port_Code);
+            }
+        })
+    });
+}
+
 
 
 const usergetid = async (req, res) => {
