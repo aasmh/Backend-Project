@@ -18,18 +18,42 @@ const getcountrycode = async (name) => {
     });
 }
 
+const fetchcountrycode = async (req, res) =>{
+    const name = req.query.name;
+    const cname = await getcountrycode(name);
+    try{
+        res.status(200).send({ cname });
+    }
+    catch(err){
+        res.status(404).send(err);
+    }
+}
+
 const getportcode = async (name) => {
     return new Promise((resolve , reject)=> {
-        var sql = `SELECT Port_Code FROM countries WHERE Port_Name='${name}';`;
+        var sql = `SELECT Port_Code FROM ports WHERE Port_Name='${name}';`;
         con.query(sql, (err,result) =>{
             if(err){ 
                 reject(err);
             }
             else{
                 resolve(result[0].Port_Code);
+                // console.log(result);
             }
         })
     });
+}
+
+
+const fetchportcode = async (req, res) =>{
+    const name = req.query.name;
+    const pname = await getportcode(name);
+    try{
+        res.status(200).send({ pname });
+    }
+    catch(err){
+        res.status(404).send(err);
+    }
 }
 
 
@@ -60,4 +84,4 @@ const gettable = async (req, res) => {
     });
 };
 
-module.exports = { usergetid , gettable , getcountrycode };
+module.exports = { usergetid , gettable , getcountrycode , getportcode , fetchportcode , fetchcountrycode };

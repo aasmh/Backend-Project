@@ -7,6 +7,11 @@ const ctrl = require('../controllers/controller');
 router.post('/select-jobid', (req, res) => ctrl.usergetid(req, res));
 
 router.get('/get/depart', (req , res ) => ctrl.gettable(req, res));
+
+router.get('/get/portcode', (req, res) => ctrl.fetchportcode(req,res));
+
+router.get('/get/countrycode', (req, res) => ctrl.fetchcountrycode(req,res));
+
 //get depart
 
 //get arrival

@@ -10,6 +10,8 @@ const dbconnect = require('./config/database');
 const con = dbconnect.connection;
 dbconnect.connectDB();
 
+app.use(express.json());
+
 //Set Server Port
 app.listen(3000);
 
