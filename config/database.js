@@ -10,9 +10,11 @@ const connection = mysql.createConnection({
 const connectDB =() =>{
     try {
         connection.connect();
-        console.log('Connected to Mysql DB');
+        // console.log('Connected to Mysql DB');
+        return 1;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
+        return 0;
     }
 }
 

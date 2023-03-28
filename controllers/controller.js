@@ -12,10 +12,24 @@ const getcountrycode = async (name) => {
                 reject(err);
             }
             else{
-                resolve(result[0].Country_code);
+                resolve(result[0]);
             }
         })
     });
+}
+
+const checkdatabase = async(req, res) => {
+    try{
+        if(dbconnect.connectDB()){
+            res.status(200).send({ message:"Database is up and running", status:true });
+        }
+        else{
+            res.status(200).send({ message:"Database is Down", status:false });
+        }
+    }
+    catch{
+        res.status(500).send({message:"There was an error processing this request", status:false});
+    }
 }
 
 const fetchcountrycode = async (req, res) =>{
@@ -36,8 +50,9 @@ const getportcode = async (name) => {
             if(err){ 
                 reject(err);
             }
-            else{
-                resolve(result[0].Port_Code);
+            else
+            {
+                resolve(result[0]);
                 // console.log(result);
             }
         })
@@ -47,11 +62,17 @@ const getportcode = async (name) => {
 
 const fetchportcode = async (req, res) =>{
     const name = req.query.name;
-    const pname = await getportcode(name);
-    try{
+    const emp = {};
+    try
+    {
+        const pname = await getportcode(name);
+        if(pname == emp){
+            throw err;
+        }
         res.status(200).send({ pname });
     }
-    catch(err){
+    catch(err)
+    {
         res.status(404).send(err);
     }
 }
@@ -84,4 +105,4 @@ const gettable = async (req, res) => {
     });
 };
 
-module.exports = { usergetid , gettable , getcountrycode , getportcode , fetchportcode , fetchcountrycode };
+module.exports = { usergetid , gettable , getcountrycode , getportcode , fetchportcode , fetchcountrycode , checkdatabase};
