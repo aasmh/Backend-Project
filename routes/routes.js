@@ -12,7 +12,12 @@ router.get('/get/portcode', (req, res) => ctrl.fetchportcode(req,res));
 
 router.get('/get/countrycode', (req, res) => ctrl.fetchcountrycode(req,res));
 
-router.get('dbstatus', (req, res)=> ctrl.checkdatabase(req,res));
+router.get('/get/allcountries', (req, res) => ctrl.fetchallcountries(req,res));
+
+router.get('/get/allports', (req, res) => ctrl.fetchallports(req,res));
+
+
+router.get('/dbstatus', (req, res)=> ctrl.checkdatabase(req,res));
 //get depart
 
 //get arrival
