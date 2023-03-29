@@ -1,5 +1,4 @@
 const { json } = require('express');
-const e = require('express');
 const express = require('express');
 const mysql = require('mysql2');
 const dbconnect = require('../config/database');
@@ -193,6 +192,123 @@ const fetchallports = async (req, res) => {
     }
 }
 
+const getallagents = async () => {
+    return new Promise((resolve , reject)=> {
+        var sql = `SELECT * FROM agents;`;
+        con.query(sql, (err,result) =>{
+            if(err){ 
+                reject(err);
+            }
+            else
+            {
+                if(result[0] === undefined)
+                {
+                    resolve(result[0]);
+                }
+                else
+                {
+                resolve(result);
+                }
+            }
+        })
+    });
+}
+
+const fetchallagents = async (req, res) => {
+    try{
+        const cbfun = await getallagents();
+        if(cbfun === undefined){
+            throw {message:"There was an error retrieving the query", query:false};
+        }
+        else
+        {
+            res.status(200).send({ message:"Query Executed Correctly", query:true, allentries:cbfun});
+        }
+    }
+    catch(err) 
+    {
+        res.status(500).send(err);
+    }
+}
+
+const getshipdesc = async () => {
+    return new Promise((resolve , reject)=> {
+        var sql = `SELECT * FROM ship_description;`;
+        con.query(sql, (err,result) =>{
+            if(err){ 
+                reject(err);
+            }
+            else
+            {
+                if(result[0] === undefined)
+                {
+                    resolve(result[0]);
+                }
+                else
+                {
+                resolve(result);
+                }
+            }
+        })
+    });
+}
+
+const fetchshipdesc = async (req, res) => {
+    try{
+        const cbfun = await getshipdesc();
+        if(cbfun === undefined){
+            throw {message:"There was an error retrieving the query", query:false};
+        }
+        else
+        {
+            res.status(200).send({ message:"Query Executed Correctly", query:true, allentries:cbfun});
+        }
+    }
+    catch(err) 
+    {
+        res.status(500).send(err);
+    }
+}
+
+const getshiptypes = async () => {
+    return new Promise((resolve , reject)=> {
+        var sql = `SELECT * FROM ship_types;`;
+        con.query(sql, (err,result) =>{
+            if(err){ 
+                reject(err);
+            }
+            else
+            {
+                if(result[0] === undefined)
+                {
+                    resolve(result[0]);
+                }
+                else
+                {
+                resolve(result);
+                }
+            }
+        })
+    });
+}
+
+const fetchshiptypes = async (req, res) => {
+    try{
+        const cbfun = await getshiptypes();
+        if(cbfun === undefined){
+            throw {message:"There was an error retrieving the query", query:false};
+        }
+        else
+        {
+            res.status(200).send({ message:"Query Executed Correctly", query:true, allentries:cbfun});
+        }
+    }
+    catch(err) 
+    {
+        res.status(500).send(err);
+    }
+}
+
 const usergetid = async (req, res) => {
     var sqlj = "SELECT JobID FROM job WHERE Jobname=?;";
     
@@ -219,4 +335,5 @@ const gettable = async (req, res) => {
     });
 };
 
-module.exports = { usergetid , gettable , getcountrycode , getportcode , fetchportcode , fetchcountrycode , checkdatabase , fetchallcountries , fetchallports};
+module.exports = { usergetid , gettable , getcountrycode , getportcode , fetchportcode , fetchcountrycode , checkdatabase , fetchallcountries , 
+fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes};
