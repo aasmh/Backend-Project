@@ -1,8 +1,25 @@
 const { json } = require('express');
+const e = require('express');
 const express = require('express');
 const mysql = require('mysql2');
 const dbconnect = require('../config/database');
 const con = dbconnect.connection;
+
+
+
+const checkdatabase = async(req, res) => {
+    try{
+        if(dbconnect.connectDB()){
+            res.status(200).send({ message:"Database is up and running", status:true });
+        }
+        else{
+            res.status(200).send({ message:"Database is Down", status:false });
+        }
+    }
+    catch{
+        res.status(500).send({message:"There was an error processing this request", status:false});
+    }
+}
 
 const getcountrycode = async (name) => {
     return new Promise((resolve , reject)=> {
@@ -11,28 +28,170 @@ const getcountrycode = async (name) => {
             if(err){ 
                 reject(err);
             }
-            else{
+            else
+            {
+                if(result[0] === undefined)
+                {
+                    resolve(result[0]);
+                }
+                else
+                {
                 resolve(result[0].Country_code);
+                }
             }
         })
     });
+}
+
+const fetchcountrycode = async (req, res) =>{
+    try
+    {
+        if(req.query.name == undefined){
+            throw {message:"Name parameter was not received", query:false};
+        }
+        const name = req.query.name;
+        const cname = await getcountrycode(name);
+        if(cname === undefined){
+            throw {message:"That entry does not exist in the Database", query:false};
+        }
+        else{
+            res.status(200).send({ message:"Query Exceuted Correctly", Country_Code:cname , query:true});
+        }
+    }
+    catch(err)
+    {
+        res.status(404).send(err);
+    }
 }
 
 const getportcode = async (name) => {
     return new Promise((resolve , reject)=> {
-        var sql = `SELECT Port_Code FROM countries WHERE Port_Name='${name}';`;
+        var sql = `SELECT Port_Code FROM ports WHERE Port_Name='${name}';`;
         con.query(sql, (err,result) =>{
             if(err){ 
                 reject(err);
             }
-            else{
+            else
+            {
+                if(result[0] === undefined)
+                {
+                    resolve(result[0]);
+                }
+                else
+                {
                 resolve(result[0].Port_Code);
+                }
             }
         })
     });
 }
 
 
+const fetchportcode = async (req, res) =>{
+    try
+    {
+        if(req.query.name == undefined){
+            throw {message:"Name parameter was not received", query:false};
+        }
+        const name = req.query.name;
+        const pname = await getportcode(name);
+        if(pname === undefined ){
+            throw {message:"That entry does not exist in the Database", query:false};
+        }
+        else{
+            res.status(200).send({ message:"Query Executed Correctly", Port_Code:pname , query:true});
+        }
+    }
+    catch(err)
+    {
+        res.status(404).send(err);
+    }
+}
+
+const getallcountries = async () => {
+    return new Promise((resolve , reject)=> {
+        var sql = `SELECT * FROM countries;`;
+        con.query(sql, (err,result) =>{
+            if(err){ 
+                reject(err);
+            }
+            else
+            {
+                if(result[0] === undefined)
+                {
+                    resolve(result[0]);
+                }
+                else
+                {
+                resolve(result);
+                }
+            }
+        })
+    });
+}
+
+const fetchallcountries = async (req, res) => {
+    try{
+        const cbfun = await getallcountries();
+        if(cbfun === undefined){
+            throw {message:"There was an error retrieving the query", query:false};
+        }
+        else
+        {
+            res.status(200).send({ message:"Query Executed Correctly", query:true, allentries:cbfun});
+        }
+    }
+    catch(err) 
+    {
+        res.status(500).send(err);
+    }
+}
+
+const getallports = async (limit = 0) => {
+    return new Promise((resolve , reject)=> {
+        if(!limit){
+            var sql = `SELECT * FROM ports;`;    
+        }else
+        {
+            var sql = `SELECT * FROM ports LIMIT ${limit};`;
+        }
+        con.query(sql, (err,result) =>{
+            if(err)
+            { 
+                reject(err);
+            }
+            else
+            {
+                if(result[0] === undefined)
+                {
+                    resolve(result[0]);
+                }
+                else
+                {
+                resolve(result);
+                }
+            }
+        })
+    });
+}
+
+const fetchallports = async (req, res) => {
+    try{
+        const lm = req.query.limit;
+        const cbfun = await getallports(lm);
+        if(cbfun === undefined){
+            throw {message:"There was an error retrieving the query", query:false};
+        }
+        else
+        {
+            res.status(200).send({ message:"Query Executed Correctly", query:true, allentries:cbfun});
+        }
+    }
+    catch(err) 
+    {
+        res.status(500).send(err);
+    }
+}
 
 const usergetid = async (req, res) => {
     var sqlj = "SELECT JobID FROM job WHERE Jobname=?;";
@@ -60,4 +219,4 @@ const gettable = async (req, res) => {
     });
 };
 
-module.exports = { usergetid , gettable , getcountrycode };
+module.exports = { usergetid , gettable , getcountrycode , getportcode , fetchportcode , fetchcountrycode , checkdatabase , fetchallcountries , fetchallports};
