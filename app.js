@@ -3,12 +3,14 @@ const mysql = require('mysql2');
 const app = express();
 
 //Importing Routes
-const Routes = require('./routes/routes'); 
+const Routes = require('./src/routes/routes'); 
 
 //Connecting to Mysql DB
-const dbconnect = require('./config/database');
+const dbconnect = require('./src/config/database');
 const con = dbconnect.connection;
 dbconnect.connectDB();
+
+app.use(express.urlencoded());
 
 app.use(express.json());
 

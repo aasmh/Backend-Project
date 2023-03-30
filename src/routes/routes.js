@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const ctrl = require('../controllers/controller');
-const getctrl = require('../controllers/posts.js');
+const ctrl = require('../controllers/gets');
+const postctrl = require('../controllers/posts');
 
 //The route is /api/[insert stuff here]
 
@@ -28,5 +28,9 @@ router.get('/dbstatus', (req, res)=> ctrl.checkdatabase(req,res));
 
 //get arrival
 
+
+
+//Posts
+router.post('/post/test', (req, res)=> postctrl.addnewagent(req,res));
 
 module.exports = router;
