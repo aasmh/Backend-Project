@@ -12,7 +12,7 @@ const checkdatabase = async(req, res) => {
             res.status(200).send({ message:"Database is up and running", status:true });
         }
         else{
-            res.status(200).send({ message:"Database is Down", status:false });
+            res.status(500).send({ message:"Database is Down", status:false });
         }
     }
     catch{

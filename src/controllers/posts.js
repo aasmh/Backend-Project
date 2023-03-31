@@ -7,16 +7,50 @@ const con = dbconnect.connection;
 const addnewagent = async (req,res) => {
     try 
     {
-       console.log("wslt");
         const obj = req.body;
-       console.log(obj);
-       res.status(200).send(obj);
+        if(obj.Perm_No === undefined)
+        {
+            throw {message:"Permission Number was not entered", status:false}
+        }
         
+        if(obj.Perm_dt_st === undefined)
+        {
+            throw {message:"Permission date start was not entered", status:false};
+        }
+        
+        if(obj.Perm_dt_end === undefined)
+        {
+            throw {message:"Permission data end was not entered", status:false};
+        }
+
+        if(obj.email === undefined)
+        {
+            throw {message:"Email was not entered", status:false};
+        }
+        
+        if(obj.Telephone === undefined)
+        {
+            throw {message:"Telephone Number was not entered", status:false};
+        }
+        
+        if(obj.Address === undefined)
+        {
+            throw {message:"Address was not entered", status:false};
+        }
+
+        if(obj.Agent_Name === undefined)
+        {
+            throw {message:"Agent Name was not entered", status:false};
+        }
+
+        
+
     } 
     catch(err) 
     {
-        res.status(404).send("Error");
+        res.status(400).send(err);
     }
 }
+
 
 module.exports = { addnewagent };
