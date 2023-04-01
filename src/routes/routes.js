@@ -33,4 +33,7 @@ router.get('/dbstatus', (req, res)=> ctrl.checkdatabase(req,res));
 //Posts
 router.post('/post/test', (req, res)=> postctrl.addnewagent(req,res));
 
+router.post('/post/statusagents', (req, res)=> postctrl.addnewagent(req,res));
+
+
 module.exports = router;
