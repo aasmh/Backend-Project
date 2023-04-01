@@ -8,7 +8,6 @@ const con = dbconnect.connection;
 
 const checkexistsagents = async (Pk) => {
     return new Promise((resolve , reject)=> {
-        console.log(Pk);
         const ssql = `SELECT Agent_Code FROM agents WHERE Perm_No='${Pk}'`;
         con.query(ssql, (err,result) =>{
             if(err){ 
@@ -19,12 +18,10 @@ const checkexistsagents = async (Pk) => {
                 if(result[0] === undefined)
                 {
                     resolve( {message:"This Agent Does Not Exist!", status:false } );
-                    
                 }
                 else
                 {
                     resolve( {message:"This Agent Already Exists!", status:true } );
-                    
                 }
             }
         })
@@ -70,7 +67,7 @@ const addnewagent = async (req,res) => {
         // {
         //     throw {message:"Agent Name was not entered", status:false};
         // }
-        const exist = await checkexistsagents(obj.Perm_No).status;
+        const exist = await checkexistsagents(obj.Perm_No);
 
         // const isql = "INSERT INTO agents (`Perm_No`";
         // con.query(isql, (err, result) =>{
@@ -85,7 +82,7 @@ const addnewagent = async (req,res) => {
         // });
         
 
-        res.status(201).send(exist);
+        res.status(201).send(exist.status);
 
     } 
     catch(err) 
