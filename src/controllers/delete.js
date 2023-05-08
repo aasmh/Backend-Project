@@ -14,7 +14,7 @@ const deleteEmployee = async (req, res) => {
       res.status(404).send("User not found");
       return;
     }
-    res.send(`Employe with the id ${id} deleted from the database.`);
+    res.send(`Employee with the id ${id} deleted from the database.`);
   });
 };
 

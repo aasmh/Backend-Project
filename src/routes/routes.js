@@ -9,7 +9,7 @@ const deleteCtrl = require('../controllers/delete');
 router.post('/select-jobid', (req, res) => ctrl.usergetid(req, res));
 
 
-router.get('/get/depart', (req , res ) => ctrl.gettable(req, res));
+// router.get('/get/depart', (req , res ) => ctrl.gettable(req, res));
 
 router.get('/get/portcode', (req, res) => ctrl.fetchportcode(req,res));
 
@@ -39,10 +39,10 @@ router.post('/post/statusagents', (req, res)=> postctrl.addnewagent(req,res));
 
 
 //get depart
-// router.get('/get/depart', (req, res)=> ctrl.fetchdepart(req,res));
+router.get('/get/depart', (req, res)=> ctrl.fetchDepart(req,res));
 
 //get arrival
-// router.get('/get/arrival', (req, res)=> ctrl.fetcharrival(req,res));
+router.get('/get/arrival', (req, res)=> ctrl.fetchArrival(req,res));
 
 
 // LOGIN IN PART
