@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const ctrl = require('../controllers/gets');
 const postctrl = require('../controllers/posts');
-const log = require('../controllers/log');
+const logCtrl = require('../controllers/log');
+const deleteCtrl = require('../controllers/delete');
 
 //The route is /api/[insert stuff here]
 router.post('/select-jobid', (req, res) => ctrl.usergetid(req, res));
@@ -37,12 +38,6 @@ router.post('/post/statusagents', (req, res)=> postctrl.addnewagent(req,res));
 
 
 
-
-
-
-
-
-
 //get depart
 // router.get('/get/depart', (req, res)=> ctrl.fetchdepart(req,res));
 
@@ -52,24 +47,28 @@ router.post('/post/statusagents', (req, res)=> postctrl.addnewagent(req,res));
 
 // LOGIN IN PART
 
-router.get('/login/emp', (req, res) => log.fetchemployee(req,res));
+router.get('/login/emp', (req, res) => logCtrl.fetchemployee(req,res));
 
 
 
 
+router.get('/login/fetchemployee', (req, res) => logCtrl.fetchemployee(req,res));
 
-router.post('/login/emp', (req, res) => log.loginEmp(req,res));
-router.post('/login/admin', (req, res) => log.loginAdmin(req,res));
-router.post('/login/addemp', (req, res) => log.addEmp(req,res));
-router.post('/login/addArrival', (req, res) => log.addArrival(req,res));
-router.post('/login/addDepart', (req, res) => log.addDepart(req,res));
-router.post('/login/register', (req, res) => log.register(req,res));
-
-
-
+router.post('/login/emp', (req, res) => logCtrl.loginEmp(req,res));
+router.post('/login/admin', (req, res) => logCtrl.loginAdmin(req,res));
+router.post('/login/addEmp', (req, res) => logCtrl.addEmp(req,res));
+router.post('/login/addArrival', (req, res) => logCtrl.addArrival(req,res));
+router.post('/login/addDepart', (req, res) => logCtrl.addDepart(req,res));
+router.post('/login/register', (req, res) => logCtrl.register(req,res));
 
 
-router.get('/login/fetchemployee', (req, res) => log.fetchemployee(req,res));
+
+//delete  APIs
+
+
+router.delete('/delete/deleteEmp/:id', (req, res) => deleteCtrl.deleteEmployee(req,res));
+
+
 
 
 

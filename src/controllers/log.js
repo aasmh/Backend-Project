@@ -1,6 +1,5 @@
 const dbconnect = require("../config/database");
 const con = dbconnect.connection;
-const ctrl = require("../controllers/gets");
 
 const getemp = async (limit = 0) => {
   return new Promise((resolve, reject) => {
