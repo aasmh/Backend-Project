@@ -63,39 +63,194 @@ const loginAdmin = async (req, res) => {
 
 const addEmp = async (req, res) => {
   try {
-    console.log("employee added");
-    res.send("employee added");
+    const {
+      Employee_ID,
+      Employee_Name,
+      Employee_Password,
+      Email,
+      Telephone,
+      Address,
+      Agent_Code,
+      ship_description_IMO,
+    } = req.body;
+    const sql = `INSERT INTO employees (Employee_ID, Employee_Name, Employee_Password, Email
+                , Telephone , Address , Agent_Code , ship_description_IMO )  VALUES (?, ? , ? ,?,?, ? , ? ,?)`;
+    con.query(
+      sql,
+      [
+        Employee_ID,
+        Employee_Name,
+        Employee_Password,
+        Email,
+        Telephone,
+        Address,
+        Agent_Code,
+        ship_description_IMO,
+      ],
+      function (err, result) {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Internal server error");
+          return;
+        }
+        res
+          .status(200)
+          .send(
+            `employee with the name ${Employee_Name} with ID ${Employee_ID} added to the database!`
+          );
+      }
+    );
   } catch (error) {
     console.log(error);
   }
 };
-
 const addDepart = async (req, res) => {
   try {
-    console.log("Depart added");
-    res.send("Depart added");
-  } catch (error) {
-    console.log(error);
-  }
-};
-const addArrival = async (req, res) => {
-  try {
-    console.log("Arrival added");
-    res.send("Arrival added");
+    const {
+      Arrival_ID,
+      Voyage_No,
+      IMO,
+      Agent_Code,
+      Departure_Date_Plan,
+      Departure_Date_Actual,
+      Cargo_departure,
+      Destination_Port,
+      Maritime_Safety,
+      Police,
+      Customs,
+      Port_Authority,
+      Berth_No_Depth,
+      ship_arrival_Voyage_No,
+    } = req.body;
+
+    const sql = `INSERT INTO ship_departure (
+        Arrival_ID,
+        Voyage_No,
+        IMO,
+        Agent_Code,
+        Departure_Date_Plan,
+        Departure_Date_Actual,
+        Cargo_departure,
+        Destination_Port,
+        Maritime_Safety,
+        Police,
+        Customs,
+        Port_Authority,
+        Berth_No_Depth,
+        ship_arrival_Voyage_No
+      ) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+    con.query(
+      sql,
+      [
+        Arrival_ID,
+        Voyage_No,
+        IMO,
+        Agent_Code,
+        Departure_Date_Plan,
+        Departure_Date_Actual,
+        Cargo_departure,
+        Destination_Port,
+        Maritime_Safety,
+        Police,
+        Customs,
+        Port_Authority,
+        Berth_No_Depth,
+        ship_arrival_Voyage_No,
+      ],
+      function (err, result) {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Internal server error");
+          return;
+        }
+        res
+          .status(200)
+          .send(
+            `Ship departure with the ID ${Voyage_No} added to the database!`
+          );
+      }
+    );
   } catch (error) {
     console.log(error);
   }
 };
 
+const addArrival = async (req, res) => {
+  try {
+    const {
+      Arrival_ID,
+      Voyage_No,
+      IMO,
+      Arrival_Date_Plan,
+      Arrival_Date_Actual,
+      Port_of_Departure,
+      Agent_Code,
+      Berth_No,
+      Berthing_Date,
+      Cargo_Arrival,
+      Op_Code,
+    } = req.body;
+    const sql = `INSERT INTO ship_arrival ( Arrival_ID, Voyage_No, IMO, Arrival_Date_Plan, Arrival_Date_Actual,
+                 Port_of_Departure, Agent_Code, Berth_No, Berthing_Date, Cargo_Arrival, Op_Code) 
+                 VALUES (?, ? , ? ,?, ? , ? ,?, ? , ? ,?, ?)`;
+    con.query(
+      sql,
+      [
+        Arrival_ID,
+        Voyage_No,
+        IMO,
+        Arrival_Date_Plan,
+        Arrival_Date_Actual,
+        Port_of_Departure,
+        Agent_Code,
+        Berth_No,
+        Berthing_Date,
+        Cargo_Arrival,
+        Op_Code,
+      ],
+      function (err, result) {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Internal server error");
+          return;
+        }
+        res
+          .status(200)
+          .send(
+            `Ship arrival with the name ${Arrival_ID} with ID ${Voyage_No} added to the database!`
+          );
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+// add admin
 const register = async (req, res) => {
-  //   const { name, email, password, password_confirm } = req.body;
-  //   db.query(
-  //     "SELECT email FROM users WHERE email = ?",
-  //     [email],
-  //     async (error, res) => {
-  //       // remaining code goes here
-  //     }
-  //   );
+  try {
+    const { Admin_ID, Username, Admin_Password, Employee_ID } = req.body;
+    const sql = `INSERT INTO admin (Admin_ID , Username, Admin_Password , Employee_ID)  VALUES (?, ? , ? ,?)`;
+    con.query(
+      sql,
+      [Admin_ID, Username, Admin_Password, Employee_ID],
+      function (err, result) {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Internal server error");
+          return;
+        }
+        res
+          .status(200)
+          .send(
+            `admin with the username ${Username} with ID ${Admin_ID} added to the database!`
+          );
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
 };
 module.exports = {
   fetchemployee,

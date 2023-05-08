@@ -63,6 +63,7 @@ router.post('/login/admin', (req, res) => log.loginAdmin(req,res));
 router.post('/login/addemp', (req, res) => log.addEmp(req,res));
 router.post('/login/addArrival', (req, res) => log.addArrival(req,res));
 router.post('/login/addDepart', (req, res) => log.addDepart(req,res));
+router.post('/login/register', (req, res) => log.register(req,res));
 
 
 
