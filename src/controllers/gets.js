@@ -335,5 +335,8 @@ const gettable = async (req, res) => {
     });
 };
 
+
+
+
 module.exports = { usergetid , gettable , getcountrycode , getportcode , fetchportcode , fetchcountrycode , checkdatabase , fetchallcountries , 
-fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes};
+fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes };
