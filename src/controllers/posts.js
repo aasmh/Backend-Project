@@ -92,4 +92,4 @@ const addnewagent = async (req,res) => {
 }
 
 
-module.exports = { addnewagent , checkexistsagents};
+module.exports = { addnewagent , checkexistsagents };

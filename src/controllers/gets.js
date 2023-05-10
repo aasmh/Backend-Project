@@ -324,16 +324,44 @@ const usergetid = async (req, res) => {
     })
 };
 
-const gettable = async (req, res) => {
-    var sql = "SELECT `Route#`,`ShipName`,`IMO`, `Nationality`,`ShipType`, `Agent`,`Route#`, `Actualarrival`,`Est.Departdate`, `OpType`, `Items`  FROM testtable ";
+// const gettable = async (req, res) => {
+//     var sql = "SELECT `Route#`,`ShipName`,`IMO`, `Nationality`,`ShipType`, `Agent`,`Route#`, `Actualarrival`,`Est.Departdate`, `OpType`, `Items`  FROM testtable ";
 
-    con.query(sql, (err, result) =>{
-        if(err){
-            throw err
-        }
-        res.status(200).send(result);
+//     con.query(sql, (err, result) =>{
+//         if(err){
+//             throw err
+//         }
+//         res.status(200).send(result);
+//     });
+// };
+
+
+const fetchArrival = async (req, res) => {
+    const sql = `SELECT * FROM ship_arrival;`;
+    con.query(sql, function (err, result) {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Internal server error");
+        return;
+      }
+      res.status(200).send(result);
     });
-};
 
-module.exports = { usergetid , gettable , getcountrycode , getportcode , fetchportcode , fetchcountrycode , checkdatabase , fetchallcountries , 
-fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes};
+}
+const fetchDepart = async (req, res) => {
+    const sql = `SELECT * FROM ship_departure;`;
+    con.query(sql, function (err, result) {
+    if (err) {
+        console.error(err);
+        res.status(500).send("Internal server error");
+        return;
+    }
+    res.status(200).send(result);
+    });
+
+}
+
+
+
+module.exports = { usergetid  , getcountrycode , getportcode , fetchportcode , fetchcountrycode , checkdatabase , fetchallcountries , 
+fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes ,fetchArrival ,fetchDepart };
