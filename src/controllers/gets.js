@@ -285,7 +285,7 @@ const getshiptypes = async () => {
                 }
                 else
                 {
-                resolve(result);
+                    resolve(result);
                 }
             }
         })
@@ -306,6 +306,35 @@ const fetchshiptypes = async (req, res) => {
     catch(err) 
     {
         res.status(500).send(err);
+    }
+}
+
+const getdepartships = async () => {
+    try{
+        return new Promise((resolve , reject)=> {
+            var sql = `SELECT * FROM ship_arrival;`;
+            con.query(sql, (err,result) =>{
+                if(err){ 
+                    reject(err);
+                }
+                else
+                {
+                    if(result[0] === undefined)
+                    {
+                        resolve(result[0]);
+                    }
+                    else
+                    {
+                        resolve(result);
+                    }
+                }
+            })
+        });
+        
+    }
+    catch(err) 
+    {
+        
     }
 }
 
