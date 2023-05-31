@@ -13,13 +13,10 @@ app.use(express.json());
 app.use('/api/', Routes);
 
 app.get("/", (req, res) => {
-    res.send("Hello From Home page");
+    res.send("Hello From Backend");
       });
 
 //Set Server Port
 app.listen(PORT ,() => {
     console.log(`Server running on port: http://localhost:${PORT}`);
   });
-
-
-

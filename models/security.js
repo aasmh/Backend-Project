@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 // Generate a salt and hash the password
 const generateHash = async (password) => {
   const saltRounds = 10; // Number of salt rounds
-
   try {
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(password, salt);
@@ -23,7 +22,6 @@ const verifyPassword = async (password, hash) => {
   catch (error) {
     console.error('Error verifying password:', error);
   }
-  
 };
 
 module.exports = { generateHash, verifyPassword };
