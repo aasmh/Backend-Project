@@ -137,13 +137,14 @@ const addnewcountry = async (req, res) => {
         res.status(400).send(err);
     }
 }
+
 const addnewshiptype = async (req, res) => {
     try {
         const resobj = req.body;
         if(resobj == undefined){
             throw {message:"Parameter was not received", status:false};
         }
-        const exists = await gets.getcountrycode(resobj.name);
+        const exists = await Ifsqlexists("","","");
         
         if(exists !== undefined){
             throw { message:"That entry already exists in the Database", status:true };
