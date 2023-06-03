@@ -233,7 +233,10 @@ const fetchallagents = async (req, res) => {
 
 const getshipdesc = async () => {
     return new Promise((resolve , reject)=> {
-        var sql = `SELECT * FROM ship_description;`;
+        var sql = `SELECT DISTINCT sd.*, c.Country_Name ,t.Ship_type_nm
+        FROM ship_description sd
+        LEFT JOIN countries c ON sd.Ship_Country_Code = c.Country_Code
+        LEFT JOIN ship_types t ON sd.Ship_Type_Code = t.Type_Code;`;
         con.query(sql, (err,result) =>{
             if(err){ 
                 reject(err);
@@ -324,16 +327,57 @@ const usergetid = async (req, res) => {
     })
 };
 
-const gettable = async (req, res) => {
-    var sql = "SELECT `Route#`,`ShipName`,`IMO`, `Nationality`,`ShipType`, `Agent`,`Route#`, `Actualarrival`,`Est.Departdate`, `OpType`, `Items`  FROM testtable ";
+// const gettable = async (req, res) => {
+//     var sql = "SELECT `Route#`,`ShipName`,`IMO`, `Nationality`,`ShipType`, `Agent`,`Route#`, `Actualarrival`,`Est.Departdate`, `OpType`, `Items`  FROM testtable ";
 
-    con.query(sql, (err, result) =>{
-        if(err){
-            throw err
-        }
-        res.status(200).send(result);
+//     con.query(sql, (err, result) =>{
+//         if(err){
+//             throw err
+//         }
+//         res.status(200).send(result);
+//     });
+// };
+
+
+const fetchArrival = async (req, res) => {
+    const sql = `SELECT ship_arrival.  Arrival_ID, Voyage_No, 
+    Port_of_Departure, 
+    IMO, 
+    Cargo_Arrival, 
+    Berthing_Date, 
+    Berth_No, 
+    Arrival_Note, 
+     
+    Arrival_Date_Plan,
+    Arrival_Date_Actual , agents.Agent_Name , operations.Operation_nm
+  FROM ship_arrival
+  LEFT JOIN agents ON ship_arrival.Agent_Code = agents.Agent_Code
+  LEFT JOIN operations ON ship_arrival.Op_Code = operations.Operation_Code
+  `;
+    con.query(sql, function (err, result) {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Internal server error");
+        return;
+      }
+      res.status(200).send(result);
     });
-};
 
-module.exports = { usergetid , gettable , getcountrycode , getportcode , fetchportcode , fetchcountrycode , checkdatabase , fetchallcountries , 
-fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes};
+}
+const fetchDepart = async (req, res) => {
+    const sql = `SELECT * FROM ship_departure;`;
+    con.query(sql, function (err, result) {
+    if (err) {
+        console.error(err);
+        res.status(500).send("Internal server error");
+        return;
+    }
+    res.status(200).send(result);
+    });
+
+}
+
+
+
+module.exports = { usergetid  , getcountrycode , getportcode , fetchportcode , fetchcountrycode , checkdatabase , fetchallcountries , 
+fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes ,fetchArrival ,fetchDepart };
