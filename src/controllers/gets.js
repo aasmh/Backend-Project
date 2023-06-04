@@ -381,7 +381,7 @@ const fetchArrival = async (req, res) => {
         res.status(500).send("Internal server error");
         return;
       }
-      res.status(200).send(result);
+      res.status(200).send({ message:"Query Executed Correctly", query:true, allentries:result });
     });
 }
 
