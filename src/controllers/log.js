@@ -205,7 +205,6 @@ const addDepart = async (req, res) => {
 const addArrival = async (req, res) => {
   try {
     const {
-      Arrival_ID,
       Voyage_No,
       IMO,
       Arrival_Date_Plan,
@@ -217,13 +216,26 @@ const addArrival = async (req, res) => {
       Cargo_Arrival,
       Op_Code,
     } = req.body;
-    const sql = `INSERT INTO ship_arrival ( Arrival_ID, Voyage_No, IMO, Arrival_Date_Plan, Arrival_Date_Actual,
-                 Port_of_Departure, Agent_Code, Berth_No, Berthing_Date, Cargo_Arrival, Op_Code) 
-                 VALUES (?, ? , ? ,?, ? , ? ,?, ? , ? ,?, ?)`;
+
+    const sql = `
+      INSERT INTO ship_arrival (
+        Voyage_No, 
+        IMO, 
+        Arrival_Date_Plan, 
+        Arrival_Date_Actual,
+        Port_of_Departure, 
+        Agent_Code, 
+        Berth_No, 
+        Berthing_Date, 
+        Cargo_Arrival, 
+        Op_Code
+      ) 
+      VALUES (?, ? , ? ,?, ? , ? ,?, ? , ? , ?)
+    `;
+
     con.query(
       sql,
       [
-        Arrival_ID,
         Voyage_No,
         IMO,
         Arrival_Date_Plan,
@@ -244,14 +256,17 @@ const addArrival = async (req, res) => {
         res
           .status(200)
           .send(
-            `Ship arrival with the name ${Arrival_ID} with ID ${Voyage_No} added to the database!`
+            `Ship arrival with the ID ${result.insertId} added to the database!`
           );
       }
     );
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    res.status(500).send("Internal server error");
   }
 };
+
+
 // add admin
 const register = async (req, res) => {
   try {
