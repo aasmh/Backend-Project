@@ -248,19 +248,17 @@ const addArrival = async (req, res) => {
       function (err, result) {
         if (err) {
           console.error(err);
-          res.status(500).send("Internal server error");
+          res.status(500).send({message:"There was an error exectuing sql query", err } );
           return;
         }
-        res
-          .status(200)
-          .send(
+        res.status(200).send(
             `Ship arrival with the ID ${result.insertId} added to the database!`
           );
       }
     );
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal server error");
+    res.status(500).send({message:"Internal server error", error});
   }
 };
 

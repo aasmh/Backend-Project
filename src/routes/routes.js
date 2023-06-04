@@ -4,6 +4,7 @@ const ctrl = require('../controllers/gets');
 const postctrl = require('../controllers/posts');
 const logCtrl = require('../controllers/log');
 const deleteCtrl = require('../controllers/delete');
+const putctrl = require('../controllers/updates');
 
 //The route is /api/[insert stuff here]
 router.post('/select-jobid', (req, res) => ctrl.usergetid(req, res));
@@ -48,7 +49,13 @@ router.post('/post/newcountry', (req, res)=> postctrl.addnewcountry(req,res));
 router.post('/post/newport', (req, res)=> postctrl.addnewport(req,res));
 
 //Update 
-router.put
+router.put('/update/updateport', (req, res)=> putctrl.updatePort(req,res));
+router.put('/update/updatecountry', (req, res)=> putctrl.updateCountry(req,res));
+router.put('/update/updateshiptype', (req, res)=> putctrl.updateShipType(req,res));
+router.put('/update/updateop', (req, res)=> putctrl.updateOperation(req,res));
+router.put('/update/updatedepart', (req, res)=> putctrl.updateDepart(req,res));
+router.put('/update/updatearrival', (req, res)=> putctrl.updateArrival(req,res));
+
 
 // LOGIN IN PART
 
@@ -70,8 +77,16 @@ router.post('/login/register', (req, res) => logCtrl.register(req,res));
 
 //delete  APIs
 
-
 router.delete('/delete/deleteEmp/:id', (req, res) => deleteCtrl.deleteEmployee(req,res));
+router.delete('/delete/deleteport', (req, res)=> deleteCtrl.deletePort(req,res));
+router.delete('/delete/deletecountry', (req, res)=> deleteCtrl.deleteCountry(req,res));
+router.delete('/delete/deleteshiptype', (req, res)=> deleteCtrl.deleteShipType(req,res));
+router.delete('/delete/deleteop', (req, res)=> deleteCtrl.deleteOperation(req,res));
+router.delete('/delete/deletedepart', (req, res)=> deleteCtrl.deleteDepart(req,res));
+router.delete('/delete/deletearrival', (req, res)=> deleteCtrl.deleteArrival(req,res));
+
+
+
 
 
 
