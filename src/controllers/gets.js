@@ -150,7 +150,8 @@ const getallports = async (limit = 0) => {
     return new Promise((resolve , reject)=> {
         if(!limit){
             var sql = `SELECT * FROM ports;`;    
-        }else
+        }
+        else
         {
             var sql = `SELECT * FROM ports LIMIT ${limit};`;
         }
@@ -339,6 +340,29 @@ const usergetid = async (req, res) => {
 // };
 
 
+const getOperation = async (req, res) => {
+    try {
+    const Cd = req.query.code;
+    var sql;
+    if(Cd == undefined){
+        sql = `SELECT * FROM operations;`;
+    }
+    else{
+        sql = `SELECT * FROM operations WHERE Operation_Code='${Cd}';`;
+    }
+    con.query(sql, function (err, result) {
+        if (err) {
+          console.error(err);
+          res.status(500).send({ message:"Query Failed to Execute", query:false});
+          return;
+        }
+        res.status(200).send({ message:"Query Executed Correctly", query:true, allentries:result});
+      });
+    } catch (error) {
+        console.error("Error");   
+    }
+};
+
 const fetchArrival = async (req, res) => {
     const sql = `SELECT ship_arrival.  Arrival_ID, Voyage_No, 
     Port_of_Departure, 
@@ -362,8 +386,8 @@ const fetchArrival = async (req, res) => {
       }
       res.status(200).send(result);
     });
-
 }
+
 const fetchDepart = async (req, res) => {
     const sql = `SELECT * FROM ship_departure;`;
     con.query(sql, function (err, result) {
@@ -379,5 +403,4 @@ const fetchDepart = async (req, res) => {
 
 
 
-module.exports = { usergetid  , getcountrycode , getportcode , fetchportcode , fetchcountrycode , checkdatabase , fetchallcountries , 
-fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes ,fetchArrival ,fetchDepart };
+module.exports = { usergetid  , getcountrycode , getportcode , fetchportcode , fetchcountrycode , checkdatabase , fetchallcountries , fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes ,fetchArrival ,fetchDepart , getOperation};

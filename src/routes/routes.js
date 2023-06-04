@@ -27,22 +27,28 @@ router.get('/get/shiptypesdata', (req, res) => ctrl.fetchshiptypes(req,res));
 
 router.get('/dbstatus', (req, res)=> ctrl.checkdatabase(req,res));
 
+router.get('/get/operation', (req, res)=> ctrl.getOperation(req,res));
+
+//get depart
+router.get('/get/depart', (req, res)=> ctrl.fetchDepart(req,res));
+//get arrival
+router.get('/get/arrival', (req, res)=> ctrl.fetchArrival(req,res));
+
 
 //Posts
 router.post('/post/test', (req, res)=> postctrl.addnewagent(req,res));
 router.post('/post/statusagents', (req, res)=> postctrl.addnewagent(req,res));
 
+router.post('/post/newoperation', (req, res)=> postctrl.addnewoperation(req,res));
 
+router.post('/post/newshiptype', (req, res)=> postctrl.addnewshiptype(req,res));
 
+router.post('/post/newcountry', (req, res)=> postctrl.addnewcountry(req,res));
 
+router.post('/post/newport', (req, res)=> postctrl.addnewport(req,res));
 
-
-//get depart
-router.get('/get/depart', (req, res)=> ctrl.fetchDepart(req,res));
-
-//get arrival
-router.get('/get/arrival', (req, res)=> ctrl.fetchArrival(req,res));
-
+//Update 
+router.put
 
 // LOGIN IN PART
 

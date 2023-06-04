@@ -101,6 +101,7 @@ const addEmp = async (req, res) => {
     console.log(error);
   }
 };
+
 const addDepart = async (req, res) => {
   try {
     const {
