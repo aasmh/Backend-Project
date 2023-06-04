@@ -366,18 +366,15 @@ const getOperation = async (req, res) => {
 const fetchArrival = async (req, res) => {
     const sql = `SELECT ship_arrival.  Arrival_ID, Voyage_No, 
     Port_of_Departure, 
-    IMO, 
-    Cargo_Arrival, 
-    Berthing_Date, 
-    Berth_No, 
-    Arrival_Note, 
-     
+    IMO,
+    Cargo_Arrival,
+    Berthing_Date,
+    Berth_No,
     Arrival_Date_Plan,
     Arrival_Date_Actual , agents.Agent_Name , operations.Operation_nm
-  FROM ship_arrival
-  LEFT JOIN agents ON ship_arrival.Agent_Code = agents.Agent_Code
-  LEFT JOIN operations ON ship_arrival.Op_Code = operations.Operation_Code
-  `;
+    FROM ship_arrival
+    LEFT JOIN agents ON ship_arrival.Agent_Code = agents.Agent_Code
+    LEFT JOIN operations ON ship_arrival.Op_Code = operations.Operation_Code`;
     con.query(sql, function (err, result) {
       if (err) {
         console.error(err);
@@ -396,9 +393,8 @@ const fetchDepart = async (req, res) => {
         res.status(500).send("Internal server error");
         return;
     }
-    res.status(200).send(result);
+    res.status(200).send({ message:"Query Executed Correctly", query:true, allentries:result });
     });
-
 }
 
 
