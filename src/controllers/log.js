@@ -69,11 +69,10 @@ const addEmp = async (req, res) => {
       Email,
       Telephone,
       Address,
-      Agent_Code,
-      ship_description_IMO,
+
     } = req.body;
     const sql = `INSERT INTO employees (Employee_ID, Employee_Name, Employee_Password, Email
-                , Telephone , Address , Agent_Code , ship_description_IMO )  VALUES (?, ? , ? ,?,?, ? , ? ,?)`;
+                , Telephone , Address  )  VALUES (?, ? , ? ,?,?, ? )`;
     con.query(
       sql,
       [
@@ -83,8 +82,7 @@ const addEmp = async (req, res) => {
         Email,
         Telephone,
         Address,
-        Agent_Code,
-        ship_description_IMO,
+
       ],
       function (err, result) {
         if (err) {
@@ -265,6 +263,7 @@ const addArrival = async (req, res) => {
     res.status(500).send("Internal server error");
   }
 };
+
 
 
 // add admin

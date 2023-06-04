@@ -234,7 +234,10 @@ const fetchallagents = async (req, res) => {
 
 const getshipdesc = async () => {
     return new Promise((resolve , reject)=> {
-        var sql = `SELECT * FROM ship_description;`;
+        var sql = `SELECT DISTINCT sd.*, c.Country_Name ,t.Ship_type_nm
+        FROM ship_description sd
+        LEFT JOIN countries c ON sd.Ship_Country_Code = c.Country_Code
+        LEFT JOIN ship_types t ON sd.Ship_Type_Code = t.Type_Code;`;
         con.query(sql, (err,result) =>{
             if(err){ 
                 reject(err);
@@ -361,7 +364,20 @@ const getOperation = async (req, res) => {
 };
 
 const fetchArrival = async (req, res) => {
-    const sql = `SELECT * FROM ship_arrival;`;
+    const sql = `SELECT ship_arrival.  Arrival_ID, Voyage_No, 
+    Port_of_Departure, 
+    IMO, 
+    Cargo_Arrival, 
+    Berthing_Date, 
+    Berth_No, 
+    Arrival_Note, 
+     
+    Arrival_Date_Plan,
+    Arrival_Date_Actual , agents.Agent_Name , operations.Operation_nm
+  FROM ship_arrival
+  LEFT JOIN agents ON ship_arrival.Agent_Code = agents.Agent_Code
+  LEFT JOIN operations ON ship_arrival.Op_Code = operations.Operation_Code
+  `;
     con.query(sql, function (err, result) {
       if (err) {
         console.error(err);
