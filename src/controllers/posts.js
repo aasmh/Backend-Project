@@ -154,7 +154,7 @@ const addnewshiptype = async (req, res) => {
         con.query(sql, (err, result) => {
             if(err)
             {
-                throw { message:"Error Inserting into the Database, Try Again", status:false }
+                throw { message:"Error Inserting into the Database, Try Again", status:false , err}
             }
             else
             {
@@ -202,4 +202,4 @@ const addnewoperation = async (req, res) => {
 
 
 
-module.exports = {  addnewport , addnewcountry , addnewshiptype , addnewoperation};
+module.exports = {  addnewport , addnewcountry , addnewshiptype , addnewoperation , Ifsqlexists};

@@ -60,17 +60,14 @@ const updatePort = async (req, res) => {
   const updateShipType = async (req, res) => {
     try {
       const resobj = req.body;
-  
+      
       if (resobj == undefined) {
         throw { message: "Parameter was not received", status: false };
       }
-  
       const exists = await posts.Ifsqlexists("ship_types", "Type_Code", resobj.code);
-
       if (!exists) {
         throw { message: "Entry does not exist in the Database", status: true };
       }
-  
       const sql = `UPDATE ship_types SET Ship_type_nm = '${resobj.name}' WHERE Type_Code = '${resobj.code}';`;
       con.query(sql, (err, result) => {
         if (err) {
@@ -79,8 +76,8 @@ const updatePort = async (req, res) => {
           res.status(200).send({ message: "Entry updated successfully", query: true });
         }
       });
-    } catch (err) {
-      res.status(400).send(err);
+    } catch (error) {
+      res.status(400).send(error);
     }
   };
   
