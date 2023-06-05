@@ -88,10 +88,10 @@ const updatePort = async (req, res) => {
       if (resobj == undefined) {
         throw { message: "Parameter was not received", status: false };
       }
-  
-      const exists = await Ifsqlexists("operations", "Operation_Code", resobj.code);
-  
-      if (exists === undefined) {
+      
+      const exists = await posts.Ifsqlexists("operations", "Operation_Code", resobj.code);
+      
+      if (!exists) {
         throw { message: "Entry does not exist in the Database", status: true };
       }
   

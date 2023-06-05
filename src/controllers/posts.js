@@ -174,10 +174,10 @@ const addnewoperation = async (req, res) => {
         if(resobj == undefined){
             throw {message:"Parameter was not received", status:false};
         }
-
+        
         const exists = await Ifsqlexists("operations","Operation_Code",resobj.code);
         
-        if(exists !== undefined){
+        if(exists){
             throw { message:"That entry already exists in the Database", status:true };
         }
 

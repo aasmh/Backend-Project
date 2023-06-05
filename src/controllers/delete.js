@@ -104,17 +104,14 @@ const deleteShipType = async (req, res) => {
 const deleteOperation = async (req, res) => {
   try {
     const resobj = req.body;
-
     if (resobj == undefined) {
       throw { message: "Parameter was not received", status: false };
     }
 
-    const exists = await Ifsqlexists("operations", "Operation_Code", resobj.code);
-
-    if (exists === undefined) {
+    const exists = await posts.Ifsqlexists("operations", "Operation_Code", resobj.code);  
+    if (!exists) {
       throw { message: "Entry does not exist in the Database", status: true };
     }
-
     const sql = `DELETE FROM operations WHERE Operation_Code = '${resobj.code}';`;
     con.query(sql, (err, result) => {
       if (err) {
