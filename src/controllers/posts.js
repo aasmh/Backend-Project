@@ -7,28 +7,6 @@ const res = require('express/lib/response');
 const con = dbconnect.connection;
 const gets = require('./gets');
 
-// const checkexistsagents = async (Pk) => {
-//     return new Promise((resolve , reject)=> {
-//         const ssql = `SELECT Agent_Code FROM agents WHERE Perm_No='${Pk}'`;
-//         con.query(ssql, (err,result) =>{
-//             if(err){ 
-//                 reject(err);
-//             }
-//             else
-//             {
-//                 if(result[0] === undefined)
-//                 {
-//                     resolve( {message:"This Agent Does Not Exist!", status:false } );
-//                 }
-//                 else
-//                 {
-//                     resolve( {message:"This Agent Already Exists!", status:true } );
-//                 }
-//             }
-//         })
-//     });
-    
-// }
 
 const ifexists = async ( tablename,columnname, value ) => {
     try {
@@ -94,7 +72,7 @@ const addnewport = async (req, res) => {
         con.query(sql, (err, result) => {
             if(err)
             {
-                throw { message:"Error Inserting into the Database, Try Again", status:false }
+                throw { message:"Error Inserting into Ports Table, Try Again", status:false , err}
             }
             else
             {
@@ -124,11 +102,11 @@ const addnewcountry = async (req, res) => {
         con.query(sql, (err, result) => {
             if(err)
             {
-                throw { message:"Error Inserting into the Database, Try Again", status:false }
+                throw { message:"Error Inserting into Countries Table, Try Again", status:false , err }
             }
             else
             {
-                res.status(200).send({ message:"Query Executed Correctly", query:true});
+                res.status(200).send({ message:"Query Executed Correctly", query:true });
             }
         });
     }
@@ -154,7 +132,7 @@ const addnewshiptype = async (req, res) => {
         con.query(sql, (err, result) => {
             if(err)
             {
-                throw { message:"Error Inserting into the Database, Try Again", status:false , err}
+                throw { message:"Error Inserting into Ship Types Table, Try Again", status:false , err}
             }
             else
             {
@@ -185,7 +163,7 @@ const addnewoperation = async (req, res) => {
         con.query(sql, (err, result) => {
             if(err)
             {
-                throw { message:"Error Inserting into the Database, Try Again", status:false }
+                throw { message:"Error Inserting into Operation Table, Try Again", status:false , err}
             }
             else
             {
