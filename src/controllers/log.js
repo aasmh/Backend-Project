@@ -69,10 +69,11 @@ const addEmp = async (req, res) => {
       Email,
       Telephone,
       Address,
+      Role,
 
     } = req.body;
     const sql = `INSERT INTO employees (Employee_ID, Employee_Name, Employee_Password, Email
-                , Telephone , Address  )  VALUES (?, ? , ? ,?,?, ? )`;
+                , Telephone , Address  )  VALUES (?, ? , ? ,?,?, ?, ? )`;
     con.query(
       sql,
       [
@@ -82,6 +83,7 @@ const addEmp = async (req, res) => {
         Email,
         Telephone,
         Address,
+        Role,
 
       ],
       function (err, result) {
