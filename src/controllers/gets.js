@@ -371,7 +371,7 @@ const fetchArrival = async (req, res) => {
     Berthing_Date,
     Berth_No,
     Arrival_Date_Plan,
-    Arrival_Date_Actual , agents.Agent_Name , operations.Operation_nm
+    Arrival_Date_Actual , agents.Agent_Name , ship_arrival.Agent_Code, operations.Operation_nm
     FROM ship_arrival
     LEFT JOIN agents ON ship_arrival.Agent_Code = agents.Agent_Code
     LEFT JOIN operations ON ship_arrival.Op_Code = operations.Operation_Code`;
