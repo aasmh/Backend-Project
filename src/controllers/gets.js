@@ -150,7 +150,8 @@ const getallports = async (limit = 0) => {
     return new Promise((resolve , reject)=> {
         if(!limit){
             var sql = `SELECT * FROM ports;`;    
-        }else
+        }
+        else
         {
             var sql = `SELECT * FROM ports LIMIT ${limit};`;
         }
@@ -339,31 +340,51 @@ const usergetid = async (req, res) => {
 // };
 
 
+const getOperation = async (req, res) => {
+    try {
+    const Cd = req.query.code;
+    var sql;
+    if(Cd == undefined){
+        sql = `SELECT * FROM operations;`;
+    }
+    else{
+        sql = `SELECT * FROM operations WHERE Operation_Code='${Cd}';`;
+    }
+    con.query(sql, function (err, result) {
+        if (err) {
+          console.error(err);
+          res.status(500).send({ message:"Query Failed to Execute", query:false});
+          return;
+        }
+        res.status(200).send({ message:"Query Executed Correctly", query:true, allentries:result});
+      });
+    } catch (error) {
+        console.error("Error");   
+    }
+};
+
 const fetchArrival = async (req, res) => {
     const sql = `SELECT ship_arrival.  Arrival_ID, Voyage_No, 
     Port_of_Departure, 
-    IMO, 
-    Cargo_Arrival, 
-    Berthing_Date, 
-    Berth_No, 
-    Arrival_Note, 
-     
+    IMO,
+    Cargo_Arrival,
+    Berthing_Date,
+    Berth_No,
     Arrival_Date_Plan,
-    Arrival_Date_Actual , agents.Agent_Name , operations.Operation_nm
-  FROM ship_arrival
-  LEFT JOIN agents ON ship_arrival.Agent_Code = agents.Agent_Code
-  LEFT JOIN operations ON ship_arrival.Op_Code = operations.Operation_Code
-  `;
+    Arrival_Date_Actual , agents.Agent_Name , ship_arrival.Agent_Code, operations.Operation_nm
+    FROM ship_arrival
+    LEFT JOIN agents ON ship_arrival.Agent_Code = agents.Agent_Code
+    LEFT JOIN operations ON ship_arrival.Op_Code = operations.Operation_Code`;
     con.query(sql, function (err, result) {
       if (err) {
         console.error(err);
         res.status(500).send("Internal server error");
         return;
       }
-      res.status(200).send(result);
+      res.status(200).send({ message:"Query Executed Correctly", query:true, allentries:result });
     });
-
 }
+
 const fetchDepart = async (req, res) => {
     const sql = `SELECT * FROM ship_departure;`;
     con.query(sql, function (err, result) {
@@ -372,12 +393,10 @@ const fetchDepart = async (req, res) => {
         res.status(500).send("Internal server error");
         return;
     }
-    res.status(200).send(result);
+    res.status(200).send({ message:"Query Executed Correctly", query:true, allentries:result });
     });
-
 }
 
 
 
-module.exports = { usergetid  , getcountrycode , getportcode , fetchportcode , fetchcountrycode , checkdatabase , fetchallcountries , 
-fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes ,fetchArrival ,fetchDepart };
+module.exports = { usergetid  , getcountrycode , getportcode , fetchportcode , fetchcountrycode , checkdatabase , fetchallcountries , fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes ,fetchArrival ,fetchDepart , getOperation};

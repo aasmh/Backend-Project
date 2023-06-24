@@ -5,7 +5,7 @@ const connection = mysql.createConnection({
     port:25060,
     user:'abdo',
     password:'AVNS_jTBzev2csl3OXGvGZoN',
-    database:'orcl'
+    database:'orcl-backup'
 });
 
 const connectDB =() =>{

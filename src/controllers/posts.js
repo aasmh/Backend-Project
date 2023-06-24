@@ -7,28 +7,6 @@ const res = require('express/lib/response');
 const con = dbconnect.connection;
 const gets = require('./gets');
 
-const checkexistsagents = async (Pk) => {
-    return new Promise((resolve , reject)=> {
-        const ssql = `SELECT Agent_Code FROM agents WHERE Perm_No='${Pk}'`;
-        con.query(ssql, (err,result) =>{
-            if(err){ 
-                reject(err);
-            }
-            else
-            {
-                if(result[0] === undefined)
-                {
-                    resolve( {message:"This Agent Does Not Exist!", status:false } );
-                }
-                else
-                {
-                    resolve( {message:"This Agent Already Exists!", status:true } );
-                }
-            }
-        })
-    });
-    
-}
 
 const ifexists = async ( tablename,columnname, value ) => {
     try {
@@ -94,7 +72,7 @@ const addnewport = async (req, res) => {
         con.query(sql, (err, result) => {
             if(err)
             {
-                throw { message:"Error Inserting into the Database, Try Again", status:false }
+                throw { message:"Error Inserting into Ports Table, Try Again", status:false , err}
             }
             else
             {
@@ -124,11 +102,11 @@ const addnewcountry = async (req, res) => {
         con.query(sql, (err, result) => {
             if(err)
             {
-                throw { message:"Error Inserting into the Database, Try Again", status:false }
+                throw { message:"Error Inserting into Countries Table, Try Again", status:false , err }
             }
             else
             {
-                res.status(200).send({ message:"Query Executed Correctly", query:true});
+                res.status(200).send({ message:"Query Executed Correctly", query:true });
             }
         });
     }
@@ -144,17 +122,17 @@ const addnewshiptype = async (req, res) => {
         if(resobj == undefined){
             throw {message:"Parameter was not received", status:false};
         }
-        const exists = await Ifsqlexists("","","");
+        const exists = await Ifsqlexists("ship_types","Type_Code",resobj.code);
         
-        if(exists !== undefined){
+        if(exists){
             throw { message:"That entry already exists in the Database", status:true };
         }
 
-        const sql = `INSERT INTO countries (Country_Name, Country_Code) VALUES ('${resobj.name}','${resobj.code}');`;
+        const sql = `INSERT INTO ship_types (Ship_type_nm,Type_Code) VALUES ('${resobj.name}','${resobj.code}');`;
         con.query(sql, (err, result) => {
             if(err)
             {
-                throw { message:"Error Inserting into the Database, Try Again", status:false }
+                throw { message:"Error Inserting into Ship Types Table, Try Again", status:false , err}
             }
             else
             {
@@ -167,23 +145,25 @@ const addnewshiptype = async (req, res) => {
         res.status(400).send(err);
     }
 }
+
 const addnewoperation = async (req, res) => {
     try {
         const resobj = req.body;
         if(resobj == undefined){
             throw {message:"Parameter was not received", status:false};
         }
-        const exists = await Ifsqlexists();
         
-        if(exists !== undefined){
+        const exists = await Ifsqlexists("operations","Operation_Code",resobj.code);
+        
+        if(exists){
             throw { message:"That entry already exists in the Database", status:true };
         }
 
-        const sql = `INSERT INTO operations (OP_Name, OP_Code) VALUES ('${resobj.name}','${resobj.code}');`;
+        const sql = `INSERT INTO operations (Operation_nm, Operation_Code) VALUES ('${resobj.name}','${resobj.code}');`;
         con.query(sql, (err, result) => {
             if(err)
             {
-                throw { message:"Error Inserting into the Database, Try Again", status:false }
+                throw { message:"Error Inserting into Operation Table, Try Again", status:false , err}
             }
             else
             {
@@ -199,67 +179,5 @@ const addnewoperation = async (req, res) => {
 
 
 
-const addnewagent = async (req,res) => {
-    try 
-    {
-        const obj = req.body;
-        // if(obj.Perm_No === undefined)
-        // {
-        //     throw {message:"Permission Number was not entered", status:false}
-        // }
-        
-        // if(obj.Perm_dt_st === undefined)
-        // {
-        //     throw {message:"Permission date start was not entered", status:false};
-        // }
-        
-        // if(obj.Perm_dt_end === undefined)
-        // {
-        //     throw {message:"Permission data end was not entered", status:false};
-        // }
 
-        // if(obj.email === undefined)
-        // {
-        //     throw {message:"Email was not entered", status:false};
-        // }
-        
-        // if(obj.Telephone === undefined)
-        // {
-        //     throw {message:"Telephone Number was not entered", status:false};
-        // }
-        
-        // if(obj.Address === undefined)
-        // {
-        //     throw {message:"Address was not entered", status:false};
-        // }
-
-        // if(obj.Agent_Name === undefined)
-        // {
-        //     throw {message:"Agent Name was not entered", status:false};
-        // }
-        const exist = await checkexistsagents(obj.Perm_No);
-
-        // const isql = "INSERT INTO agents (`Perm_No`";
-        // con.query(isql, (err, result) =>{
-        //     if(err)
-        //     {
-        //         console.log(err);
-        //     }
-        //     else
-        //     {
-        //         console.log
-        //     }
-        // });
-        
-
-        res.status(201).send(exist.status);
-
-    } 
-    catch(err) 
-    {
-        res.status(400).send(err);
-    }
-}
-
-
-module.exports = { addnewagent , checkexistsagents };
+module.exports = {  addnewport , addnewcountry , addnewshiptype , addnewoperation , Ifsqlexists};
