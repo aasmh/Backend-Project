@@ -70,10 +70,9 @@ const addEmp = async (req, res) => {
       Telephone,
       Address,
       Role,
-
     } = req.body;
     const sql = `INSERT INTO employees (Employee_ID, Employee_Name, Employee_Password, Email
-                , Telephone , Address  )  VALUES (?, ? , ? ,?,?, ?, ? )`;
+                , Telephone , Address ,Role   )  VALUES (?, ? , ? ,?,?, ?, ? )`;
     con.query(
       sql,
       [
@@ -84,7 +83,6 @@ const addEmp = async (req, res) => {
         Telephone,
         Address,
         Role,
-
       ],
       function (err, result) {
         if (err) {
@@ -130,6 +128,15 @@ const addDepart = async (req, res) => {
           return;
       }
 
+<<<<<<< HEAD
+    res
+      .status(200)
+      .send(`Ship departure with the ID ${Voyage_No} added to the database!`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal server error");
+  }
+=======
       // If Arrival_ID does not exist in ship_arrival table, send an error message
       if (result.length === 0) {
           res.status(400).send('Arrival_ID does not exist in ship_arrival table');
@@ -198,6 +205,7 @@ const addDepart = async (req, res) => {
           );
       });
   });
+>>>>>>> master
 };
 
 
