@@ -62,13 +62,8 @@ const loginAdmin = async (req, res) => {
 
 const addEmp = async (req, res) => {
   try {
-    const {
-      Employee_Name,
-      Employee_Password,
-      Email,
-      Telephone,
-      Role,
-    } = req.body;
+    const { Employee_Name, Employee_Password, Email, Telephone, Role } =
+      req.body;
     const sql = `INSERT INTO employees (Employee_Name, Employee_Password, Email, Telephone, Role)  VALUES (?, ?, ?, ?, ?)`;
     con.query(
       sql,
@@ -84,7 +79,6 @@ const addEmp = async (req, res) => {
           .send(
             `Employee with the name ${Employee_Name} added to the database!`
           );
-          
       }
     );
   } catch (error) {
@@ -110,95 +104,90 @@ const addDepart = async (req, res) => {
       Berth_No_Depth,
     } = req.body;
 
-    const checkArrivalSql = "SELECT * FROM ship_arrival WHERE Arrival_ID = ?";
+    const departureID = "SELECT MAX(Arrival_ID) FROM ship_departure";
+    const checkArrivalSql = `SELECT * FROM ship_arrival WHERE Arrival_ID =(SELECT MAX(Arrival_ID) FROM ship_departure) `;
 
-    con.query(checkArrivalSql, [Arrival_ID], (err, result) => {
+    con.query(checkArrivalSql, (err, result) => {
       if (err) {
         console.error(err);
         res.status(500).send("Internal server error");
         return;
       }
 
-      res
-        .status(200)
-        .send(`Ship departure with the ID ${Voyage_No} added to the database!`);
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal server error");
-  }
-  // If Arrival_ID does not exist in ship_arrival table, send an error message
-  if (result.length === 0) {
-    res.status(400).send("Arrival_ID does not exist in ship_arrival table");
-    return;
-  }
+      // If Arrival_ID does not exist in ship_arrival table, send an error message
+      if (result.length === 0) {
+        res.status(400).send("Arrival_ID does not exist in ship_arrival table");
+        return;
+      }
 
-  const checkDepartureSql = "SELECT * FROM ship_departure WHERE Arrival_ID = ?";
+      const checkDepartureSql = "SELECT * FROM ship_departure WHERE Arrival_ID = ?";
 
-  con.query(checkDepartureSql, [Arrival_ID], (err, result) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send("Internal server error");
-      return;
-    }
-
-    // If Arrival_ID already exists in ship_departure table, send an error message
-    if (result.length > 0) {
-      res.status(409).send("Arrival_ID already exists in ship_departure table");
-      return;
-    }
-
-    // If Arrival_ID does not exist in ship_departure table, proceed with the INSERT
-    const sql = `
-              INSERT INTO ship_departure (
-                  Arrival_ID,
-                  Voyage_No,
-                  IMO,
-                  Agent_Code,
-                  Departure_Date_Plan,
-                  Departure_Date_Actual,
-                  Cargo_departure,
-                  Destination_Port,
-                  Maritime_Safety,
-                  Police,
-                  Customs,
-                  Port_Authority,
-                  Berth_No_Depth
-              ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-          `;
-
-    con.query(
-      sql,
-      [
-        Arrival_ID,
-        Voyage_No,
-        IMO,
-        Agent_Code,
-        Departure_Date_Plan,
-        Departure_Date_Actual,
-        Cargo_departure,
-        Destination_Port,
-        Maritime_Safety,
-        Police,
-        Customs,
-        Port_Authority,
-        Berth_No_Depth,
-      ],
-      (err, result) => {
+      con.query(checkDepartureSql, [departureID], (err, result) => {
         if (err) {
           console.error(err);
           res.status(500).send("Internal server error");
           return;
         }
-        res
-          .status(200)
-          .send(
-            `Ship departure with the ID ${Voyage_No} added to the database!`
-          );
-      }
-    );
-  });
+
+        // If Arrival_ID already exists in ship_departure table, send an error message
+        if (result.length > 0) {
+          res.status(409).send("Arrival_ID already exists in ship_departure table");
+          return;
+        }
+
+        // If Arrival_ID does not exist in ship_departure table, proceed with the INSERT
+        const sql = `
+          INSERT INTO ship_departure (
+            Voyage_No,
+            IMO,
+            Agent_Code,
+            Departure_Date_Plan,
+            Departure_Date_Actual,
+            Cargo_departure,
+            Destination_Port,
+            Maritime_Safety,
+            Police,
+            Customs,
+            Port_Authority,
+            Berth_No_Depth
+          ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+
+        con.query(
+          sql,
+          [
+            Voyage_No,
+            IMO,
+            Agent_Code,
+            Departure_Date_Plan,
+            Departure_Date_Actual,
+            Cargo_departure,
+            Destination_Port,
+            Maritime_Safety,
+            Police,
+            Customs,
+            Port_Authority,
+            Berth_No_Depth,
+          ],
+          (err, result) => {
+            if (err) {
+              console.error(err);
+              res.status(500).send("Internal server error");
+              return;
+            }
+            res
+              .status(200)
+              .send(`Ship departure with the ID ${Voyage_No} added to the database!`);
+          }
+        );
+      });
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal server error");
+  }
 };
+
 
 const addArrival = async (req, res) => {
   try {
