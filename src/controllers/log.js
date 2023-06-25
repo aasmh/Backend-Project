@@ -63,7 +63,6 @@ const loginAdmin = async (req, res) => {
 const addEmp = async (req, res) => {
   try {
     const {
-      Employee_ID,
       Employee_Name,
       Employee_Password,
       Email,
@@ -71,19 +70,10 @@ const addEmp = async (req, res) => {
       Address,
       Role,
     } = req.body;
-    const sql = `INSERT INTO employees (Employee_ID, Employee_Name, Employee_Password, Email
-                , Telephone , Address ,Role   )  VALUES (?, ? , ? ,?,?, ?, ? )`;
+    const sql = `INSERT INTO employees (Employee_Name, Employee_Password, Email, Telephone, Address, Role)  VALUES (?, ?, ?, ?, ?, ?)`;
     con.query(
       sql,
-      [
-        Employee_ID,
-        Employee_Name,
-        Employee_Password,
-        Email,
-        Telephone,
-        Address,
-        Role,
-      ],
+      [Employee_Name, Employee_Password, Email, Telephone, Address, Role],
       function (err, result) {
         if (err) {
           console.error(err);
@@ -93,7 +83,7 @@ const addEmp = async (req, res) => {
         res
           .status(200)
           .send(
-            `employee with the name ${Employee_Name} with ID ${Employee_ID} added to the database!`
+            `Employee with the name ${Employee_Name} added to the database!`
           );
       }
     );
