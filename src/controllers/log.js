@@ -77,7 +77,7 @@ const addEmp = async (req, res) => {
       function (err, result) {
         if (err) {
           console.error(err);
-          res.status(500).send("Internal server error");
+          res.status(500).send(err);
           return;
         }
         res
@@ -85,6 +85,7 @@ const addEmp = async (req, res) => {
           .send(
             `Employee with the name ${Employee_Name} added to the database!`
           );
+          
       }
     );
   } catch (error) {
