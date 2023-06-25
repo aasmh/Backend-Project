@@ -386,7 +386,10 @@ const fetchArrival = async (req, res) => {
 }
 
 const fetchDepart = async (req, res) => {
-    const sql = `SELECT * FROM ship_departure;`;
+    const sql = `SELECT ship_departure.*, agents.Agent_Name
+    FROM ship_departure
+    JOIN agents ON ship_departure.Agent_Code = agents.Agent_Code;
+    `;
     con.query(sql, function (err, result) {
     if (err) {
         console.error(err);
