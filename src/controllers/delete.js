@@ -28,13 +28,13 @@ const deletePort = async (req, res) => {
       throw { message: "Parameter was not received", status: false };
     }
 
-    const exists = await gets.getportcode(resobj.name);
+    const exists = await gets.getportcode(resobj.code);
 
     if (exists === undefined) {
       throw { message: "Entry does not exist in the Database", status: true };
     }
 
-    const sql = `DELETE FROM ports WHERE Port_Name = '${resobj.name}';`;
+    const sql = `DELETE FROM ports WHERE Port_Code = '${resobj.code}';`;
     con.query(sql, (err, result) => {
       if (err) {
         throw { message: "Error deleting the entry from the Database, Try Again", status: false };
@@ -196,6 +196,31 @@ const deleteArrival = async (req, res) => {
 };
 
 
+const deleteShipDesc = async (req, res) => {
+  try {
+    const resobj = req.body;
+    if (resobj == undefined) {
+      throw { message: "Parameter was not received", status: false };
+    }
+
+    const exists = await posts.Ifsqlexists("ship_description", "IMO", resobj.code);  
+    if (!exists) {
+      throw { message: "Entry does not exist in the Database", status: true };
+    }
+    const sql = `DELETE FROM ship_description WHERE Operation_Code = '${resobj.code}';`;
+    con.query(sql, (err, result) => {
+      if (err) {
+        throw { message: "Error deleting the entry from the Database, Try Again", status: false };
+      } else {
+        res.status(200).send({ message: "Entry deleted successfully", query: true });
+      }
+    });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+};
+
+
 module.exports = {
-  deleteEmployee, deletePort , deleteCountry, deleteShipType, deleteOperation , deleteDepart , deleteArrival
+  deleteEmployee, deletePort , deleteCountry, deleteShipType, deleteOperation , deleteDepart , deleteArrival ,deleteShipDesc
 };

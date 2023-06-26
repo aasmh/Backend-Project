@@ -183,7 +183,7 @@ const addnewoperation = async (req, res) => {
 
 const addshipdesc = async (req, res) => {
     try {
-        const {IMO, Call_sign, Ship_Name, Ship_Country_Code, Ship_Type_Code, Crew_No, Passar_No, Width, Length, Draft, Dead_Weight, Gross_Ton, Build_Date} =
+        const { IMO, Call_sign, Ship_Name, Ship_Country_Code, Ship_Type_Code, Crew_No, Passar_No, Width, Length, Draft, Dead_Weight, Gross_Ton, Build_Date} =
           req.body;
         const sql = `INSERT INTO ship_description (IMO, Call_sign, Ship_Name, Ship_Country_Code, Ship_Type_Code, Crew_No, Passar_No, Width, Length, Draft, Dead_Weight, Gross_Ton, Build_Date)  VALUES (?, ?, ?, ?, ?,?, ?, ?, ?, ?,?, ?, ?)`;
         con.query(
