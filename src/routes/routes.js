@@ -51,6 +51,7 @@ router.post('/post/newshiptype', (req, res)=> postctrl.addnewshiptype(req,res));
 router.post('/post/newcountry', (req, res)=> postctrl.addnewcountry(req,res));
 router.post('/post/newport', (req, res)=> postctrl.addnewport(req,res));
 router.post('/post/newshipdesc', (req, res) => postctrl.addshipdesc(req,res));    //------
+router.post('/post/newagent', (req, res) => postctrl.addagent(req,res));    //------
 
 
 //Update 
