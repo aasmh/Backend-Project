@@ -30,6 +30,12 @@ router.get('/dbstatus', (req, res)=> ctrl.checkdatabase(req,res));
 
 router.get('/get/operation', (req, res)=> ctrl.getOperation(req,res));
 
+router.get('/get/highvistedports', (req, res)=> ctrl.hivistedports(req,res));
+router.get('/get/higharrivedports', (req, res)=> ctrl.hiarrivedports(req,res));
+
+
+
+
 //get depart
 router.get('/get/depart', (req, res)=> ctrl.fetchDepart(req,res));
 //get arrival
