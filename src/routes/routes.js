@@ -85,6 +85,8 @@ router.delete('/delete/deleteop', (req, res)=> deleteCtrl.deleteOperation(req,re
 router.delete('/delete/deletedepart', (req, res)=> deleteCtrl.deleteDepart(req,res));
 router.delete('/delete/deletearrival', (req, res)=> deleteCtrl.deleteArrival(req,res));
 
+router.delete('/delete/deletetest', (req, res)=> deleteCtrl.de7ktest(req,res));
+
 
 
 

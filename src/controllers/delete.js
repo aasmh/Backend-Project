@@ -51,7 +51,7 @@ const deleteCountry = async (req, res) => {
   try {
     const resobj = req.body;
     console.log(req.body);
-    
+
     if (resobj == undefined) {
       throw { message: "Parameter was not received", status: false };
     }
@@ -197,7 +197,12 @@ const deleteArrival = async (req, res) => {
   }
 };
 
+const de7ktest = async (req, res) => {
+  console.log(req.body);
+  res.send(req.body);
+};
+
 
 module.exports = {
-  deleteEmployee, deletePort , deleteCountry, deleteShipType, deleteOperation , deleteDepart , deleteArrival
+  deleteEmployee, deletePort , deleteCountry, deleteShipType, deleteOperation , deleteDepart , deleteArrival, de7ktest
 };
