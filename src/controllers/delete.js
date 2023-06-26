@@ -1,6 +1,8 @@
 const dbconnect = require("../config/database");
 const posts = require("./posts");
 const gets = require("./gets");
+const logs = require("./log");
+
 const con = dbconnect.connection;
 
 const deleteEmployee = async (req, res) => {
@@ -27,6 +29,7 @@ const deletePort = async (req, res) => {
     if (resobj == undefined) {
       throw { message: "Parameter was not received", status: false };
     }
+
 
     const exists = resobj.code;
 
@@ -197,6 +200,34 @@ const deleteArrival = async (req, res) => {
   }
 };
 
+
+const deleteShipDesc = async (req, res) => {
+  try {
+    const resobj = req.body;
+
+    if (resobj == undefined) {
+      throw { message: "Parameter was not received", status: false };
+    }
+
+    const exists = await gets.getshipdesc(resobj.IMO);
+
+    if (exists === undefined) {
+      throw { message: "Entry does not exist in the Database", status: true };
+    }
+
+    const sql = `DELETE FROM ship_description WHERE IMO = '${resobj.IMO}';`;
+    con.query(sql, (err, result) => {
+      if (err) {
+        throw { message: "Error deleting the entry from the Database, Try Again", status: false };
+      } else {
+        res.status(200).send({ message: "Entry deleted successfully", query: true });
+      }
+    });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+};
+
 const de7ktest = async (req, res) => {
   console.log(req.body);
   res.send(req.body);
@@ -204,5 +235,5 @@ const de7ktest = async (req, res) => {
 
 
 module.exports = {
-  deleteEmployee, deletePort , deleteCountry, deleteShipType, deleteOperation , deleteDepart , deleteArrival, de7ktest
+  deleteEmployee, deletePort , deleteCountry, deleteShipType, deleteOperation , deleteDepart , deleteArrival ,deleteShipDesc
 };

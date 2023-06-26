@@ -89,9 +89,14 @@ router.delete('/delete/deletecountry', (req, res)=> deleteCtrl.deleteCountry(req
 router.delete('/delete/deleteshiptype', (req, res)=> deleteCtrl.deleteShipType(req,res));
 router.delete('/delete/deleteop', (req, res)=> deleteCtrl.deleteOperation(req,res));
 router.delete('/delete/deletedepart', (req, res)=> deleteCtrl.deleteDepart(req,res));
-router.delete('/delete/deletearrival', (req, res)=> deleteCtrl.deleteArrival(req,res));
+
+router.delete('/delete/deletearrival', (req, res)=> deleteCtrl.deleteArrival(req,res));  // deleteShipDesc
+router.delete('/delete/deleteShipDesc', (req, res)=> deleteCtrl.deleteShipDesc(req,res));
+
+
 
 router.delete('/delete/deletetest', (req, res)=> deleteCtrl.de7ktest(req,res));
+
 
 
 

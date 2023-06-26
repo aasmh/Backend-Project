@@ -531,5 +531,7 @@ const hiarrivedports = async (req, res) => {
         }
     
 
+
 module.exports = { usergetid  , getcountrycode , getportcode , fetchportcode , fetchcountrycode , checkdatabase , fetchallcountries ,
     fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes ,fetchArrival ,fetchDepart , getOperation , hivistedports , hiarrivedports , highops};
+
