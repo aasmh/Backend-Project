@@ -50,7 +50,8 @@ const deletePort = async (req, res) => {
 const deleteCountry = async (req, res) => {
   try {
     const resobj = req.body;
-
+    console.log(req.body);
+    
     if (resobj == undefined) {
       throw { message: "Parameter was not received", status: false };
     }
