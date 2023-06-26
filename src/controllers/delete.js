@@ -56,17 +56,18 @@ const deleteCountry = async (req, res) => {
     }
 
     const exists = resobj.code;
-
+    console.log(exists);
     if (exists === undefined) {
       throw { message: "Entry does not exist in the Database", status: true };
     }
+    console.log("Exited");
 
     const sql = `DELETE FROM countries WHERE Country_Code = '${resobj.code}';`;
     con.query(sql, (err, result) => {
       if (err) {
         throw { message: "Error deleting the entry from the Database, Try Again", status: false };
       } else {
-        res.status(200).send({ message: "Entry deleted successfully", query: true });
+        res.status(200).send({ message: "Entry deleted successfully", query: true , result });
       }
     });
   } catch (err) {
