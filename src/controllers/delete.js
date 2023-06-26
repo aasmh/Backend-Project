@@ -1,6 +1,8 @@
 const dbconnect = require("../config/database");
 const posts = require("./posts");
 const gets = require("./gets");
+const logs = require("./log");
+
 const con = dbconnect.connection;
 
 const deleteEmployee = async (req, res) => {
@@ -199,15 +201,18 @@ const deleteArrival = async (req, res) => {
 const deleteShipDesc = async (req, res) => {
   try {
     const resobj = req.body;
+
     if (resobj == undefined) {
       throw { message: "Parameter was not received", status: false };
     }
 
-    const exists = await posts.Ifsqlexists("ship_description", "IMO", resobj.code);  
-    if (!exists) {
+    const exists = await gets.getshipdesc(resobj.IMO);
+
+    if (exists === undefined) {
       throw { message: "Entry does not exist in the Database", status: true };
     }
-    const sql = `DELETE FROM ship_description WHERE Operation_Code = '${resobj.code}';`;
+
+    const sql = `DELETE FROM ship_description WHERE IMO = '${resobj.IMO}';`;
     con.query(sql, (err, result) => {
       if (err) {
         throw { message: "Error deleting the entry from the Database, Try Again", status: false };
