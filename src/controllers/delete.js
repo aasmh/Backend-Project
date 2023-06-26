@@ -203,29 +203,39 @@ const deleteArrival = async (req, res) => {
 
 const deleteShipDesc = async (req, res) => {
   try {
-    const resobj = req.body;
+    const { IMO } = req.body;
 
-    if (resobj == undefined) {
-      throw { message: "Parameter was not received", status: false };
-    }
+    const checkShipDesc = 'SELECT * FROM ship_description WHERE IMO = ?';
 
-    const exists = await gets.getshipdesc(resobj.IMO);
-
-    if (exists === undefined) {
-      throw { message: "Entry does not exist in the Database", status: true };
-    }
-
-    const sql = `DELETE FROM ship_description WHERE IMO = '${resobj.IMO}';`;
-    con.query(sql, (err, result) => {
+    con.query(checkShipDesc, [IMO], (err, result) => {
       if (err) {
-        throw { message: "Error deleting the entry from the Database, Try Again", status: false };
-      } else {
-        res.status(200).send({ message: "Entry deleted successfully", query: true });
+        console.error(err);
+        res.status(500).send('Internal server error');
+        return;
       }
+
+      // If no matching arrival record is found, send an error message
+      if (result.length === 0) {
+        res.status(400).send('Arrival record does not exist for the provided Arrival_ID');
+        return;
+      }
+
+      const deleteShipDesc  = 'DELETE FROM ship_description WHERE IMO = ?';
+
+      con.query(deleteShipDesc , [IMO], (err, deleteResult) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Internal server error');
+          return;
+        }
+        res.status(200).send(`Ship arrival with the Arrival_ID ${IMO} deleted successfully`);
+      });
     });
   } catch (err) {
     res.status(400).send(err);
   }
+
+
 };
 
 const de7ktest = async (req, res) => {
