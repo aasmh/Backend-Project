@@ -181,7 +181,31 @@ const addnewoperation = async (req, res) => {
     }
 }
 
+const addshipdesc = async (req, res) => {
+    try {
+        const {IMO, Call_sign, Ship_Name, Ship_Country_Code, Ship_Type_Code, Crew_No, Passar_No, Width, Length, Draft, Dead_Weight, Gross_Ton, Build_Date} =
+          req.body;
+        const sql = `INSERT INTO ship_description (IMO, Call_sign, Ship_Name, Ship_Country_Code, Ship_Type_Code, Crew_No, Passar_No, Width, Length, Draft, Dead_Weight, Gross_Ton, Build_Date)  VALUES (?, ?, ?, ?, ?,?, ?, ?, ?, ?,?, ?, ?)`;
+        con.query(
+          sql,
+          [IMO, Call_sign, Ship_Name, Ship_Country_Code, Ship_Type_Code, Crew_No, Passar_No, Width, Length, Draft, Dead_Weight, Gross_Ton, Build_Date],
+          function (err, result) {
+            if (err) {
+              console.error(err);
+              res.status(500).send(err);
+              return;
+            }
+            res
+              .status(200)
+              .send(
+                `Ship with the name ${IMO} added to the database!`
+              );
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+}
 
 
-
-module.exports = {  addnewport , addnewcountry , addnewshiptype , addnewoperation , Ifsqlexists};
+module.exports = {  addnewport , addnewcountry , addnewshiptype , addnewoperation , Ifsqlexists , addshipdesc};
