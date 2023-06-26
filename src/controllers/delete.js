@@ -30,7 +30,8 @@ const deletePort = async (req, res) => {
       throw { message: "Parameter was not received", status: false };
     }
 
-    const exists = await gets.getportcode(resobj.code);
+
+    const exists = resobj.code;
 
     if (exists === undefined) {
       throw { message: "Entry does not exist in the Database", status: true };
@@ -52,23 +53,25 @@ const deletePort = async (req, res) => {
 const deleteCountry = async (req, res) => {
   try {
     const resobj = req.body;
+    console.log(req.body);
 
     if (resobj == undefined) {
       throw { message: "Parameter was not received", status: false };
     }
 
-    const exists = await gets.getcountrycode(resobj.name);
-
+    const exists = resobj.code;
+    console.log(exists);
     if (exists === undefined) {
       throw { message: "Entry does not exist in the Database", status: true };
     }
+    console.log("Exited");
 
-    const sql = `DELETE FROM countries WHERE Country_Name = '${resobj.name}';`;
+    const sql = `DELETE FROM countries WHERE Country_Code = '${resobj.code}';`;
     con.query(sql, (err, result) => {
       if (err) {
         throw { message: "Error deleting the entry from the Database, Try Again", status: false };
       } else {
-        res.status(200).send({ message: "Entry deleted successfully", query: true });
+        res.status(200).send({ message: "Entry deleted successfully", query: true , result });
       }
     });
   } catch (err) {
@@ -197,6 +200,7 @@ const deleteArrival = async (req, res) => {
   }
 };
 
+
 const deleteShipDesc = async (req, res) => {
   try {
     const resobj = req.body;
@@ -224,6 +228,10 @@ const deleteShipDesc = async (req, res) => {
   }
 };
 
+const de7ktest = async (req, res) => {
+  console.log(req.body);
+  res.send(req.body);
+};
 
 
 module.exports = {

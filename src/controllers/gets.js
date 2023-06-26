@@ -400,6 +400,138 @@ const fetchDepart = async (req, res) => {
     });
 }
 
+const hivistedports = async (req, res) => {
+try 
+{
+    
+    if(req.query.date == undefined){
+        throw {message:"Date parameter was not received", query:false};
+    }
+
+    const data = req.query;
+    
+    if(!data.limit){
+        var sql = `SELECT Destination_Port, COUNT(*) AS Depart_Count
+        FROM ship_departure
+        WHERE Departure_Date_Actual >= '${data.date}' AND Departure_Date_Actual <= CURDATE()
+        GROUP BY Destination_Port
+        ORDER BY Depart_Count DESC;`;
+    }
+    else
+    {
+        var sql = `SELECT Destination_Port, COUNT(*) AS Depart_Count
+        FROM ship_departure
+        WHERE Departure_Date_Actual >= '${data.date}' AND Departure_Date_Actual <= CURDATE()
+        GROUP BY Destination_Port
+        ORDER BY Depart_Count DESC
+        LIMIT ${data.limit};`;
+    }
+
+    con.query(sql, function (err, result) {
+        if (err) {
+            res.status(500).send({ message:"Internal Server Error", query:false , err });
+            return;
+        }
+        res.status(200).send({ message:"Query Executed Correctly", query:true, allentries:result });
+        });
+}
+catch (error) 
+{
+    res.status(500).send({ message:"Internal Server Error", query:false , error });
+}
+}
+
+const hiarrivedports = async (req, res) => {
+    try 
+    {
+        if(req.query.limit == undefined){
+            throw {message:"Limit parameter was not received", query:false};
+        }
+        if(req.query.date == undefined){
+            throw {message:"Date parameter was not received", query:false};
+        }
+    
+        const data = req.query;
+        
+        if(!data.limit){
+            var sql = `SELECT Port_of_Departure, COUNT(*) AS Arriving_Count
+            FROM ship_arrival
+            WHERE Arrival_Date_Actual >= '${data.date}' AND Arrival_Date_Actual <= CURDATE()
+            GROUP BY Port_of_Departure
+            ORDER BY Arriving_Count DESC;`;
+        }
+        else
+        {
+            var sql = `SELECT Port_of_Departure, COUNT(*) AS Arriving_Count
+            FROM ship_arrival
+            WHERE Arrival_Date_Actual >= '${data.date}' AND Arrival_Date_Actual <= CURDATE()
+            GROUP BY Port_of_Departure
+            ORDER BY Arriving_Count DESC
+            LIMIT ${data.limit};`;
+        }
+    
+        con.query(sql, function (err, result) {
+            if (err) {
+                res.status(500).send({ message:"Internal Server Error", query:false , err });
+                return;
+            }
+            res.status(200).send({ message:"Query Executed Correctly", query:true, allentries:result });
+            });
+    }
+    catch (error) 
+    {
+        res.status(500).send({ message:"Internal Server Error", query:false , error });
+    }
+    }
+
+    const highops = async (req, res) => {
+        try 
+        {
+            
+            if(req.query.date == undefined){
+                throw {message:"Date parameter was not received", query:false};
+            }
+        
+            const data = req.query;
+            
+            if(!data.limit){
+                
+                var sql = `SELECT op.Operation_nm AS Operation_Name, COUNT(sa.Op_Code) AS Operation_Count
+                FROM ship_arrival sa
+                JOIN operations op ON sa.Op_Code = op.Operation_Code
+                WHERE sa.Arrival_Date_Actual >= '${data.date}' AND sa.Arrival_Date_Actual <= CURDATE()
+                GROUP BY sa.Op_Code, op.Operation_nm
+                ORDER BY Operation_Count DESC
+                ;`;
+
+            }
+            else
+            {
+                var sql = `SELECT op.Operation_nm AS Operation_Name, COUNT(sa.Op_Code) AS Operation_Count
+                FROM ship_arrival sa
+                JOIN operations op ON sa.Op_Code = op.Operation_Code
+                WHERE sa.Arrival_Date_Actual >= '${data.date}' AND sa.Arrival_Date_Actual <= CURDATE()
+                GROUP BY sa.Op_Code, op.Operation_nm
+                ORDER BY Operation_Count DESC
+                LIMIT ${data.limit};`;
+            }
+        
+            con.query(sql, function (err, result) {
+                if (err) {
+                    res.status(500).send({ message:"Internal Server Error", query:false , err });
+                    return;
+                }
+                res.status(200).send({ message:"Query Executed Correctly", query:true, allentries:result });
+                });
+        }
+        catch (error) 
+        {
+            res.status(500).send({ message:"Internal Server Error", query:false , error });
+        }
+        }
+    
 
 
-module.exports = { usergetid  , getcountrycode , getportcode ,getshipdesc, fetchportcode , fetchcountrycode , checkdatabase , fetchallcountries , fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes ,fetchArrival ,fetchDepart , getOperation};
+module.exports = { usergetid  , getcountrycode , getportcode , fetchportcode , fetchcountrycode , checkdatabase , fetchallcountries ,
+    fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes ,fetchArrival ,fetchDepart , getOperation , hivistedports , hiarrivedports , highops};
+

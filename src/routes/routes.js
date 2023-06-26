@@ -30,6 +30,13 @@ router.get('/dbstatus', (req, res)=> ctrl.checkdatabase(req,res));
 
 router.get('/get/operation', (req, res)=> ctrl.getOperation(req,res));
 
+router.get('/get/highvistedports', (req, res)=> ctrl.hivistedports(req,res));
+router.get('/get/higharrivedports', (req, res)=> ctrl.hiarrivedports(req,res));
+router.get('/get/highops', (req, res)=> ctrl.highops(req,res));
+
+
+
+
 //get depart
 router.get('/get/depart', (req, res)=> ctrl.fetchDepart(req,res));
 //get arrival
@@ -82,8 +89,15 @@ router.delete('/delete/deletecountry', (req, res)=> deleteCtrl.deleteCountry(req
 router.delete('/delete/deleteshiptype', (req, res)=> deleteCtrl.deleteShipType(req,res));
 router.delete('/delete/deleteop', (req, res)=> deleteCtrl.deleteOperation(req,res));
 router.delete('/delete/deletedepart', (req, res)=> deleteCtrl.deleteDepart(req,res));
+
 router.delete('/delete/deletearrival', (req, res)=> deleteCtrl.deleteArrival(req,res));  // deleteShipDesc
 router.delete('/delete/deleteShipDesc', (req, res)=> deleteCtrl.deleteShipDesc(req,res));
+
+
+
+router.delete('/delete/deletetest', (req, res)=> deleteCtrl.de7ktest(req,res));
+
+
 
 
 
