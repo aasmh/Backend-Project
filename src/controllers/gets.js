@@ -402,4 +402,4 @@ const fetchDepart = async (req, res) => {
 
 
 
-module.exports = { usergetid  , getcountrycode , getportcode , fetchportcode , fetchcountrycode , checkdatabase , fetchallcountries , fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes ,fetchArrival ,fetchDepart , getOperation};
+module.exports = { usergetid  , getcountrycode , getportcode ,getshipdesc, fetchportcode , fetchcountrycode , checkdatabase , fetchallcountries , fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes ,fetchArrival ,fetchDepart , getOperation};

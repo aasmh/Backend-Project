@@ -197,7 +197,6 @@ const deleteArrival = async (req, res) => {
   }
 };
 
-
 const deleteShipDesc = async (req, res) => {
   try {
     const resobj = req.body;
@@ -224,6 +223,7 @@ const deleteShipDesc = async (req, res) => {
     res.status(400).send(err);
   }
 };
+
 
 
 module.exports = {
