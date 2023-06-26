@@ -39,14 +39,12 @@ router.get('/get/arrival', (req, res)=> ctrl.fetchArrival(req,res));
 //Posts
 router.post('/post/test', (req, res)=> postctrl.addnewagent(req,res));
 router.post('/post/statusagents', (req, res)=> postctrl.addnewagent(req,res));
-
 router.post('/post/newoperation', (req, res)=> postctrl.addnewoperation(req,res));
-
 router.post('/post/newshiptype', (req, res)=> postctrl.addnewshiptype(req,res));
-
 router.post('/post/newcountry', (req, res)=> postctrl.addnewcountry(req,res));
-
 router.post('/post/newport', (req, res)=> postctrl.addnewport(req,res));
+router.post('/post/newshipdesc', (req, res) => postctrl.addshipdesc(req,res));    //------
+
 
 //Update 
 router.put('/update/updateport', (req, res)=> putctrl.updatePort(req,res));
@@ -72,6 +70,7 @@ router.post('/login/addEmp', (req, res) => logCtrl.addEmp(req,res));
 router.post('/login/addArrival', (req, res) => logCtrl.addArrival(req,res));
 router.post('/login/addDepart', (req, res) => logCtrl.addDepart(req,res));
 router.post('/login/register', (req, res) => logCtrl.register(req,res));
+
 
 
 
