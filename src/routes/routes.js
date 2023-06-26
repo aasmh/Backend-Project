@@ -32,6 +32,7 @@ router.get('/get/operation', (req, res)=> ctrl.getOperation(req,res));
 
 router.get('/get/highvistedports', (req, res)=> ctrl.hivistedports(req,res));
 router.get('/get/higharrivedports', (req, res)=> ctrl.hiarrivedports(req,res));
+router.get('/get/highops', (req, res)=> ctrl.highops(req,res));
 
 
 
