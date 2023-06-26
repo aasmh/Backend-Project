@@ -483,7 +483,53 @@ const hiarrivedports = async (req, res) => {
         res.status(500).send({ message:"Internal Server Error", query:false , error });
     }
     }
+
+    const highops = async (req, res) => {
+        try 
+        {
+            
+            if(req.query.date == undefined){
+                throw {message:"Date parameter was not received", query:false};
+            }
+        
+            const data = req.query;
+            
+            if(!data.limit){
+                
+                var sql = `SELECT op.Operation_nm AS Operation_Name, COUNT(sa.Op_Code) AS Operation_Count
+                FROM ship_arrival sa
+                JOIN operations op ON sa.Op_Code = op.Operation_Code
+                WHERE sa.Arrival_Date_Actual >= '${data.date}' AND sa.Arrival_Date_Actual <= CURDATE()
+                GROUP BY sa.Op_Code, op.Operation_nm
+                ORDER BY Operation_Count DESC
+                ;`;
+
+            }
+            else
+            {
+                var sql = `SELECT op.Operation_nm AS Operation_Name, COUNT(sa.Op_Code) AS Operation_Count
+                FROM ship_arrival sa
+                JOIN operations op ON sa.Op_Code = op.Operation_Code
+                WHERE sa.Arrival_Date_Actual >= '${data.date}' AND sa.Arrival_Date_Actual <= CURDATE()
+                GROUP BY sa.Op_Code, op.Operation_nm
+                ORDER BY Operation_Count DESC
+                LIMIT ${data.limit};`;
+            }
+        
+            con.query(sql, function (err, result) {
+                if (err) {
+                    res.status(500).send({ message:"Internal Server Error", query:false , err });
+                    return;
+                }
+                res.status(200).send({ message:"Query Executed Correctly", query:true, allentries:result });
+                });
+        }
+        catch (error) 
+        {
+            res.status(500).send({ message:"Internal Server Error", query:false , error });
+        }
+        }
     
 
 module.exports = { usergetid  , getcountrycode , getportcode , fetchportcode , fetchcountrycode , checkdatabase , fetchallcountries ,
-    fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes ,fetchArrival ,fetchDepart , getOperation , hivistedports , hiarrivedports};
+    fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes ,fetchArrival ,fetchDepart , getOperation , hivistedports , hiarrivedports , highops};
