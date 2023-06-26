@@ -28,13 +28,13 @@ const deletePort = async (req, res) => {
       throw { message: "Parameter was not received", status: false };
     }
 
-    const exists = await gets.getportcode(resobj.name);
+    const exists = resobj.code;
 
     if (exists === undefined) {
       throw { message: "Entry does not exist in the Database", status: true };
     }
 
-    const sql = `DELETE FROM ports WHERE Port_Name = '${resobj.name}';`;
+    const sql = `DELETE FROM ports WHERE Port_Code = '${resobj.code}';`;
     con.query(sql, (err, result) => {
       if (err) {
         throw { message: "Error deleting the entry from the Database, Try Again", status: false };
@@ -55,13 +55,13 @@ const deleteCountry = async (req, res) => {
       throw { message: "Parameter was not received", status: false };
     }
 
-    const exists = await gets.getcountrycode(resobj.name);
+    const exists = resobj.code;
 
     if (exists === undefined) {
       throw { message: "Entry does not exist in the Database", status: true };
     }
 
-    const sql = `DELETE FROM countries WHERE Country_Name = '${resobj.name}';`;
+    const sql = `DELETE FROM countries WHERE Country_Code = '${resobj.code}';`;
     con.query(sql, (err, result) => {
       if (err) {
         throw { message: "Error deleting the entry from the Database, Try Again", status: false };
