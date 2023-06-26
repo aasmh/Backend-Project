@@ -89,7 +89,6 @@ const addEmp = async (req, res) => {
 const addDepart = async (req, res) => {
   try {
     const {
-      Arrival_ID,
       Voyage_No,
       IMO,
       Agent_Code,
@@ -105,20 +104,20 @@ const addDepart = async (req, res) => {
     } = req.body;
 
     const departureID = "SELECT MAX(Arrival_ID) FROM ship_departure";
-    const checkArrivalSql = `SELECT * FROM ship_arrival WHERE Arrival_ID =(SELECT MAX(Arrival_ID) FROM ship_departure) `;
+    // const checkArrivalSql = `SELECT * FROM ship_arrival WHERE Arrival_ID = (SELECT MAX(Arrival_ID) FROM ship_departure) `;
 
-    con.query(checkArrivalSql, (err, result) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send("Internal server error");
-        return;
-      }
+    // con.query(checkArrivalSql, (err, result) => {
+    //   if (err) {
+    //     console.error(err);
+    //     res.status(500).send("Internal server error");
+    //     return;
+    //   }
 
-      // If Arrival_ID does not exist in ship_arrival table, send an error message
-      if (result.length === 0) {
-        res.status(400).send("Arrival_ID does not exist in ship_arrival table");
-        return;
-      }
+    //   // If Arrival_ID does not exist in ship_arrival table, send an error message
+    //   if (result.length === 0) {
+    //     res.status(400).send("Arrival_ID does not exist in ship_arrival table");
+    //     return;
+    //   }
 
       const checkDepartureSql = "SELECT * FROM ship_departure WHERE Arrival_ID = ?";
 
@@ -181,7 +180,7 @@ const addDepart = async (req, res) => {
           }
         );
       });
-    });
+    // });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal server error");
@@ -289,3 +288,5 @@ module.exports = {
   addDepart,
   register,
 };
+
+
