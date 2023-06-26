@@ -403,9 +403,7 @@ const fetchDepart = async (req, res) => {
 const hivistedports = async (req, res) => {
 try 
 {
-    if(req.query.limit == undefined){
-        throw {message:"Limit parameter was not received", query:false};
-    }
+    
     if(req.query.date == undefined){
         throw {message:"Date parameter was not received", query:false};
     }
