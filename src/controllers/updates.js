@@ -193,7 +193,6 @@ const updatePort = async (req, res) => {
   const updateArrival = async (req, res) => {
     try {
       const {
-        Arrival_ID,
         Voyage_No,
         IMO,
         Arrival_Date_Plan,
@@ -206,24 +205,23 @@ const updatePort = async (req, res) => {
         Op_Code,
       } = req.body;
   
-      const checkArrivalSql = 'SELECT * FROM ship_arrival WHERE Arrival_ID = ?';
+      const checkArrivalSql = 'SELECT * FROM ship_arrival WHERE Voyage_No = ?';
   
-      con.query(checkArrivalSql, [Arrival_ID], (err, result) => {
+      con.query(checkArrivalSql, [Voyage_No], (err, result) => {
         if (err) {
           console.error(err);
-          res.status(500).send('Internal server error');
+          res.status(500).send(`Internal server error ${err}`);
           return;
         }
   
         // If no matching arrival record is found, send an error message
         if (result.length === 0) {
-          res.status(400).send('Arrival record does not exist for the provided Arrival_ID');
+          res.status(400).send('Arrival record does not exist for the provided Voyage_No');
           return;
         }
   
         const updateArrivalSql = `
           UPDATE ship_arrival SET
-          Voyage_No = ?,
           IMO = ?,
           Arrival_Date_Plan = ?,
           Arrival_Date_Actual = ?,
@@ -233,13 +231,12 @@ const updatePort = async (req, res) => {
           Berthing_Date = ?,
           Cargo_Arrival = ?,
           Op_Code = ?
-          WHERE Arrival_ID = ?
+          WHERE Voyage_No = ?
         `;
   
         con.query(
           updateArrivalSql,
           [
-            Voyage_No,
             IMO,
             Arrival_Date_Plan,
             Arrival_Date_Actual,
@@ -249,15 +246,15 @@ const updatePort = async (req, res) => {
             Berthing_Date,
             Cargo_Arrival,
             Op_Code,
-            Arrival_ID,
+            Voyage_No,
           ],
           (err, updateResult) => {
             if (err) {
               console.error(err);
-              res.status(500).send('Internal server error');
+              res.status(500).send(`Internal server error ${err.sqlMessage}`);
               return;
             }
-            res.status(200).send(`Ship arrival with the Arrival_ID ${Arrival_ID} updated successfully`);
+            res.status(200).send(`Ship arrival with the Arrival_ID ${Voyage_No} updated successfully`);
           }
         );
       });
