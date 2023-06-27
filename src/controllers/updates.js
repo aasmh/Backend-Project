@@ -342,6 +342,75 @@ const updatePort = async (req, res) => {
       res.status(400).send(err);
     }
   };
+
+
+  const updateAgent = async (req, res) => {
+    try {
+      const {
+        Agent_Code,
+        Perm_No,
+        Perm_dt_st,
+        Perm_dt_end,
+        Email,
+        Telephone,
+        Address,
+        Agent_Name,
+      } = req.body;
+  
+      const checkAgentSql = 'SELECT * FROM agents WHERE Agent_Code = ?';
+  
+      con.query(checkAgentSql, [Agent_Code], (err, result) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send(`Internal server error ${err}`);
+          return;
+        }
+  
+        // If no matching agent record is found, send an error message
+        if (result.length === 0) {
+          res.status(400).send('Agent record does not exist for the provided Agent_Code');
+          return;
+        }
+  
+        const updateAgentSql = `
+          UPDATE agents SET
+            Perm_No = ?,
+            Perm_dt_st = ?,
+            Perm_dt_end = ?,
+            Email = ?,
+            Telephone = ?,
+            Address = ?,
+            Agent_Name = ?
+          WHERE Agent_Code = ?
+        `;
+  
+        con.query(
+          updateAgentSql,
+          [
+            Perm_No,
+            Perm_dt_st,
+            Perm_dt_end,
+            Email,
+            Telephone,
+            Address,
+            Agent_Name,
+            Agent_Code,
+          ],
+          (err, updateResult) => {
+            if (err) {
+              console.error(err);
+              res.status(500).send(`Internal server error ${err.sqlMessage}`);
+              return;
+            }
+            res.status(200).send(`Ship agent with the agents ${Agent_Code} updated successfully`);
+          }
+        );
+      });
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  };
   
   
-  module.exports = { updatePort , updateCountry , updateShipType , updateOperation , updateDepart , updateArrival , updateShipDesc};
+  
+  module.exports = { updatePort , updateCountry , updateShipType , updateOperation , updateDepart , updateArrival , updateShipDesc ,updateAgent};

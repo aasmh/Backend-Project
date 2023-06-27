@@ -63,6 +63,7 @@ router.put('/update/updateop', (req, res)=> putctrl.updateOperation(req,res));
 router.put('/update/updatedepart', (req, res)=> putctrl.updateDepart(req,res));
 router.put('/update/updatearrival', (req, res)=> putctrl.updateArrival(req,res));
 router.put('/update/updateShipDesc', (req, res)=> putctrl.updateShipDesc(req,res));
+router.put('/update/updateAgent', (req, res)=> putctrl.updateAgent(req,res));
 
 
 // LOGIN IN PART
