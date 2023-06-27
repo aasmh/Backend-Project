@@ -143,6 +143,7 @@ const updatePort = async (req, res) => {
         const updateDepartureSql = `
           UPDATE ship_departure SET
           IMO = ?,
+          Agent_Code = ?,
           Departure_Date_Plan = ?,
           Departure_Date_Actual = ?,
           Cargo_departure = ?,
@@ -159,6 +160,7 @@ const updatePort = async (req, res) => {
           updateDepartureSql,
           [
             IMO,
+            Agent_Code,
             Departure_Date_Plan,
             Departure_Date_Actual,
             Cargo_departure,
