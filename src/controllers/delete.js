@@ -30,7 +30,6 @@ const deletePort = async (req, res) => {
       throw { message: "Parameter was not received", status: false };
     }
 
-
     const exists = resobj.code;
 
     if (exists === undefined) {
@@ -40,9 +39,14 @@ const deletePort = async (req, res) => {
     const sql = `DELETE FROM ports WHERE Port_Code = '${resobj.code}';`;
     con.query(sql, (err, result) => {
       if (err) {
-        throw { message: "Error deleting the entry from the Database, Try Again", status: false };
+        throw {
+          message: "Error deleting the entry from the Database, Try Again",
+          status: false,
+        };
       } else {
-        res.status(200).send({ message: "Entry deleted successfully", query: true });
+        res
+          .status(200)
+          .send({ message: "Entry deleted successfully", query: true });
       }
     });
   } catch (err) {
@@ -69,9 +73,14 @@ const deleteCountry = async (req, res) => {
     const sql = `DELETE FROM countries WHERE Country_Code = '${resobj.code}';`;
     con.query(sql, (err, result) => {
       if (err) {
-        throw { message: "Error deleting the entry from the Database, Try Again", status: false };
+        throw {
+          message: "Error deleting the entry from the Database, Try Again",
+          status: false,
+        };
       } else {
-        res.status(200).send({ message: "Entry deleted successfully", query: true , result });
+        res
+          .status(200)
+          .send({ message: "Entry deleted successfully", query: true, result });
       }
     });
   } catch (err) {
@@ -87,7 +96,11 @@ const deleteShipType = async (req, res) => {
       throw { message: "Parameter was not received", status: false };
     }
 
-    const exists = await posts.Ifsqlexists("ship_types", "Type_Code", resobj.code);
+    const exists = await posts.Ifsqlexists(
+      "ship_types",
+      "Type_Code",
+      resobj.code
+    );
 
     if (!exists) {
       throw { message: "Entry does not exist in the Database", status: true };
@@ -96,9 +109,14 @@ const deleteShipType = async (req, res) => {
     const sql = `DELETE FROM ship_types WHERE Type_Code = '${resobj.code}';`;
     con.query(sql, (err, result) => {
       if (err) {
-        throw { message: "Error deleting the entry from the Database, Try Again", status: false };
+        throw {
+          message: "Error deleting the entry from the Database, Try Again",
+          status: false,
+        };
       } else {
-        res.status(200).send({ message: "Entry deleted successfully", query: true });
+        res
+          .status(200)
+          .send({ message: "Entry deleted successfully", query: true });
       }
     });
   } catch (err) {
@@ -113,16 +131,25 @@ const deleteOperation = async (req, res) => {
       throw { message: "Parameter was not received", status: false };
     }
 
-    const exists = await posts.Ifsqlexists("operations", "Operation_Code", resobj.code);  
+    const exists = await posts.Ifsqlexists(
+      "operations",
+      "Operation_Code",
+      resobj.code
+    );
     if (!exists) {
       throw { message: "Entry does not exist in the Database", status: true };
     }
     const sql = `DELETE FROM operations WHERE Operation_Code = '${resobj.code}';`;
     con.query(sql, (err, result) => {
       if (err) {
-        throw { message: "Error deleting the entry from the Database, Try Again", status: false };
+        throw {
+          message: "Error deleting the entry from the Database, Try Again",
+          status: false,
+        };
       } else {
-        res.status(200).send({ message: "Entry deleted successfully", query: true });
+        res
+          .status(200)
+          .send({ message: "Entry deleted successfully", query: true });
       }
     });
   } catch (err) {
@@ -134,30 +161,38 @@ const deleteDepart = async (req, res) => {
   try {
     const { Arrival_ID } = req.body;
 
-    const checkDepartureSql = 'SELECT * FROM ship_departure WHERE Arrival_ID = ?';
+    const checkDepartureSql =
+      "SELECT * FROM ship_departure WHERE Arrival_ID = ?";
 
     con.query(checkDepartureSql, [Arrival_ID], (err, result) => {
       if (err) {
         console.error(err);
-        res.status(500).send('Internal server error');
+        res.status(500).send("Internal server error");
         return;
       }
 
       // If no matching departure record is found, send an error message
       if (result.length === 0) {
-        res.status(400).send('Departure record does not exist for the provided Arrival_ID');
+        res
+          .status(400)
+          .send("Departure record does not exist for the provided Arrival_ID");
         return;
       }
 
-      const deleteDepartureSql = 'DELETE FROM ship_departure WHERE Arrival_ID = ?';
+      const deleteDepartureSql =
+        "DELETE FROM ship_departure WHERE Arrival_ID = ?";
 
       con.query(deleteDepartureSql, [Arrival_ID], (err, deleteResult) => {
         if (err) {
           console.error(err);
-          res.status(500).send('Internal server error');
+          res.status(500).send("Internal server error");
           return;
         }
-        res.status(200).send(`Ship departure with the Arrival_ID ${Arrival_ID} deleted successfully`);
+        res
+          .status(200)
+          .send(
+            `Ship departure with the Arrival_ID ${Arrival_ID} deleted successfully`
+          );
       });
     });
   } catch (err) {
@@ -169,83 +204,136 @@ const deleteArrival = async (req, res) => {
   try {
     const { Arrival_ID } = req.body;
 
-    const checkArrivalSql = 'SELECT * FROM ship_arrival WHERE Arrival_ID = ?';
+    const checkArrivalSql = "SELECT * FROM ship_arrival WHERE Arrival_ID = ?";
 
     con.query(checkArrivalSql, [Arrival_ID], (err, result) => {
       if (err) {
         console.error(err);
-        res.status(500).send('Internal server error');
+        res.status(500).send("Internal server error");
         return;
       }
 
       // If no matching arrival record is found, send an error message
       if (result.length === 0) {
-        res.status(400).send('Arrival record does not exist for the provided Arrival_ID');
+        res
+          .status(400)
+          .send("Arrival record does not exist for the provided Arrival_ID");
         return;
       }
 
-      const deleteArrivalSql = 'DELETE FROM ship_arrival WHERE Arrival_ID = ?';
+      const deleteArrivalSql = "DELETE FROM ship_arrival WHERE Arrival_ID = ?";
 
       con.query(deleteArrivalSql, [Arrival_ID], (err, deleteResult) => {
         if (err) {
           console.error(err);
-          res.status(500).send('Internal server error');
+          res.status(500).send("Internal server error");
           return;
         }
-        res.status(200).send(`Ship arrival with the Arrival_ID ${Arrival_ID} deleted successfully`);
+        res
+          .status(200)
+          .send(
+            `Ship arrival with the Arrival_ID ${Arrival_ID} deleted successfully`
+          );
       });
     });
   } catch (err) {
     res.status(400).send(err);
   }
 };
-
 
 const deleteShipDesc = async (req, res) => {
   try {
     const { IMO } = req.body;
 
-    const checkShipDesc = 'SELECT * FROM ship_description WHERE IMO = ?';
+    const checkShipDesc = "SELECT * FROM ship_description WHERE IMO = ?";
 
     con.query(checkShipDesc, [IMO], (err, result) => {
       if (err) {
         console.error(err);
-        res.status(500).send(err);
-        res.status(500).send('Internal server error');
+        res.status(500).send(`Internal server error${err}`);
         return;
       }
 
       // If no matching arrival record is found, send an error message
       if (result.length === 0) {
-        res.status(400).send('Arrival record does not exist for the provided IMO');
+        res.status(400).send("IMO record does not exist for the provided IMO");
         return;
       }
 
-      const deleteShipDesc  = 'DELETE FROM ship_description WHERE IMO = ?';
+      const deleteShipDesc = "DELETE FROM ship_description WHERE IMO = ?";
 
-      con.query(deleteShipDesc , [IMO], (err, deleteResult) => {
+      con.query(deleteShipDesc, [IMO], (err, deleteResult) => {
         if (err) {
           console.error(err);
           res.send(err);
-          res.status(500).send('Internal server error');
+          res.status(500).send("Internal server error");
           return;
         }
-        res.status(200).send(`Ship arrival with the IMO ${IMO} deleted successfully`);
+        res
+          .status(200)
+          .send(`ship_description with the IMO ${IMO} deleted successfully`);
       });
     });
   } catch (err) {
     res.status(400).send(err);
   }
-
-
 };
+
+
+const deleteAgent= async (req, res) => {
+  try {
+    const { agent_Code } = req.body;
+
+    const checkagent = "SELECT * FROM agents WHERE Agent_Code = ?";
+
+    con.query(checkagent, [agent_Code], (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send(err);
+        res.status(500).send("Internal server error");
+        return;
+      }
+
+      // If no matching arrival record is found, send an error message
+      if (result.length === 0) {
+        res.status(400).send("agent_Code record does not exist for the provided agent_Code");
+        return;
+      }
+
+      const deleteAgent = "DELETE FROM agents WHERE Agent_Code = ?";
+
+      con.query(deleteAgent, [agent_Code], (err, deleteResult) => {
+        if (err) {
+          console.error(err);
+          res.send(err);
+          res.status(500).send("Internal server error");
+          return;
+        }
+        res
+          .status(200)
+          .send(`agent with the agent_Code ${agent_Code} deleted successfully`);
+      });
+    });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+};
+
+
 
 const de7ktest = async (req, res) => {
   console.log(req.body);
   res.send(req.body);
 };
 
-
 module.exports = {
-  deleteEmployee, deletePort , deleteCountry, deleteShipType, deleteOperation , deleteDepart , deleteArrival ,deleteShipDesc
+  deleteEmployee,
+  deletePort,
+  deleteCountry,
+  deleteShipType,
+  deleteOperation,
+  deleteDepart,
+  deleteArrival,
+  deleteShipDesc,
+  deleteAgent
 };

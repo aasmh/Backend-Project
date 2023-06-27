@@ -51,7 +51,7 @@ router.post('/post/newshiptype', (req, res)=> postctrl.addnewshiptype(req,res));
 router.post('/post/newcountry', (req, res)=> postctrl.addnewcountry(req,res));
 router.post('/post/newport', (req, res)=> postctrl.addnewport(req,res));
 router.post('/post/newshipdesc', (req, res) => postctrl.addshipdesc(req,res));    //------
-router.post('/post/newagent', (req, res) => postctrl.addagent(req,res));    //------
+router.post('/post/newagent', (req, res) => postctrl.addAgent(req,res));    //------
 router.post('/post/login', (req, res) => postctrl.login(req,res));    //------
 
 
@@ -94,6 +94,8 @@ router.delete('/delete/deletedepart', (req, res)=> deleteCtrl.deleteDepart(req,r
 
 router.delete('/delete/deletearrival', (req, res)=> deleteCtrl.deleteArrival(req,res));  // deleteShipDesc
 router.delete('/delete/deleteShipDesc', (req, res)=> deleteCtrl.deleteShipDesc(req,res));
+router.delete('/delete/Agent', (req, res)=> deleteCtrl.deleteAgent(req,res));
+
 
 
 
