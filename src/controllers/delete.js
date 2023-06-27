@@ -279,45 +279,41 @@ const deleteShipDesc = async (req, res) => {
   }
 };
 
-
-const deleteAgent= async (req, res) => {
+const deleteAgent = async (req, res) => {
   try {
-    const { agent_Code } = req.body;
+    const { Agent_Code } = req.body;
+    console.log(Agent_Code)
+    const checkAgent = "SELECT * FROM agents WHERE Agent_Code = ?";
 
-    const checkagent = "SELECT * FROM agents WHERE Agent_Code = ?";
-
-    con.query(checkagent, [agent_Code], (err, result) => {
+    con.query(checkAgent, [Agent_Code], (err, result) => {
       if (err) {
         console.error(err);
-        res.status(500).send(err);
-        res.status(500).send("Internal server error");
+        res.status(500).send(`Internal server error: ${err}`);
         return;
       }
 
-      // If no matching arrival record is found, send an error message
+      // If no matching agent record is found, send an error message
       if (result.length === 0) {
-        res.status(400).send("agent_Code record does not exist for the provided agent_Code");
+        res.status(400).send("Agent record does not exist for the provided Agent_Code");
         return;
       }
 
-      const deleteAgent = "DELETE FROM agents WHERE Agent_Code = ?";
+      const deleteQuery = "DELETE FROM agents WHERE Agent_Code = ?";
 
-      con.query(deleteAgent, [agent_Code], (err, deleteResult) => {
+      con.query(deleteQuery, [Agent_Code], (err, deleteResult) => {
         if (err) {
           console.error(err);
-          res.send(err);
           res.status(500).send("Internal server error");
           return;
         }
-        res
-          .status(200)
-          .send(`agent with the agent_Code ${agent_Code} deleted successfully`);
+        res.status(200).send(`Agent with the Agent_Code ${Agent_Code} deleted successfully`);
       });
     });
   } catch (err) {
     res.status(400).send(err);
   }
 };
+
 
 
 
