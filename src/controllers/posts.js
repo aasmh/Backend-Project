@@ -246,6 +246,45 @@ const addAgent = async (req, res) => {
   try {
     const { Agent_Code, Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name } = req.body;
 
+    if(Agent_Code === undefined)
+    {
+      throw { message:"Agent Code Was not received", status:false};
+    }
+
+    if(Perm_No === undefined)
+    {
+      throw { message:"Perm_No Was not received", status:false};
+    }
+
+    if(Perm_dt_st === undefined)
+    {
+      throw { message:"Perm_dt_st Was not received", status:false};
+    }
+
+    if(Perm_dt_end === undefined)
+    {
+      throw { message:"Perm_dt_end Was not received", status:false};
+    }
+
+    
+    if(Email === undefined)
+    {
+      throw { message:"Email Was not received", status:false};
+    }
+
+    if(Telephone === undefined)
+    {
+      throw { message:"Telephone Was not received", status:false};
+    }
+    if(Address === undefined)
+    {
+      throw { message:"Address Was not received", status:false};
+    }
+    if(Agent_Name === undefined)
+    {
+      throw { message:"Agent Name Was not received", status:false};
+    }
+    
     const insertQuery = "INSERT INTO agents (Agent_Code, Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     con.query(insertQuery, [Agent_Code, Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name], (err, result) => {
