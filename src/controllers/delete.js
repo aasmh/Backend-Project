@@ -210,13 +210,14 @@ const deleteShipDesc = async (req, res) => {
     con.query(checkShipDesc, [IMO], (err, result) => {
       if (err) {
         console.error(err);
+        res.status(500).send(err);
         res.status(500).send('Internal server error');
         return;
       }
 
       // If no matching arrival record is found, send an error message
       if (result.length === 0) {
-        res.status(400).send('Arrival record does not exist for the provided Arrival_ID');
+        res.status(400).send('Arrival record does not exist for the provided IMO');
         return;
       }
 
@@ -225,10 +226,11 @@ const deleteShipDesc = async (req, res) => {
       con.query(deleteShipDesc , [IMO], (err, deleteResult) => {
         if (err) {
           console.error(err);
+          res.send(err);
           res.status(500).send('Internal server error');
           return;
         }
-        res.status(200).send(`Ship arrival with the Arrival_ID ${IMO} deleted successfully`);
+        res.status(200).send(`Ship arrival with the IMO ${IMO} deleted successfully`);
       });
     });
   } catch (err) {
