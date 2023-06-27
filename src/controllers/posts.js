@@ -6,7 +6,7 @@ const dbconnect = require("../config/database");
 const res = require("express/lib/response");
 const con = dbconnect.connection;
 const gets = require("./gets");
-const bcrypt=require('bcrypt');
+const bcrypt = require("bcrypt");
 //just a comment
 //add another comment
 // Third Comment
@@ -246,12 +246,27 @@ const addshipdesc = async (req, res) => {
 const addAgent = async (req, res) => {
   try {
     const {
-       Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name
+      Agent_Code,
+      Perm_No,
+      Perm_dt_st,
+      Perm_dt_end,
+      Email,
+      Telephone,
+      Address,
+      Agent_Name,
     } = req.body;
-    const sql = `INSERT INTO agents ( Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name)  VALUES ( ?, ?, ?, ?,?, ?, ?)`;
+    const sql = `INSERT INTO agents (Agent_Code, Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name)  VALUES ( ?, ?, ?, ?,?, ?, ?)`;
     con.query(
       sql,
-      [ Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name
+      [
+        Agent_Code,
+        Perm_No,
+        Perm_dt_st,
+        Perm_dt_end,
+        Email,
+        Telephone,
+        Address,
+        Agent_Name,
       ],
       function (err, result) {
         if (err) {
@@ -270,7 +285,6 @@ const addAgent = async (req, res) => {
   }
 };
 
-
 const login = async (req, res) => {
   const { Email, Employee_Password } = req.body;
   const sql = "SELECT * FROM employees WHERE Email=?";
@@ -280,14 +294,15 @@ const login = async (req, res) => {
       if (Employee_Password === storedPassword) {
         res.status(200).send({ result: result[0] });
       } else {
-        res.status(401).send({ error: "Email and password combination is not correct" });
+        res
+          .status(401)
+          .send({ error: "Email and password combination is not correct" });
       }
     } else {
       res.status(401).send({ error: "User not found" });
     }
   });
 };
-
 
 module.exports = {
   addnewport,
