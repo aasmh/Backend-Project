@@ -243,56 +243,34 @@ const addshipdesc = async (req, res) => {
   }
 };
 
-const addagent = async (req, res) => {
+const addAgent = async (req, res) => {
   try {
     const {
-      IMO,
-      Call_sign,
-      Ship_Name,
-      Ship_Country_Code,
-      Ship_Type_Code,
-      Crew_No,
-      Passar_No,
-      Width,
-      Length,
-      Draft,
-      Dead_Weight,
-      Gross_Ton,
-      Build_Date,
+       Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name
     } = req.body;
-    const sql = `INSERT INTO ship_description (IMO, Call_sign, Ship_Name, Ship_Country_Code, Ship_Type_Code, Crew_No, Passar_No, Width, Length, Draft, Dead_Weight, Gross_Ton, Build_Date)  VALUES (?, ?, ?, ?, ?,?, ?, ?, ?, ?,?, ?, ?)`;
+    const sql = `INSERT INTO agents ( Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name)  VALUES ( ?, ?, ?, ?,?, ?, ?)`;
     con.query(
       sql,
-      [
-        IMO,
-        Call_sign,
-        Ship_Name,
-        Ship_Country_Code,
-        Ship_Type_Code,
-        Crew_No,
-        Passar_No,
-        Width,
-        Length,
-        Draft,
-        Dead_Weight,
-        Gross_Ton,
-        Build_Date,
+      [ Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name
       ],
       function (err, result) {
         if (err) {
           console.error(err);
-          res.status(500).send(err);
+          res.status(500).send(`intern server error ${err}`);
+
           return;
         }
         res
           .status(200)
-          .send(`Ship with the name ${IMO} added to the database!`);
+          .send(`Agents with the name ${Agent_Name} added to the database!`);
       }
     );
   } catch (error) {
     console.log(error);
   }
 };
+
+
 const login = async (req, res) => {
   const { Email, Employee_Password } = req.body;
   const sql = "SELECT * FROM employees WHERE Email=?";
@@ -318,6 +296,6 @@ module.exports = {
   addnewoperation,
   Ifsqlexists,
   addshipdesc,
-  addagent,
+  addAgent,
   login,
 };
