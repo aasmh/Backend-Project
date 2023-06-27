@@ -242,48 +242,25 @@ const addshipdesc = async (req, res) => {
     console.log(error);
   }
 };
-
 const addAgent = async (req, res) => {
   try {
-    const {
-      Agent_Code,
-      Perm_No,
-      Perm_dt_st,
-      Perm_dt_end,
-      Email,
-      Telephone,
-      Address,
-      Agent_Name,
-    } = req.body;
-    const sql = `INSERT INTO agents (Agent_Code, Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name)  VALUES ( ?, ?, ?, ?,?, ?, ?)`;
-    con.query(
-      sql,
-      [
-        Agent_Code,
-        Perm_No,
-        Perm_dt_st,
-        Perm_dt_end,
-        Email,
-        Telephone,
-        Address,
-        Agent_Name,
-      ],
-      function (err, result) {
-        if (err) {
-          console.error(err);
-          res.status(500).send(`intern server error ${err}`);
+    const { Agent_Code, Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name } = req.body;
 
-          return;
-        }
-        res
-          .status(200)
-          .send(`Agents with the name ${Agent_Name} added to the database!`);
+    const insertQuery = "INSERT INTO agents (Agent_Code, Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+    con.query(insertQuery, [Agent_Code, Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name], (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send(`Internal server error: ${err}`);
+        return;
       }
-    );
-  } catch (error) {
-    console.log(error);
+      res.status(200).send("Agent record inserted successfully");
+    });
+  } catch (err) {
+    res.status(400).send(err);
   }
 };
+
 
 const login = async (req, res) => {
   const { Email, Employee_Password } = req.body;
