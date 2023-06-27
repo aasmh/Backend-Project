@@ -260,5 +260,88 @@ const updatePort = async (req, res) => {
       res.status(400).send(err);
     }
   };
+
+  const updateShipDesc = async (req, res) => {
+    try {
+      const {
+        IMO,
+        Call_sign,
+        Ship_Name,
+        Ship_Country_Code,
+        Ship_Type_Code,
+        Crew_No,
+        Passar_No,
+        Width,
+        Length,
+        Draft,
+        Dead_Weight,
+        Gross_Ton,
+        Build_Date,
+      } = req.body;
   
-  module.exports = { updatePort , updateCountry , updateShipType , updateOperation , updateDepart , updateArrival};
+      const checkShipDescSql = 'SELECT * FROM ship_description WHERE IMO = ?';
+  
+      con.query(checkShipDescSql, [IMO], (err, result) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send(`Internal server error ${err}`);
+          return;
+        }
+  
+        // If no matching ship record is found, send an error message
+        if (result.length === 0) {
+          res.status(400).send('Ship record does not exist for the provided IMO');
+          return;
+        }
+  
+        const updateShipDescSql = `
+          UPDATE ship_description SET
+            Call_sign = ?,
+            Ship_Name = ?,
+            Ship_Country_Code = ?,
+            Ship_Type_Code = ?,
+            Crew_No = ?,
+            Passar_No = ?,
+            Width = ?,
+            Length = ?,
+            Draft = ?,
+            Dead_Weight = ?,
+            Gross_Ton = ?,
+            Build_Date = ?
+          WHERE IMO = ?
+        `;
+  
+        con.query(
+          updateShipDescSql,
+          [
+            Call_sign,
+            Ship_Name,
+            Ship_Country_Code,
+            Ship_Type_Code,
+            Crew_No,
+            Passar_No,
+            Width,
+            Length,
+            Draft,
+            Dead_Weight,
+            Gross_Ton,
+            Build_Date,
+            IMO,
+          ],
+          (err, updateResult) => {
+            if (err) {
+              console.error(err);
+              res.status(500).send(`Internal server error ${err.sqlMessage}`);
+              return;
+            }
+            res.status(200).send(`ship_description with the IMO ${IMO} updated successfully`);
+          }
+        );
+      });
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  };
+  
+  
+  module.exports = { updatePort , updateCountry , updateShipType , updateOperation , updateDepart , updateArrival , updateShipDesc};
