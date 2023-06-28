@@ -6,22 +6,42 @@ const con = dbconnect.connection;
 const updatePort = async (req, res) => {
     try {
       const resobj = req.body;
-  
-      if (resobj == undefined) {
-        throw { message: "Parameter was not received", status: false };
+      
+
+      if (resobj.alter == undefined) {
+        throw { message: "Altered Parameter was not received", status: false };
       }
-  
-      const exists = await gets.getportcode(resobj.name);
-  
-      if (exists === undefined) {
-        throw { message: "Entry does not exist in the Database", status: true };
+
+      if(resobj.name === undefined){
+        throw { message: "Name Parameter was not received", status: false };
       }
+
+      if(resobj.code === undefined){
+        throw { message: "Code Parameter was not received", status: false };
+      }
+      
+      if(resobj.alter === "code")
+      {
+        const exists = await gets.getportcode(resobj.name);
   
-      const sql = `UPDATE ports SET Port_Code = '${resobj.code}' WHERE Port_Name = '${resobj.name}';`;
+        if (exists === undefined) {
+          throw { message: "Entry does not exist in the Database", status: true };
+        }
+
+        var sql = `UPDATE ports SET Port_Code = '${resobj.code}' WHERE Port_Name = '${resobj.name}';`;
+      }
+      else
+      {
+        var sql = `UPDATE ports SET Port_Name = '${resobj.name}' WHERE Port_Code = '${resobj.code}';`;
+      }
+
+      
       con.query(sql, (err, result) => {
         if (err) {
-          throw { message: "Error updating the entry in the Database, Try Again", status: false };
-        } else {
+          throw { message: "Error updating the entry in the Database, Try Again", status: false , result};
+        } 
+        else 
+        {
           res.status(200).send({ message: "Entry updated successfully", query: true });
         }
       });
@@ -33,21 +53,39 @@ const updatePort = async (req, res) => {
   const updateCountry = async (req, res) => {
     try {
       const resobj = req.body;
-  
-      if (resobj == undefined) {
-        throw { message: "Parameter was not received", status: false };
+      
+      if (resobj.alter == undefined) {
+        throw { message: "Altered Parameter was not received", status: false };
       }
-  
-      const exists = await gets.getcountrycode(resobj.name);
-  
-      if (exists === undefined) {
-        throw { message: "Entry does not exist in the Database", status: true };
+
+      if(resobj.name === undefined){
+        throw { message: "Name Parameter was not received", status: false };
       }
-  
-      const sql = `UPDATE countries SET Country_Code = '${resobj.code}' WHERE Country_Name = '${resobj.name}';`;
+
+      if(resobj.code === undefined){
+        throw { message: "Code Parameter was not received", status: false };
+      }
+      
+      if(resobj.alter === "code")
+      {
+        
+        const exists = await gets.getcountrycode(resobj.name);
+    
+        if (exists === undefined) {
+          throw { message: "Entry does not exist in the Database", status: true };
+        }
+
+        var sql = `UPDATE countries SET Country_Code = '${resobj.code}' WHERE Country_Name = '${resobj.name}';`;
+      
+      }
+      else
+      {
+        var sql = `UPDATE countries SET Country_Name = '${resobj.name}' WHERE Country_Code = '${resobj.code}';`;
+      }
+
       con.query(sql, (err, result) => {
         if (err) {
-          throw { message: "Error updating the entry in the Database, Try Again", status: false };
+          throw { message: "Error updating the entry in the Database, Try Again", status: false , result};
         } else {
           res.status(200).send({ message: "Entry updated successfully", query: true });
         }
