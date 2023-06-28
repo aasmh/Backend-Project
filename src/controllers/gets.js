@@ -529,9 +529,55 @@ const hiarrivedports = async (req, res) => {
             res.status(500).send({ message:"Internal Server Error", query:false , error });
         }
         }
+    const highrecships = async (req, res) => {
+        try 
+        {
+            
+            if(req.query.date == undefined){
+                throw {message:"Date parameter was not received", query:false};
+            }
+        
+            const data = req.query;
+            
+            if(!data.limit){
+                
+                var sql = `SELECT sd.Ship_Name, sd.IMO, COUNT(sa.IMO) AS Arrival_Count
+                FROM ship_arrival sa
+                JOIN ship_description sd ON sa.IMO = sd.IMO
+                WHERE sa.Arrival_Date_Actual >= '${data.date}' AND sa.Arrival_Date_Actual <= CURDATE()
+                GROUP BY sa.IMO, sd.Ship_Name, sd.IMO
+                ORDER BY Arrival_Count DESC
+                ;`;
+
+            }
+            else
+            {
+                var sql = `SELECT sd.Ship_Name, sd.IMO, COUNT(sa.IMO) AS Arrival_Count
+                FROM ship_arrival sa
+                JOIN ship_description sd ON sa.IMO = sd.IMO
+                WHERE sa.Arrival_Date_Actual >= '${data.date}' AND sa.Arrival_Date_Actual <= CURDATE()
+                GROUP BY sa.IMO, sd.Ship_Name, sd.IMO
+                ORDER BY Arrival_Count DESC
+                LIMIT ${data.limit};`;
+            }
+        
+            con.query(sql, function (err, result) {
+                if (err) {
+                    res.status(500).send({ message:"Internal Server Error", query:false , err });
+                    return;
+                }
+                res.status(200).send({ message:"Query Executed Correctly", query:true, allentries:result });
+                });
+        }
+        catch (error) 
+        {
+            res.status(500).send({ message:"Internal Server Error", query:false , error });
+        }
+        }
     
 
 
 module.exports = { usergetid  , getcountrycode , getportcode , fetchportcode , fetchcountrycode , checkdatabase , fetchallcountries ,
-    fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes ,fetchArrival ,fetchDepart , getOperation , hivistedports , hiarrivedports , highops};
+    fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes ,fetchArrival ,fetchDepart , getOperation , hivistedports , hiarrivedports ,
+    highops, highrecships};
 

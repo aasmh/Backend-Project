@@ -33,6 +33,7 @@ router.get('/get/operation', (req, res)=> ctrl.getOperation(req,res));
 router.get('/get/highvistedports', (req, res)=> ctrl.hivistedports(req,res));
 router.get('/get/higharrivedports', (req, res)=> ctrl.hiarrivedports(req,res));
 router.get('/get/highops', (req, res)=> ctrl.highops(req,res));
+router.get('/get/highrecships', (req, res)=> ctrl.highrecships(req,res));
 
 
 
@@ -70,7 +71,7 @@ router.put('/update/updateAgent', (req, res)=> putctrl.updateAgent(req,res));
 
 router.get('/login/emp', (req, res) => logCtrl.fetchemployee(req,res));
 
-
+ 
 
 
 router.get('/login/fetchemployee', (req, res) => logCtrl.fetchemployee(req,res));
