@@ -34,6 +34,7 @@ router.get('/get/highvistedports', (req, res)=> ctrl.hivistedports(req,res));
 router.get('/get/higharrivedports', (req, res)=> ctrl.hiarrivedports(req,res));
 router.get('/get/highops', (req, res)=> ctrl.highops(req,res));
 router.get('/get/highrecships', (req, res)=> ctrl.highrecships(req,res));
+router.get('/get/highrecshipdata', (req, res)=> ctrl.highrecshipdata(req,res));
 
 
 

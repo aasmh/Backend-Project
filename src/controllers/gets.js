@@ -574,10 +574,87 @@ const hiarrivedports = async (req, res) => {
             res.status(500).send({ message:"Internal Server Error", query:false , error });
         }
         }
+    const highrecshipdata = async (req, res) => {
+        try 
+        {
+            
+            if(req.query.fromdate == undefined){
+                throw {message:"From Date parameter was not received", query:false};
+            }
+            if(req.query.todate == undefined){
+                throw {message:"To Date parameter was not received", query:false};
+            }
+            
+            if(req.query.name == undefined){
+                throw {message:"Name parameter was not received", query:false};
+            }
+
+        
+            const data = req.query;
+            
+            if(!data.limit){
+                
+                var sql = `SELECT 
+                counter.Counter,
+                Arrival_Date_Actual,
+                Voyage_No
+              FROM (
+                SELECT 
+                  ROW_NUMBER() OVER (ORDER BY sa.Arrival_Date_Actual) AS Counter,
+                  sa.Arrival_Date_Actual,
+                  sa.Voyage_No
+                FROM ship_arrival sa
+                JOIN ship_description sd ON sa.IMO = sd.IMO
+                WHERE sd.Ship_Name = '${data.name}'
+                  AND (
+                    sa.Arrival_Date_Actual >= '${data.fromdate}'
+                    AND sa.Arrival_Date_Actual <= '${data.todate}'
+                  )
+              ) AS counter
+              ORDER BY counter.Counter;              
+              `;
+
+            }
+            else
+            {
+                var sql = `SELECT 
+                counter.Counter,
+                Arrival_Date_Actual,
+                Voyage_No
+              FROM (
+                SELECT 
+                  ROW_NUMBER() OVER (ORDER BY sa.Arrival_Date_Actual) AS Counter,
+                  sa.Arrival_Date_Actual,
+                  sa.Voyage_No
+                FROM ship_arrival sa
+                JOIN ship_description sd ON sa.IMO = sd.IMO
+                WHERE sd.Ship_Name = '${data.name}'
+                  AND (
+                    sa.Arrival_Date_Actual >= '${data.fromdate}'
+                    AND sa.Arrival_Date_Actual <= '${data.todate}'
+                  )
+              ) AS counter
+              ORDER BY counter.Counter;              
+                LIMIT ${data.limit};`;
+            }
+        
+            con.query(sql, function (err, result) {
+                if (err) {
+                    res.status(500).send({ message:"Internal Server Error", query:false , err });
+                    return;
+                }
+                res.status(200).send({ message:"Query Executed Correctly", query:true, allentries:result });
+                });
+        }
+        catch (error) 
+        {
+            res.status(500).send({ message:"Internal Server Error", query:false , error });
+        }
+        }
     
 
 
 module.exports = { usergetid  , getcountrycode , getportcode , fetchportcode , fetchcountrycode , checkdatabase , fetchallcountries ,
     fetchallports , fetchallagents , fetchshipdesc , fetchshiptypes ,fetchArrival ,fetchDepart , getOperation , hivistedports , hiarrivedports ,
-    highops, highrecships};
+    highops, highrecships , highrecshipdata};
 
