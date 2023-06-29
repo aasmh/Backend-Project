@@ -53,20 +53,10 @@ const updatePort = async (req, res) => {
   const updateCountry = async (req, res) => {
     try {
       const resobj = req.body;
-      
-      if (resobj.alter == undefined) {
-        throw { message: "Altered Parameter was not received", status: false };
-      }
+      const alter = "code";
 
-      if(resobj.name === undefined){
-        throw { message: "Name Parameter was not received", status: false };
-      }
-
-      if(resobj.code === undefined){
-        throw { message: "Code Parameter was not received", status: false };
-      }
       
-      if(resobj.alter === "code")
+      if(alter === "code")
       {
         
         const exists = await gets.getcountrycode(resobj.name);
@@ -85,8 +75,10 @@ const updatePort = async (req, res) => {
 
       con.query(sql, (err, result) => {
         if (err) {
-          throw { message: "Error updating the entry in the Database, Try Again", status: false , result};
-        } else {
+          console.error(err);
+          res.status(500).send(`Internal server error ${err.sqlMessage}`);
+          return;
+                } else {
           res.status(200).send({ message: "Entry updated successfully", query: true });
         }
       });
