@@ -7,10 +7,8 @@ const updatePort = async (req, res) => {
     try {
       const resobj = req.body;
       
-
-      if (resobj.alter == undefined) {
-        throw { message: "Altered Parameter was not received", status: false };
-      }
+      const alter = "name";
+      
 
       if(resobj.name === undefined){
         throw { message: "Name Parameter was not received", status: false };
@@ -20,7 +18,7 @@ const updatePort = async (req, res) => {
         throw { message: "Code Parameter was not received", status: false };
       }
       
-      if(resobj.alter === "code")
+      if(alter === "code")
       {
         const exists = await gets.getportcode(resobj.name);
   
@@ -54,9 +52,7 @@ const updatePort = async (req, res) => {
     try {
       const resobj = req.body;
       
-      if (resobj.alter == undefined) {
-        throw { message: "Altered Parameter was not received", status: false };
-      }
+      const alter = "name";
 
       if(resobj.name === undefined){
         throw { message: "Name Parameter was not received", status: false };
@@ -66,7 +62,7 @@ const updatePort = async (req, res) => {
         throw { message: "Code Parameter was not received", status: false };
       }
       
-      if(resobj.alter === "code")
+      if(alter === "code")
       {
         
         const exists = await gets.getcountrycode(resobj.name);
