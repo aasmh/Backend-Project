@@ -229,13 +229,16 @@ const addshipdesc = async (req, res) => {
       ],
       function (err, result) {
         if (err) {
-          console.error(err);
-          res.status(500).send(err);
-          return;
+          throw {
+            message: "Error Inserting into Operation Table, Try Again",
+            status: false,
+            err,
+          };
+        } else {
+          res
+            .status(200)
+            .send({ message: "Query Executed Correctly", query: true });
         }
-        res
-          .status(200)
-          .send(`Ship with the name ${IMO} added to the database!`);
       }
     );
   } catch (error) {
@@ -250,11 +253,16 @@ const addAgent = async (req, res) => {
 
     con.query(insertQuery, [Agent_Code, Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name], (err, result) => {
       if (err) {
-        console.error(err);
-        res.status(500).send(`Internal server error: ${err}`);
-        return;
+        throw {
+          message: "Error Inserting into Operation Table, Try Again",
+          status: false,
+          err,
+        };
+      } else {
+        res
+          .status(200)
+          .send({ message: "Query Executed Correctly", query: true });
       }
-      res.status(200).send("Agent record inserted successfully");
     });
   } catch (err) {
     res.status(400).send(err);

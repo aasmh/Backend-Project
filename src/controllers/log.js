@@ -70,15 +70,16 @@ const addEmp = async (req, res) => {
       [Employee_Name, Employee_Password, Email, Telephone, Role],
       function (err, result) {
         if (err) {
-          console.error(err);
-          res.status(500).send(err);
-          return;
+          throw {
+            message: "Error Inserting into Operation Table, Try Again",
+            status: false,
+            err,
+          };
+        } else {
+          res
+            .status(200)
+            .send({ message: "Query Executed Correctly", query: true });
         }
-        res
-          .status(200)
-          .send(
-            `Employee with the name ${Employee_Name} added to the database!`
-          );
       }
     );
   } catch (error) {
@@ -170,13 +171,16 @@ const addDepart = async (req, res) => {
           ],
           (err, result) => {
             if (err) {
-              console.error(err);
-              res.status(500).send("Internal server error");
-              return;
+              throw {
+                message: "Error Inserting into Operation Table, Try Again",
+                status: false,
+                err,
+              };
+            } else {
+              res
+                .status(200)
+                .send({ message: "Query Executed Correctly", query: true });
             }
-            res
-              .status(200)
-              .send(`Ship departure with the ID ${Voyage_No} added to the database!`);
           }
         );
       });
@@ -235,17 +239,16 @@ const addArrival = async (req, res) => {
       ],
       function (err, result) {
         if (err) {
-          console.error(err);
+          throw {
+            message: "Error Inserting into Operation Table, Try Again",
+            status: false,
+            err,
+          };
+        } else {
           res
-            .status(500)
-            .send({ message: "There was an error exectuing sql query", err });
-          return;
+            .status(200)
+            .send({ message: "Query Executed Correctly", query: true });
         }
-        res
-          .status(200)
-          .send(
-            `Ship arrival with the ID ${result.insertId} added to the database!`
-          );
       }
     );
   } catch (error) {
