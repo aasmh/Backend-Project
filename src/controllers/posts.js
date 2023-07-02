@@ -253,11 +253,13 @@ const addAgent = async (req, res) => {
 
     con.query(insertQuery, [Agent_Code, Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name], (err, result) => {
       if (err) {
-        throw {
-          message: "Error Inserting into Operation Table, Try Again",
-          status: false,
-          err,
-        };
+        // throw {
+        //   message: "Error Inserting into Operation Table, Try Again",
+        //   status: false,
+        //   err,
+        // }
+        res.status(500).send({ message: err.sqlMessage , query: false });
+
       } else {
         res
           .status(200)
