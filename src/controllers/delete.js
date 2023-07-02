@@ -266,7 +266,7 @@ const deleteShipDesc = async (req, res) => {
         if (err) {
           console.error(err);
           res.send(err);
-          res.status(500).send(`Internal server error${err.sqlMessage}`);
+          res.status(500).send("Internal server error");
           return;
         }
         res

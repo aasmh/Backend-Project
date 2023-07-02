@@ -70,15 +70,12 @@ const addEmp = async (req, res) => {
       [Employee_Name, Employee_Password, Email, Telephone, Role],
       function (err, result) {
         if (err) {
-          throw {
-            message: "Error Inserting into Operation Table, Try Again",
-            status: false,
-            err,
-          };
+          res.status(500).send({ message: err.sqlMessage , query: false });
+
         } else {
           res
             .status(200)
-            .send({ message: "Query Executed Correctly", query: true });
+            .send({ message: "Add_Employee Query Executed Correctly", query: true });
         }
       }
     );
@@ -171,15 +168,12 @@ const addDepart = async (req, res) => {
           ],
           (err, result) => {
             if (err) {
-              throw {
-                message: "Error Inserting into Operation Table, Try Again",
-                status: false,
-                err,
-              };
+              res.status(500).send({ message: err.sqlMessage , query: false });
+
             } else {
               res
                 .status(200)
-                .send({ message: "Query Executed Correctly", query: true });
+                .send({ message: "Add_Depart Query Executed Correctly", query: true });
             }
           }
         );
@@ -239,15 +233,12 @@ const addArrival = async (req, res) => {
       ],
       function (err, result) {
         if (err) {
-          throw {
-            message: "Error Inserting into Operation Table, Try Again",
-            status: false,
-            err,
-          };
+          res.status(500).send({ message: err.sqlMessage , query: false });
+
         } else {
           res
             .status(200)
-            .send({ message: "Query Executed Correctly", query: true });
+            .send({ message: "Add_Arrival Query Executed Correctly", query: true });
         }
       }
     );
@@ -267,14 +258,12 @@ const register = async (req, res) => {
       [Admin_ID, Username, Admin_Password, Employee_ID],
       function (err, result) {
         if (err) {
-          console.error(err);
-          res.status(500).send("Internal server error");
-          return;
+          res.status(500).send({ message: err.sqlMessage , query: false });
+
         }
         res
-          .status(200)
-          .send(
-            `admin with the username ${Username} with ID ${Admin_ID} added to the database!`
+        .status(200)
+        .send({ message: "register Query Executed Correctly", query: true }
           );
       }
     );
