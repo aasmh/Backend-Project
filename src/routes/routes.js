@@ -36,6 +36,7 @@ router.get('/get/highops', (req, res)=> ctrl.highops(req,res));
 router.get('/get/highrecships', (req, res)=> ctrl.highrecships(req,res));
 router.get('/get/highrecshipdata', (req, res)=> ctrl.highrecshipdata(req,res));
 
+router.get('/get/logs', (req, res)=> ctrl.fetchlogs(req,res));
 
 
 
