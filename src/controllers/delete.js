@@ -18,7 +18,7 @@ const deleteEmployee = async (req, res) => {
       res.status(404).send("User not found");
       return;
     }
-    res.send(`Employee with the id ${id} deleted from the database.`);
+    res.send({ message: "Employee deleted successfully", query: true });
   });
 };
 
@@ -46,7 +46,7 @@ const deletePort = async (req, res) => {
       } else {
         res
           .status(200)
-          .send({ message: "Entry deleted successfully", query: true });
+          .send({ message: "Port deleted successfully", query: true });
       }
     });
   } catch (err) {
@@ -80,7 +80,11 @@ const deleteCountry = async (req, res) => {
       } else {
         res
           .status(200)
-          .send({ message: "Entry deleted successfully", query: true, result });
+          .send({
+            message: "Country deleted successfully",
+            query: true,
+            result,
+          });
       }
     });
   } catch (err) {
@@ -116,7 +120,7 @@ const deleteShipType = async (req, res) => {
       } else {
         res
           .status(200)
-          .send({ message: "Entry deleted successfully", query: true });
+          .send({ message: "Ship type deleted successfully", query: true });
       }
     });
   } catch (err) {
@@ -149,7 +153,7 @@ const deleteOperation = async (req, res) => {
       } else {
         res
           .status(200)
-          .send({ message: "Entry deleted successfully", query: true });
+          .send({ message: "operations deleted successfully", query: true });
       }
     });
   } catch (err) {
@@ -190,9 +194,7 @@ const deleteDepart = async (req, res) => {
         }
         res
           .status(200)
-          .send(
-            `Ship departure with the Arrival_ID ${Arrival_ID} deleted successfully`
-          );
+          .send({ message: "Depart deleted successfully", query: true });
       });
     });
   } catch (err) {
@@ -231,9 +233,7 @@ const deleteArrival = async (req, res) => {
         }
         res
           .status(200)
-          .send(
-            `Ship arrival with the Arrival_ID ${Arrival_ID} deleted successfully`
-          );
+          .send({ message: "Arrival deleted successfully", query: true });
       });
     });
   } catch (err) {
@@ -266,12 +266,12 @@ const deleteShipDesc = async (req, res) => {
         if (err) {
           console.error(err);
           res.send(err);
-          res.status(500).send(`Internal server error${err.sqlMessage}`);
+          res.status(500).send("Internal server error");
           return;
         }
         res
           .status(200)
-          .send(`ship_description with the IMO ${IMO} deleted successfully`);
+          .send({ message: "ShipDesc deleted successfully", query: true });
       });
     });
   } catch (err) {
@@ -282,7 +282,7 @@ const deleteShipDesc = async (req, res) => {
 const deleteAgent = async (req, res) => {
   try {
     const { Agent_Code } = req.body;
-    console.log(Agent_Code)
+    console.log(Agent_Code);
     const checkAgent = "SELECT * FROM agents WHERE Agent_Code = ?";
 
     con.query(checkAgent, [Agent_Code], (err, result) => {
@@ -294,7 +294,9 @@ const deleteAgent = async (req, res) => {
 
       // If no matching agent record is found, send an error message
       if (result.length === 0) {
-        res.status(400).send("Agent record does not exist for the provided Agent_Code");
+        res
+          .status(400)
+          .send("Agent record does not exist for the provided Agent_Code");
         return;
       }
 
@@ -306,16 +308,15 @@ const deleteAgent = async (req, res) => {
           res.status(500).send("Internal server error");
           return;
         }
-        res.status(200).send(`Agent with the Agent_Code ${Agent_Code} deleted successfully`);
+        res
+          .status(200)
+          .send({ message: "Agent deleted successfully", query: true });
       });
     });
   } catch (err) {
     res.status(400).send(err);
   }
 };
-
-
-
 
 const de7ktest = async (req, res) => {
   console.log(req.body);
@@ -331,5 +332,5 @@ module.exports = {
   deleteDepart,
   deleteArrival,
   deleteShipDesc,
-  deleteAgent
+  deleteAgent,
 };

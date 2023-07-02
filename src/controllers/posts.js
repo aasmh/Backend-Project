@@ -69,15 +69,12 @@ const addnewport = async (req, res) => {
     const sql = `INSERT INTO ports (Port_Name, Port_Code) VALUES ('${resobj.name}', '${resobj.code}'); `;
     con.query(sql, (err, result) => {
       if (err) {
-        throw {
-          message: "Error Inserting into Ports Table, Try Again",
-          status: false,
-          err,
-        };
+        res.status(500).send({ message: err.sqlMessage , query: false });
+
       } else {
         res
           .status(200)
-          .send({ message: "Query Executed Correctly", query: true });
+          .send({ message: "Add_New_Port Query Executed Correctly", query: true });
       }
     });
   } catch (err) {
@@ -103,15 +100,12 @@ const addnewcountry = async (req, res) => {
     const sql = `INSERT INTO countries (Country_Name, Country_Code) VALUES ('${resobj.name}','${resobj.code}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        throw {
-          message: "Error Inserting into Countries Table, Try Again",
-          status: false,
-          err,
-        };
+        res.status(500).send({ message: err.sqlMessage , query: false });
+
       } else {
         res
           .status(200)
-          .send({ message: "Query Executed Correctly", query: true });
+          .send({ message: "Add_New_Country Query Executed Correctly", query: true });
       }
     });
   } catch (err) {
@@ -137,15 +131,12 @@ const addnewshiptype = async (req, res) => {
     const sql = `INSERT INTO ship_types (Ship_type_nm,Type_Code) VALUES ('${resobj.name}','${resobj.code}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        throw {
-          message: "Error Inserting into Ship Types Table, Try Again",
-          status: false,
-          err,
-        };
+        res.status(500).send({ message: err.sqlMessage , query: false });
+
       } else {
         res
           .status(200)
-          .send({ message: "Query Executed Correctly", query: true });
+          .send({ message: "Ad_New_Ship_Type Query Executed Correctly", query: true });
       }
     });
   } catch (err) {
@@ -176,15 +167,12 @@ const addnewoperation = async (req, res) => {
     const sql = `INSERT INTO operations (Operation_nm, Operation_Code) VALUES ('${resobj.name}','${resobj.code}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        throw {
-          message: "Error Inserting into Operation Table, Try Again",
-          status: false,
-          err,
-        };
+        res.status(500).send({ message: err.sqlMessage , query: false });
+
       } else {
         res
           .status(200)
-          .send({ message: "Query Executed Correctly", query: true });
+          .send({ message: "Add_New_Operation Query Executed Correctly", query: true });
       }
     });
   } catch (err) {
@@ -229,13 +217,12 @@ const addshipdesc = async (req, res) => {
       ],
       function (err, result) {
         if (err) {
-          console.error(err);
-          res.status(500).send(err);
-          return;
+          res.status(500).send({ message: err.sqlMessage , query: false });
+        } else {
+          res
+            .status(200)
+            .send({ message: "add_ship Query Executed Correctly", query: true });
         }
-        res
-          .status(200)
-          .send(`Ship with the name ${IMO} added to the database!`);
       }
     );
   } catch (error) {
@@ -250,11 +237,14 @@ const addAgent = async (req, res) => {
 
     con.query(insertQuery, [Agent_Code, Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name], (err, result) => {
       if (err) {
-        console.error(err);
-        res.status(500).send(`Internal server error: ${err}`);
-        return;
+
+        res.status(500).send({ message: err.sqlMessage , query: false });
+
+      } else {
+        res
+          .status(200)
+          .send({ message: "Agent Query Executed Correctly", query: true });
       }
-      res.status(200).send("Agent record inserted successfully");
     });
   } catch (err) {
     res.status(400).send(err);
@@ -282,9 +272,39 @@ const login = async (req, res) => {
   });
 };
 
+
 const logout = async (req, res) => {
   res.cookie('emp', ' ' , {httpOnly:true, maxAge:1} );
 }
+
+
+
+const addlogs = async (req, res) => {
+  try {
+    const resobj = req.body;
+    if (resobj == undefined) {
+      throw { message: "Parameter was not received", status: false };
+    }
+
+    const logDate = new Date().toISOString().slice(0, 19).replace("T", " ");
+ 
+    const sql = `INSERT INTO logs (name,message, log_date) VALUES ('${resobj.name}','${resobj.message}','${logDate}');`;
+    con.query(sql, (err, result) => {
+      if (err) {
+        res.status(500).send({ message: err.sqlMessage , query: false });
+
+      } else {
+        res
+          .status(200)
+          .send({ message: "add logs Query Executed Correctly", query: true });
+      }
+    });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+};
+
+
 
 module.exports = {
   addnewport,
@@ -295,5 +315,6 @@ module.exports = {
   addshipdesc,
   addAgent,
   login,
-  logout
+  logout,
+  addlogs,
 };
