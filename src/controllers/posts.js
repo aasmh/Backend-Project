@@ -271,6 +271,34 @@ const login = async (req, res) => {
   });
 };
 
+
+
+const addlogs = async (req, res) => {
+  try {
+    const resobj = req.body;
+    if (resobj == undefined) {
+      throw { message: "Parameter was not received", status: false };
+    }
+
+    const logDate = new Date().toISOString().slice(0, 19).replace("T", " ");
+ 
+    const sql = `INSERT INTO logs (name,message, log_date) VALUES ('${resobj.name}','${resobj.message}','${logDate}');`;
+    con.query(sql, (err, result) => {
+      if (err) {
+        res.status(500).send({ message: err.sqlMessage , query: false });
+
+      } else {
+        res
+          .status(200)
+          .send({ message: "add logs Query Executed Correctly", query: true });
+      }
+    });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+};
+
+
 module.exports = {
   addnewport,
   addnewcountry,
@@ -280,4 +308,5 @@ module.exports = {
   addshipdesc,
   addAgent,
   login,
+  addlogs,
 };

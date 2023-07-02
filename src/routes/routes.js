@@ -56,6 +56,7 @@ router.post('/post/newport', (req, res)=> postctrl.addnewport(req,res));
 router.post('/post/newshipdesc', (req, res) => postctrl.addshipdesc(req,res));    //------
 router.post('/post/newagent', (req, res) => postctrl.addAgent(req,res));    //------
 router.post('/post/login', (req, res) => postctrl.login(req,res));    //------
+router.post('/post/logs', (req, res) => postctrl.addlogs(req,res));    //------
 
 
 //Update 
