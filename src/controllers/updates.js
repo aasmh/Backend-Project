@@ -207,7 +207,7 @@ const updatePort = async (req, res) => {
               res.status(500).send(`Internal server error ${err.sqlMessage}`);
               return;
             }
-            res.status(200).send(`Ship departure with the Voyage_No ${Voyage_No} updated successfully`);
+            res.status(200).send({message:`Ship departure with the Voyage_No ${Voyage_No} updated successfully`});
           }
         );
       });
@@ -281,7 +281,7 @@ const updatePort = async (req, res) => {
               res.status(500).send(`Internal server error ${err.sqlMessage}`);
               return;
             }
-            res.status(200).send(`Ship arrival with the Arrival_ID ${Voyage_No} updated successfully`);
+            res.status(200).send({message:`Ship arrival with the Arrival_ID ${Voyage_No} updated successfully`});
           }
         );
       });

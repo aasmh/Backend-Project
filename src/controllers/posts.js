@@ -270,6 +270,7 @@ const login = async (req, res) => {
       const storedPassword = result[0].Employee_Password;
       if (Employee_Password === storedPassword) {
         res.status(200).send({ result: result[0] });
+        res.cookie('emp',{role:result[0].Role , name:result[0].Employee_Name},{httpOnly:true, maxAge:120*60 });
       } else {
         res
           .status(401)
@@ -281,6 +282,10 @@ const login = async (req, res) => {
   });
 };
 
+const logout = async (req, res) => {
+  res.cookie('emp', ' ' , {httpOnly:true, maxAge:1} );
+}
+
 module.exports = {
   addnewport,
   addnewcountry,
@@ -290,4 +295,5 @@ module.exports = {
   addshipdesc,
   addAgent,
   login,
+  logout
 };

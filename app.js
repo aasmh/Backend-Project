@@ -3,11 +3,13 @@ const Routes = require('./src/routes/routes');
 const cors = require('cors');
 const dbconnect = require("./src/config/database");
 const con = dbconnect.connection;
+const cookieParser = require('cookie-parser');
 
 
 const app = express();
 const PORT = 3000;
 
+app.use(cookieParser());
 app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));

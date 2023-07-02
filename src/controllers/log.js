@@ -44,8 +44,8 @@ const fetchemployee = async (req, res) => {
 
 const loginEmp = async (req, res) => {
   try {
-    console.log("login sececess ");
-    res.send("login sececess");
+    console.log("login success ");
+    res.send("login success");
   } catch (error) {
     console.log(error);
   }
@@ -53,8 +53,8 @@ const loginEmp = async (req, res) => {
 
 const loginAdmin = async (req, res) => {
   try {
-    console.log("login sececess ");
-    res.send("login sececess");
+    console.log("login success");
+    res.send("login success");
   } catch (error) {
     console.log(error);
   }

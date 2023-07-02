@@ -38,6 +38,10 @@ router.get('/get/highrecshipdata', (req, res)=> ctrl.highrecshipdata(req,res));
 
 
 
+router.get('/get/logout', (req, res)=> postctrl.logout(req,res));
+
+
+
 
 //get depart
 router.get('/get/depart', (req, res)=> ctrl.fetchDepart(req,res));
