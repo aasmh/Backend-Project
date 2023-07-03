@@ -129,7 +129,7 @@ const addnewshiptype = async (req, res) => {
     const sql = `INSERT INTO ship_types (Ship_type_nm,Type_Code) VALUES ('${resobj.name}','${resobj.code}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        return res.status(200).json({ message: err.sqlMessage, query: false });
+        return res.status(500).json({ message: err.sqlMessage, query: false });
       } else {
         return res.status(200).json({
             message: `Ship Type  ${resobj.name} added Correctly`,
