@@ -54,16 +54,16 @@ const addnewport = async (req, res) => {
     const resobj = req.body;
 
     if (resobj == undefined) {
-      throw { message: "Parameter was not received", status: false };
+      res.send( { message: "Parameter was not received", status: false });
     }
 
     const exists = await gets.getportcode(resobj.name);
 
     if (exists !== undefined) {
-      throw {
+      res.send( {
         message: "That entry already exists in the Database",
         status: true,
-      };
+      });
     }
 
     const sql = `INSERT INTO ports (Port_Name, Port_Code) VALUES ('${resobj.name}', '${resobj.code}'); `;
@@ -88,15 +88,15 @@ const addnewcountry = async (req, res) => {
   try {
     const resobj = req.body;
     if (resobj == undefined) {
-      throw { message: "Parameter was not received", status: false };
+      res.send( { message: "Parameter was not received", status: false });
     }
     const exists = await gets.getcountrycode(resobj.name);
 
     if (exists !== undefined) {
-      throw {
+      res.send({
         message: "That entry already exists in the Database",
         status: true,
-      };
+      })
     }
 
     const sql = `INSERT INTO countries (Country_Name, Country_Code) VALUES ('${resobj.name}','${resobj.code}');`;
@@ -121,15 +121,15 @@ const addnewshiptype = async (req, res) => {
   try {
     const resobj = req.body;
     if (resobj == undefined) {
-      throw { message: "Parameter was not received", status: false };
+      res.send( { message: "Parameter was not received", status: false });
     }
     const exists = await Ifsqlexists("ship_types", "Type_Code", resobj.code);
 
     if (exists) {
-      throw {
+      res.send({
         message: "That entry already exists in the Database",
         status: true,
-      };
+      });
     }
 
     const sql = `INSERT INTO ship_types (Ship_type_nm,Type_Code) VALUES ('${resobj.name}','${resobj.code}');`;
@@ -154,7 +154,7 @@ const addnewoperation = async (req, res) => {
   try {
     const resobj = req.body;
     if (resobj == undefined) {
-      throw { message: "Parameter was not received", status: false };
+      res.send( { message: "Parameter was not received", status: false });
     }
 
     const exists = await Ifsqlexists(
@@ -164,10 +164,10 @@ const addnewoperation = async (req, res) => {
     );
 
     if (exists) {
-      throw {
+      res.send( {
         message: "That entry already exists in the Database",
         status: true,
-      };
+      });
     }
 
     const sql = `INSERT INTO operations (Operation_nm, Operation_Code) VALUES ('${resobj.name}','${resobj.code}');`;
@@ -316,7 +316,7 @@ const addlogs = async (req, res) => {
   try {
     const resobj = req.body;
     if (resobj == undefined) {
-      throw { message: "Parameter was not received", status: false };
+      res.send( { message: "Parameter was not received", status: false });
     }
 
     const logDate = new Date().toISOString().slice(0, 19).replace("T", " ");
