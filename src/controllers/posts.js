@@ -215,7 +215,7 @@ const addshipdesc = async (req, res) => {
       ],
       function (err, result) {
         if (err) {
-          return res.status(500).json({ message: err.sqlMessage, query: false });
+          return res.status(200).json({ message: err.sqlMessage, query: false });
         } else {
           return res.status(200).json({
               message: `ship with ${IMO} added Correctly`,
@@ -257,7 +257,7 @@ const addshipdesc = async (req, res) => {
       ],
       (err, result) => {
         if (err) {
-          return res.status(500).json({ message: err.sqlMessage, query: false });
+          return res.status(400).json({ message: err.sqlMessage, query: false });
         } else {
           return res.status(200).json({ message: `Agent with code ${Agent_Code} added correctly`, query: true });
         }
