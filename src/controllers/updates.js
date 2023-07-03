@@ -220,35 +220,29 @@ const updateDepart = async (req, res) => {
           WHERE Voyage_No = ?
         `;
 
-      con.query(
-        updateDepartureSql,
-        [
-          IMO,
-          Agent_Code,
-          Departure_Date_Plan,
-          Departure_Date_Actual,
-          Cargo_departure,
-          Destination_Port,
-          Maritime_Safety,
-          Police,
-          Customs,
-          Port_Authority,
-          Berth_No_Depth,
-          Voyage_No,
-        ],
-        (err, updateResult) => {
-          if (err) {
-            console.error(err);
-            res
-              .status(500)
-              .send({ message: `Internal server error ${err.sqlMessage}` });
-            return;
-          }
-          res
-            .status(200)
-            .send({
-              message: `Ship departure with the Voyage_No ${Voyage_No} updated successfully`,
-            });
+        con.query(
+          updateDepartureSql,
+          [
+            IMO,
+            Agent_Code,
+            Departure_Date_Plan,
+            Departure_Date_Actual,
+            Cargo_departure,
+            Destination_Port,
+            Maritime_Safety,
+            Police,
+            Customs,
+            Port_Authority,
+            Berth_No_Depth,
+            Voyage_No,
+          ],
+          (err, updateResult) => {
+            if (err) {
+              console.error(err);
+              res.status(500).send(`Internal server error ${err.sqlMessage}`);
+              return;
+            }
+            res.status(200).send({message:`Ship departure with the Voyage_No ${Voyage_No} updated successfully`});
         }
       );
     });
