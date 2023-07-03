@@ -277,6 +277,7 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
   res.cookie('emp', ' ' , {httpOnly:true, maxAge:1} );
+  res.end();
 }
 
 
