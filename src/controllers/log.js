@@ -70,7 +70,7 @@ const addEmp = async (req, res) => {
       [Employee_Name, Employee_Password, Email, Telephone, Role],
       function (err, result) {
         if (err) {
-          res.status(500).send({ message: err.sqlMessage, query: false });
+          res.status(400).send({ message: err.sqlMessage, query: false });
         } else {
           res
             .status(200)
@@ -151,7 +151,7 @@ const addDepart = async (req, res) => {
         ],
         (err, result) => {
           if (err) {
-            res.status(500).send({ message: err.sqlMessage, query: false });
+            res.status(400).send({ message: err.sqlMessage, query: false });
           } else {
             res
               .status(200)
@@ -213,7 +213,7 @@ const addArrival = async (req, res) => {
       ],
       function (err, result) {
         if (err) {
-          res.status(500).send({ message: err.sqlMessage, query: false });
+          res.status(400).send({ message: err.sqlMessage, query: false });
         } else {
           res
             .status(200)
@@ -236,7 +236,7 @@ const register = async (req, res) => {
       [Admin_ID, Username, Admin_Password, Employee_ID],
       function (err, result) {
         if (err) {
-          res.status(500).send({ message: err.sqlMessage, query: false });
+          res.status(400).send({ message: err.sqlMessage, query: false });
         }
         res
           .status(200)
