@@ -88,10 +88,6 @@ const addnewcountry = async (req, res) => {
     const exists = await gets.getcountrycode(resobj.name);
 
     if (exists !== undefined) {
-      // res.send({
-      //   message: "That entry already exists in the Database",
-      //   status: true,
-      // })
       return res.status(200).json({ message: 'That entry already exists in the Database', status: true });
 
     }
@@ -121,7 +117,7 @@ const addnewshiptype = async (req, res) => {
     const exists = await Ifsqlexists("ship_types", "Type_Code", resobj.code);
 
     if (exists) {
-      res.send({
+      return res.status(200).json({
         message: "That entry already exists in the Database",
         status: true,
       });
@@ -132,9 +128,7 @@ const addnewshiptype = async (req, res) => {
       if (err) {
         return res.status(500).json({ message: err.sqlMessage, query: false });
       } else {
-        res
-          .status(200)
-          .send({
+        return res.status(200).json({
             message: `Ship Type  ${resobj.name} added Correctly`,
             query: true,
           });
@@ -159,7 +153,7 @@ const addnewoperation = async (req, res) => {
     );
 
     if (exists) {
-      res.send( {
+      return res.status(200).json( {
         message: "That entry already exists in the Database",
         status: true,
       });
@@ -170,9 +164,7 @@ const addnewoperation = async (req, res) => {
       if (err) {
         return res.status(500).json({ message: err.sqlMessage, query: false });
       } else {
-        res
-          .status(200)
-          .send({
+        return res.status(200).json({
             message: `Operation  ${resobj.name} added Correctly`,
             query: true,
           });
@@ -222,9 +214,7 @@ const addshipdesc = async (req, res) => {
         if (err) {
           return res.status(500).json({ message: err.sqlMessage, query: false });
         } else {
-          res
-            .status(200)
-            .send({
+          return res.status(200).json({
               message: `ship with ${IMO} added Correctly`,
               query: true,
             });
@@ -267,9 +257,7 @@ const addAgent = async (req, res) => {
         if (err) {
           return res.status(500).json({ message: err.sqlMessage, query: false });
         } else {
-          res
-            .status(200)
-            .send({ message: `Agent with code ${Agent_Code} added Correctly`, query: true });
+          return res.status(200).json({ message: `Agent with code ${Agent_Code} added Correctly`, query: true });
         }
       }
     );
