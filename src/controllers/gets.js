@@ -56,7 +56,7 @@ const fetchcountrycode = async (req, res) => {
       res
         .status(200)
         .send({
-          message: "Query Exceuted Correctly",
+          message: "country code Exceuted Correctly",
           Country_Code: cname,
           query: true,
         });
@@ -99,7 +99,7 @@ const fetchportcode = async (req, res) => {
       res
         .status(200)
         .send({
-          message: "Query Executed Correctly",
+          message: "port code  Executed Correctly",
           Port_Code: pname,
           query: true,
         });
@@ -138,7 +138,7 @@ const fetchallcountries = async (req, res) => {
       res
         .status(200)
         .send({
-          message: "Query Executed Correctly",
+          message: "All countries Executed Correctly",
           query: true,
           allentries: cbfun,
         });
@@ -182,7 +182,7 @@ const fetchallports = async (req, res) => {
       res
         .status(200)
         .send({
-          message: "Query Executed Correctly",
+          message: "ports Executed Correctly",
           query: true,
           allentries: cbfun,
         });
@@ -221,7 +221,7 @@ const fetchallagents = async (req, res) => {
       res
         .status(200)
         .send({
-          message: "Query Executed Correctly",
+          message: "allagents Executed Correctly",
           query: true,
           allentries: cbfun,
         });
@@ -263,7 +263,7 @@ const fetchshipdesc = async (req, res) => {
       res
         .status(200)
         .send({
-          message: "Query Executed Correctly",
+          message: "shipdesc Executed Correctly",
           query: true,
           allentries: cbfun,
         });
@@ -302,7 +302,7 @@ const fetchshiptypes = async (req, res) => {
       res
         .status(200)
         .send({
-          message: "Query Executed Correctly",
+          message: "shiptypes Executed Correctly",
           query: true,
           allentries: cbfun,
         });
@@ -368,7 +368,7 @@ const getOperation = async (req, res) => {
       res
         .status(200)
         .send({
-          message: "Query Executed Correctly",
+          message: "Operation Executed Correctly",
           query: true,
           allentries: result,
         });
@@ -399,7 +399,7 @@ const fetchArrival = async (req, res) => {
     res
       .status(200)
       .send({
-        message: "Query Executed Correctly",
+        message: "Arrival Executed Correctly",
         query: true,
         allentries: result,
       });
@@ -420,7 +420,7 @@ const fetchDepart = async (req, res) => {
     res
       .status(200)
       .send({
-        message: "Query Executed Correctly",
+        message: "Depart Executed Correctly",
         query: true,
         allentries: result,
       });

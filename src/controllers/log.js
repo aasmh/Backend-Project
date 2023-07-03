@@ -74,7 +74,7 @@ const addEmp = async (req, res) => {
         } else {
           res
             .status(200)
-            .send({ message: "Add_Employee Query Executed Correctly", query: true });
+            .send({ message: `Employee  ${Employee_Name} added Correctly`, query: true }); 
         }
       }
     );
@@ -155,7 +155,7 @@ const addDepart = async (req, res) => {
           } else {
             res
               .status(200)
-              .send({ message: "Add_Depart Query Executed Correctly", query: true });
+              .send({ message: `Depart  ${Voyage_No} added Correctly`, query: true }); 
           }
         }
       );
@@ -217,7 +217,7 @@ const addArrival = async (req, res) => {
         } else {
           res
             .status(200)
-            .send({ message: "Add_Arrival Query Executed Correctly", query: true });
+            .send({ message: `Arrival  ${Voyage_No} added Correctly`, query: true });
         }
       }
     );
@@ -240,7 +240,7 @@ const register = async (req, res) => {
         }
         res
           .status(200)
-          .send({ message: "register Query Executed Correctly", query: true });
+          .send({ message: `register by ${Username} at ${Date()}`, query: true });
       }
     );
   } catch (error) {

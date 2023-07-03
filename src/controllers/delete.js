@@ -46,7 +46,7 @@ const deletePort = async (req, res) => {
       } else {
         res
           .status(200)
-          .send({ message: "Port deleted successfully", query: true });
+          .send({ message: `Port code ${resobj.code} deleted successfully`, query: true });
       }
     });
   } catch (err) {
@@ -81,7 +81,7 @@ const deleteCountry = async (req, res) => {
         res
           .status(200)
           .send({
-            message: "Country deleted successfully",
+            message: `Country with ${resobj.code} deleted successfully`,
             query: true,
             result,
           });
@@ -120,7 +120,7 @@ const deleteShipType = async (req, res) => {
       } else {
         res
           .status(200)
-          .send({ message: "Ship type deleted successfully", query: true });
+          .send({ message: `Ship type with code: ${resobj.code} deleted successfully`, query: true });
       }
     });
   } catch (err) {
@@ -153,7 +153,7 @@ const deleteOperation = async (req, res) => {
       } else {
         res
           .status(200)
-          .send({ message: "operations deleted successfully", query: true });
+          .send({ message: `operations with code ${resobj.code} deleted successfully`, query: true });
       }
     });
   } catch (err) {
@@ -194,7 +194,7 @@ const deleteDepart = async (req, res) => {
         }
         res
           .status(200)
-          .send({ message: "Depart deleted successfully", query: true });
+          .send({ message: `Depart with ${Arrival_ID} deleted successfully`, query: true });
       });
     });
   } catch (err) {
@@ -233,7 +233,7 @@ const deleteArrival = async (req, res) => {
         }
         res
           .status(200)
-          .send({ message: "Arrival deleted successfully", query: true });
+          .send({ message: `Arrival ${Arrival_ID}deleted successfully`, query: true });
       });
     });
   } catch (err) {
@@ -271,7 +271,7 @@ const deleteShipDesc = async (req, res) => {
         }
         res
           .status(200)
-          .send({ message: "ShipDesc deleted successfully", query: true });
+          .send({ message: `ShipDesc IMO:${IMO} deleted successfully`, query: true });
       });
     });
   } catch (err) {
@@ -310,7 +310,7 @@ const deleteAgent = async (req, res) => {
         }
         res
           .status(200)
-          .send({ message: "Agent deleted successfully", query: true });
+          .send({ message: `Agent with Agent Code${Agent_Code} deleted successfully`, query: true });
       });
     });
   } catch (err) {
