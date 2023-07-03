@@ -7,10 +7,6 @@ const res = require("express/lib/response");
 const con = dbconnect.connection;
 const gets = require("./gets");
 const bcrypt = require("bcrypt");
-//just a comment
-//add another comment
-// Third Comment
-//Fourth Comment
 
 const ifexists = async (tablename, columnname, value) => {
   try {
@@ -60,7 +56,7 @@ const addnewport = async (req, res) => {
     const exists = await gets.getportcode(resobj.name);
 
     if (exists !== undefined) {
-      return res.status(200).json({ message: 'That entry already exists in the Database', status: true });
+      return res.status(500).json({ message: 'That entry already exists in the Database', status: true });
     }
 
     const sql = `INSERT INTO ports (Port_Name, Port_Code) VALUES ('${resobj.name}', '${resobj.code}');`;
@@ -73,7 +69,7 @@ const addnewport = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: 'Internal server error', query: false });
+    res.status(400).send(err);
   }
 };
 
@@ -81,32 +77,23 @@ const addnewcountry = async (req, res) => {
   try {
     const resobj = req.body;
     if (resobj == undefined) {
-      // res.send( { message: "Parameter was not received", status: false });
-      throw { message: "Parameter was not received", status: false };
-
+      return res.status(400).json({ message: 'Parameter was not received', status: false });
     }
     const exists = await gets.getcountrycode(resobj.name);
 
     if (exists !== undefined) {
-      // res.send({
-      //   message: "That entry already exists in the Database",
-      //   status: true,
-      // })
-      throw { message: "That entry already exists in the Database", status: true };
-
+      return res.status(200).json({ message: 'That entry already exists in the Database', status: true });
     }
 
     const sql = `INSERT INTO countries (Country_Name, Country_Code) VALUES ('${resobj.name}','${resobj.code}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        res.status(500).send({ message: err.sqlMessage, query: false });
+        res.status(500).json({ message: err.sqlMessage, query: false });
       } else {
-        res
-          .status(200)
-          .send({
-            message: `Country  ${resobj.name} added Correctly`,
-            query: true,
-          });
+        res.status(200).json({
+          message: `Country  ${resobj.name} added Correctly`,
+          query: true,
+        });
       }
     });
   } catch (err) {
@@ -118,12 +105,12 @@ const addnewshiptype = async (req, res) => {
   try {
     const resobj = req.body;
     if (resobj == undefined) {
-      res.send( { message: "Parameter was not received", status: false });
+      return res.json({ message: "Parameter was not received", status: false });
     }
     const exists = await Ifsqlexists("ship_types", "Type_Code", resobj.code);
 
     if (exists) {
-      res.send({
+      return res.json({
         message: "That entry already exists in the Database",
         status: true,
       });
@@ -132,14 +119,12 @@ const addnewshiptype = async (req, res) => {
     const sql = `INSERT INTO ship_types (Ship_type_nm,Type_Code) VALUES ('${resobj.name}','${resobj.code}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        res.status(500).send({ message: err.sqlMessage, query: false });
+        res.status(500).json({ message: err.sqlMessage, query: false });
       } else {
-        res
-          .status(200)
-          .send({
-            message: `Ship Type  ${resobj.name} added Correctly`,
-            query: true,
-          });
+        res.status(200).json({
+          message: `Ship Type  ${resobj.name} added Correctly`,
+          query: true,
+        });
       }
     });
   } catch (err) {
@@ -151,7 +136,7 @@ const addnewoperation = async (req, res) => {
   try {
     const resobj = req.body;
     if (resobj == undefined) {
-      res.send( { message: "Parameter was not received", status: false });
+      return res.json({ message: "Parameter was not received", status: false });
     }
 
     const exists = await Ifsqlexists(
@@ -161,7 +146,7 @@ const addnewoperation = async (req, res) => {
     );
 
     if (exists) {
-      res.send( {
+      return res.json({
         message: "That entry already exists in the Database",
         status: true,
       });
@@ -170,14 +155,12 @@ const addnewoperation = async (req, res) => {
     const sql = `INSERT INTO operations (Operation_nm, Operation_Code) VALUES ('${resobj.name}','${resobj.code}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        res.status(500).send({ message: err.sqlMessage, query: false });
+        res.status(500).json({ message: err.sqlMessage, query: false });
       } else {
-        res
-          .status(200)
-          .send({
-            message: `Operation  ${resobj.name} added Correctly`,
-            query: true,
-          });
+        res.status(200).json({
+          message: `Operation  ${resobj.name} added Correctly`,
+          query: true,
+        });
       }
     });
   } catch (err) {
@@ -222,14 +205,12 @@ const addshipdesc = async (req, res) => {
       ],
       function (err, result) {
         if (err) {
-          res.status(500).send({ message: err.sqlMessage, query: false });
+          res.status(500).json({ message: err.sqlMessage, query: false });
         } else {
-          res
-            .status(200)
-            .send({
-              message: `ship with ${IMO} added Correctly`,
-              query: true,
-            });
+          res.status(200).json({
+            message: `ship with ${IMO} added Correctly`,
+            query: true,
+          });
         }
       }
     );
@@ -267,11 +248,12 @@ const addAgent = async (req, res) => {
       ],
       (err, result) => {
         if (err) {
-          res.status(500).send({ message: err.sqlMessage, query: false });
+          res.status(500).json({ message: err.sqlMessage, query: false });
         } else {
-          res
-            .status(200)
-            .send({ message: `Agent with code ${Agent_Code} added Correctly`, query: true });
+          res.status(200).json({
+            message: `Agent with code ${Agent_Code} added Correctly`,
+            query: true,
+          });
         }
       }
     );
@@ -288,15 +270,15 @@ const login = async (req, res) => {
     if (err === null && result.length > 0) {
       const storedPassword = result[0].Employee_Password;
       if (Employee_Password === storedPassword) {
-        res.status(200).cookie('emp',result[0].Role,{httpOnly:true, maxAge:120*60 }).send({ result: result[0] });
+        res.status(200).cookie('emp',result[0].Role,{httpOnly:true, maxAge:120*60 }).json({ result: result[0] });
       } else {
         
         res
           .status(401)
-          .send({ error: "Email and password combination is not correct" });
+          .json({ error: "Email and password combination is not correct" });
       }
     } else {
-      res.status(401).send({ error: "User not found" });
+      res.status(401).json({ error: "User not found" });
     }
   });
 };
@@ -313,7 +295,7 @@ const addlogs = async (req, res) => {
   try {
     const resobj = req.body;
     if (resobj == undefined) {
-      res.send( { message: "Parameter was not received", status: false });
+      return res.json({ message: "Parameter was not received", status: false });
     }
 
     const logDate = new Date().toISOString().slice(0, 19).replace("T", " ");
@@ -321,11 +303,9 @@ const addlogs = async (req, res) => {
     const sql = `INSERT INTO logs (name,message, log_date) VALUES ('${resobj.name}','${resobj.message}','${logDate}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        res.status(500).send({ message: err.sqlMessage, query: false });
+        res.status(500).json({ message: err.sqlMessage, query: false });
       } else {
-        res
-          .status(200)
-          .send({ message: "add logs Query Executed Correctly", query: true });
+        res.status(200).json({ message: "add logs Query Executed Correctly", query: true });
       }
     });
   } catch (err) {
