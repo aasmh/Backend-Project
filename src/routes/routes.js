@@ -26,6 +26,7 @@ router.get('/get/highrecshipdata', (req, res) => ctrl.highrecshipdata(req, res))
 router.get('/get/logs', (req, res) => ctrl.fetchlogs(req, res));
 router.get('/get/depart', (req, res) => ctrl.fetchDepart(req, res));
 router.get('/get/arrival', (req, res) => ctrl.fetchArrival(req, res));
+router.get('/get/logout', (req, res)=> postctrl.logout(req,res));
 
 router.post('/post/test', (req, res) => postctrl.addnewagent(req, res));
 router.post('/post/statusagents', (req, res) => postctrl.addnewagent(req, res));

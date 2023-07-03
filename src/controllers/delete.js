@@ -11,11 +11,11 @@ const deleteEmployee = async (req, res) => {
   con.query(sql, [id], function (err, result) {
     if (err) {
       console.error(err);
-      res.status(500).send("Internal server error");
+      res.status(500).send({ message:`Internal server error${err}`});
       return;
     }
     if (result.affectedRows === 0) {
-      res.status(404).send("User not found");
+      res.status(404).send({ message:"User not found"});
       return;
     }
     res.send({ message: "Employee deleted successfully", query: true });
@@ -171,7 +171,7 @@ const deleteDepart = async (req, res) => {
     con.query(checkDepartureSql, [Arrival_ID], (err, result) => {
       if (err) {
         console.error(err);
-        res.status(500).send("Internal server error");
+        res.status(500).send({ message:`Internal server error${err}`});
         return;
       }
 
@@ -179,7 +179,7 @@ const deleteDepart = async (req, res) => {
       if (result.length === 0) {
         res
           .status(400)
-          .send("Departure record does not exist for the provided Arrival_ID");
+          .send({ message:"Departure record does not exist for the provided Arrival_ID"});
         return;
       }
 
@@ -189,7 +189,7 @@ const deleteDepart = async (req, res) => {
       con.query(deleteDepartureSql, [Arrival_ID], (err, deleteResult) => {
         if (err) {
           console.error(err);
-          res.status(500).send("Internal server error");
+          res.status(500).send({ message:`Internal server error${err}`});
           return;
         }
         res
@@ -211,7 +211,7 @@ const deleteArrival = async (req, res) => {
     con.query(checkArrivalSql, [Arrival_ID], (err, result) => {
       if (err) {
         console.error(err);
-        res.status(500).send("Internal server error");
+        res.status(500).send({ message:`Internal server error${err}`});
         return;
       }
 
@@ -219,7 +219,7 @@ const deleteArrival = async (req, res) => {
       if (result.length === 0) {
         res
           .status(400)
-          .send("Arrival record does not exist for the provided Arrival_ID");
+          .send({ message:"Arrival record does not exist for the provided Arrival_ID"});
         return;
       }
 
@@ -228,7 +228,7 @@ const deleteArrival = async (req, res) => {
       con.query(deleteArrivalSql, [Arrival_ID], (err, deleteResult) => {
         if (err) {
           console.error(err);
-          res.status(500).send("Internal server error");
+          res.status(500).send({ message:"Internal server error"});
           return;
         }
         res
@@ -250,13 +250,13 @@ const deleteShipDesc = async (req, res) => {
     con.query(checkShipDesc, [IMO], (err, result) => {
       if (err) {
         console.error(err);
-        res.status(500).send(`Internal server error${err}`);
+        res.status(500).send({ message:`Internal server error${err}`});
         return;
       }
 
       // If no matching arrival record is found, send an error message
       if (result.length === 0) {
-        res.status(400).send("IMO record does not exist for the provided IMO");
+        res.status(400).send({ message:"IMO record does not exist for the provided IMO"});
         return;
       }
 
@@ -266,7 +266,7 @@ const deleteShipDesc = async (req, res) => {
         if (err) {
           console.error(err);
           res.send(err);
-          res.status(500).send("Internal server error");
+          res.status(500).send({ message:"Internal server error "+ err});
           return;
         }
         res
@@ -288,7 +288,7 @@ const deleteAgent = async (req, res) => {
     con.query(checkAgent, [Agent_Code], (err, result) => {
       if (err) {
         console.error(err);
-        res.status(500).send(`Internal server error: ${err}`);
+        res.status(500).send({ message:`Internal server error: ${err}`});
         return;
       }
 
@@ -296,7 +296,7 @@ const deleteAgent = async (req, res) => {
       if (result.length === 0) {
         res
           .status(400)
-          .send("Agent record does not exist for the provided Agent_Code");
+          .send({ message:"Agent record does not exist for the provided Agent_Code"});
         return;
       }
 
@@ -305,7 +305,7 @@ const deleteAgent = async (req, res) => {
       con.query(deleteQuery, [Agent_Code], (err, deleteResult) => {
         if (err) {
           console.error(err);
-          res.status(500).send("Internal server error");
+          res.status(500).send({ message:`Internal server error${err}`});
           return;
         }
         res
