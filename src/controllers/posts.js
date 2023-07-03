@@ -99,11 +99,9 @@ const addnewcountry = async (req, res) => {
     const sql = `INSERT INTO countries (Country_Name, Country_Code) VALUES ('${resobj.name}','${resobj.code}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        res.status(500).send({ message: err.sqlMessage, query: false });
+         return res.status(500).json({ message: err.sqlMessage, query: false });
       } else {
-        res
-          .status(200)
-          .send({
+        return res.status(200).json({
             message: `Country  ${resobj.name} added Correctly`,
             query: true,
           });
