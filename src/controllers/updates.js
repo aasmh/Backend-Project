@@ -75,7 +75,7 @@ const updatePort = async (req, res) => {
       con.query(sql, (err, result) => {
         if (err) {
           console.error(err);
-          res.status(500).send({ message:`Internal server error ${err.sqlMessage}`});
+          res.status(400).send({ message:`error: ${err.sqlMessage}`});
           return;
                 } else {
           res.status(200).send({ message: `Country ${resobj.name} updated successfully`, query: true });
@@ -159,7 +159,7 @@ const updatePort = async (req, res) => {
       con.query(checkDepartureSql, [Voyage_No], (err, result) => {
         if (err) {
           console.error(err);
-          res.status(500).send({message:`Internal server error ${err}`});
+          res.status(400).send({message:` error: ${err.sqlMessage}`});
           return;
         }
   
@@ -204,7 +204,7 @@ const updatePort = async (req, res) => {
           (err, updateResult) => {
             if (err) {
               console.error(err);
-              res.status(500).send({message:`Internal server error ${err.sqlMessage}`});
+              res.status(400).send({message:`error: ${err.sqlMessage}`});
               return;
             }
             res.status(200).send({message:`Ship departure with the Voyage_No ${Voyage_No} updated successfully`});
@@ -237,7 +237,7 @@ const updatePort = async (req, res) => {
       con.query(checkArrivalSql, [Voyage_No], (err, result) => {
         if (err) {
           console.error(err);
-          res.status(500).send({message:`Internal server error ${err}`});
+          res.status(400).send({message:`error ${err.sqlMessage}`});
           return;
         }
   
@@ -278,7 +278,7 @@ const updatePort = async (req, res) => {
           (err, updateResult) => {
             if (err) {
               console.error(err);
-              res.status(500).send({message:`Internal server error ${err.sqlMessage}`});
+              res.status(400).send({message:` error: ${err.sqlMessage}`});
               return;
             }
             res.status(200).send({message:`Ship arrival with the Arrival_ID ${Voyage_No} updated successfully`});
@@ -360,7 +360,7 @@ const updatePort = async (req, res) => {
           (err, updateResult) => {
             if (err) {
               console.error(err);
-              res.status(500).send({message:`Internal server error ${err.sqlMessage}`});
+              res.status(400).send({message: err.sqlMessage});
               return;
             }
             res.status(200).send({message:`ship_description with the IMO ${IMO} updated successfully`});
@@ -428,7 +428,7 @@ const updatePort = async (req, res) => {
           (err, updateResult) => {
             if (err) {
               console.error(err);
-              res.status(500).send({message:`Internal server error ${err.sqlMessage}`});
+              res.status(400).send({message:`error: ${err.sqlMessage}`});
               return;
             }
             res.status(200).send({message:`Ship agent with the agents ${Agent_Code} updated successfully`});
