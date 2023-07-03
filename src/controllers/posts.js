@@ -259,7 +259,7 @@ const login = async (req, res) => {
     if (err === null && result.length > 0) {
       const storedPassword = result[0].Employee_Password;
       if (Employee_Password === storedPassword) {
-        res.status(200).send({ result: result[0] });
+        // res.status(200).send({ result: result[0] });
       } else {
         res
           .status(401)
