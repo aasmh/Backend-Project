@@ -278,7 +278,7 @@ const login = async (req, res) => {
     if (err === null && result.length > 0) {
       const storedPassword = result[0].Employee_Password;
       if (Employee_Password === storedPassword) {
-        res.status(200).cookie('emp',result[0].Role,{httpOnly:true, maxAge:120*60 }).send({ result: result[0] });
+        res.status(200).cookie('emp',{role:result[0].Role , name:result[0].Employee_Name},{httpOnly:true, maxAge:120*60 }).send({ result: result[0] });
       } else {
         
         res
