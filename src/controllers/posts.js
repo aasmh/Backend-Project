@@ -56,21 +56,21 @@ const addnewport = async (req, res) => {
     const resobj = req.body;
 
     if (resobj === undefined) {
-      return res.status(400).json({ message: 'Parameter was not received', status: false });
+      return res.status(400).send({ message: 'Parameter was not received', status: false });
     }
 
     const exists = await gets.getportcode(resobj.name);
 
     if (exists !== undefined) {
-      return res.status(500).json({ message: 'That entry already exists in the Database', status: true });
+      return res.status(500).send({ message: 'That entry already exists in the Database', status: true });
     }
 
     const sql = `INSERT INTO ports (Port_Name, Port_Code) VALUES ('${resobj.name}', '${resobj.code}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        return res.status(500).json({ message: err.sqlMessage, query: false });
+        return res.status(500).send({ message: err.sqlMessage, query: false });
       } else {
-        return res.status(200).json({ message: `Port ${resobj.name} added correctly`, query: true });
+        return res.status(200).send({ message: `Port ${resobj.name} added correctly`, query: true });
       }
     });
   } catch (err) {
