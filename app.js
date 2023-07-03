@@ -3,13 +3,29 @@ const Routes = require('./src/routes/routes');
 const cors = require('cors');
 const dbconnect = require('./src/config/database');
 const con = dbconnect.connection;
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const PORT = 3000;
 
-app.use(cors());
+
+// app.use(cors({
+//   origin: (origin, callback) => {
+//     callback(null, true);
+//   },
+//   credentials: true,
+// }));
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', req.headers.origin);
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 
 app.use('/api/', Routes);
 

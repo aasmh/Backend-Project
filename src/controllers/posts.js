@@ -69,12 +69,14 @@ const addnewport = async (req, res) => {
     const sql = `INSERT INTO ports (Port_Name, Port_Code) VALUES ('${resobj.name}', '${resobj.code}'); `;
     con.query(sql, (err, result) => {
       if (err) {
-        res.status(500).send({ message: err.sqlMessage , query: false });
-
+        res.status(500).send({ message: err.sqlMessage, query: false });
       } else {
         res
           .status(200)
-          .send({ message: "Add_New_Port Query Executed Correctly", query: true });
+          .send({
+            message: "Add_New_Port Query Executed Correctly",
+            query: true,
+          });
       }
     });
   } catch (err) {
@@ -100,12 +102,14 @@ const addnewcountry = async (req, res) => {
     const sql = `INSERT INTO countries (Country_Name, Country_Code) VALUES ('${resobj.name}','${resobj.code}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        res.status(500).send({ message: err.sqlMessage , query: false });
-
+        res.status(500).send({ message: err.sqlMessage, query: false });
       } else {
         res
           .status(200)
-          .send({ message: "Add_New_Country Query Executed Correctly", query: true });
+          .send({
+            message: "Add_New_Country Query Executed Correctly",
+            query: true,
+          });
       }
     });
   } catch (err) {
@@ -131,12 +135,14 @@ const addnewshiptype = async (req, res) => {
     const sql = `INSERT INTO ship_types (Ship_type_nm,Type_Code) VALUES ('${resobj.name}','${resobj.code}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        res.status(500).send({ message: err.sqlMessage , query: false });
-
+        res.status(500).send({ message: err.sqlMessage, query: false });
       } else {
         res
           .status(200)
-          .send({ message: "Ad_New_Ship_Type Query Executed Correctly", query: true });
+          .send({
+            message: "Ad_New_Ship_Type Query Executed Correctly",
+            query: true,
+          });
       }
     });
   } catch (err) {
@@ -167,12 +173,14 @@ const addnewoperation = async (req, res) => {
     const sql = `INSERT INTO operations (Operation_nm, Operation_Code) VALUES ('${resobj.name}','${resobj.code}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        res.status(500).send({ message: err.sqlMessage , query: false });
-
+        res.status(500).send({ message: err.sqlMessage, query: false });
       } else {
         res
           .status(200)
-          .send({ message: "Add_New_Operation Query Executed Correctly", query: true });
+          .send({
+            message: "Add_New_Operation Query Executed Correctly",
+            query: true,
+          });
       }
     });
   } catch (err) {
@@ -217,11 +225,14 @@ const addshipdesc = async (req, res) => {
       ],
       function (err, result) {
         if (err) {
-          res.status(500).send({ message: err.sqlMessage , query: false });
+          res.status(500).send({ message: err.sqlMessage, query: false });
         } else {
           res
             .status(200)
-            .send({ message: "add_ship Query Executed Correctly", query: true });
+            .send({
+              message: "add_ship Query Executed Correctly",
+              query: true,
+            });
         }
       }
     );
@@ -231,27 +242,50 @@ const addshipdesc = async (req, res) => {
 };
 const addAgent = async (req, res) => {
   try {
-    const { Agent_Code, Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name } = req.body;
+    const {
+      Agent_Code,
+      Perm_No,
+      Perm_dt_st,
+      Perm_dt_end,
+      Email,
+      Telephone,
+      Address,
+      Agent_Name,
+    } = req.body;
 
-    const insertQuery = "INSERT INTO agents (Agent_Code, Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    const insertQuery =
+      "INSERT INTO agents (Agent_Code, Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-    con.query(insertQuery, [Agent_Code, Perm_No, Perm_dt_st, Perm_dt_end, Email, Telephone, Address, Agent_Name], (err, result) => {
-      if (err) {
-
-        res.status(500).send({ message: err.sqlMessage , query: false });
-
-      } else {
-        res
-          .status(200)
-          .send({ message: "Agent Query Executed Correctly", query: true });
+    con.query(
+      insertQuery,
+      [
+        Agent_Code,
+        Perm_No,
+        Perm_dt_st,
+        Perm_dt_end,
+        Email,
+        Telephone,
+        Address,
+        Agent_Name,
+      ],
+      (err, result) => {
+        if (err) {
+          res.status(500).send({ message: err.sqlMessage, query: false });
+        } else {
+          res
+            .status(200)
+            .send({ message: "Agent Query Executed Correctly", query: true });
+        }
       }
-    });
+    );
   } catch (err) {
     res.status(400).send(err);
   }
 };
-
-
+const logout = async (req, res) => {
+  res.cookie('emp', ' ' , {httpOnly:true, maxAge:1} );
+  res.end();
+}
 const login = async (req, res) => {
   const { Email, Employee_Password } = req.body;
   const sql = "SELECT * FROM employees WHERE Email=?";
@@ -259,19 +293,20 @@ const login = async (req, res) => {
     if (err === null && result.length > 0) {
       const storedPassword = result[0].Employee_Password;
       if (Employee_Password === storedPassword) {
-        // res.status(200).send({ result: result[0] });
+        res
+          .status(200)
+          .cookie("emp", result[0].Role, { httpOnly: true, maxAge: 120 * 60 })
+          .send({ result: result[0] });
       } else {
         res
           .status(401)
           .send({ message: "Email and password combination is not correct" });
       }
     } else {
-      res.status(401).send({  message: "User not found" });
+      res.status(401).send({ message: "User not found" });
     }
   });
 };
-
-
 
 const addlogs = async (req, res) => {
   try {
@@ -281,12 +316,11 @@ const addlogs = async (req, res) => {
     }
 
     const logDate = new Date().toISOString().slice(0, 19).replace("T", " ");
- 
+
     const sql = `INSERT INTO logs (name,message, log_date) VALUES ('${resobj.name}','${resobj.message}','${logDate}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        res.status(500).send({ message: err.sqlMessage , query: false });
-
+        res.status(500).send({ message: err.sqlMessage, query: false });
       } else {
         res
           .status(200)
@@ -298,7 +332,6 @@ const addlogs = async (req, res) => {
   }
 };
 
-
 module.exports = {
   addnewport,
   addnewcountry,
@@ -309,4 +342,5 @@ module.exports = {
   addAgent,
   login,
   addlogs,
+  logout
 };
