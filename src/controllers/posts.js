@@ -227,8 +227,7 @@ const addshipdesc = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-};
-const addAgent = async (req, res) => {
+};const addAgent = async (req, res) => {
   try {
     const {
       Agent_Code,
@@ -258,16 +257,18 @@ const addAgent = async (req, res) => {
       ],
       (err, result) => {
         if (err) {
-          return res.status(500).json({ message:`${err.sqlMessage}`, query: false });
+          return res.status(500).json({ message: err.sqlMessage, query: false });
         } else {
-          return res.status(200).json({ message: `Agent with code ${Agent_Code} added Correctly`, query: true });
+          return res.status(200).json({ message: `Agent with code ${Agent_Code} added correctly`, query: true });
         }
       }
     );
   } catch (err) {
-    res.status(400).send(err);
+    console.error(err); // Log the error in the console for debugging purposes
+    res.status(500).json({ message: 'Internal server error', query: false });
   }
 };
+
 
 
 const login = async (req, res) => {
