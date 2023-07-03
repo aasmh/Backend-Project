@@ -171,7 +171,7 @@ const deleteDepart = async (req, res) => {
     con.query(checkDepartureSql, [Arrival_ID], (err, result) => {
       if (err) {
         console.error(err);
-        res.status(500).send({ message:`Internal server error${err}`});
+        res.status(400).send({ message:`Internal server error${err}`});
         return;
       }
 
@@ -189,7 +189,7 @@ const deleteDepart = async (req, res) => {
       con.query(deleteDepartureSql, [Arrival_ID], (err, deleteResult) => {
         if (err) {
           console.error(err);
-          res.status(500).send({ message:`Internal server error${err}`});
+          res.status(400).send({ message:`Internal server error${err}`});
           return;
         }
         res
@@ -250,7 +250,7 @@ const deleteShipDesc = async (req, res) => {
     con.query(checkShipDesc, [IMO], (err, result) => {
       if (err) {
         console.error(err);
-        res.status(500).send({ message:`Internal server error${err}`});
+        res.status(400).send({ message:`Internal server error${err}`});
         return;
       }
 
@@ -305,7 +305,7 @@ const deleteAgent = async (req, res) => {
       con.query(deleteQuery, [Agent_Code], (err, deleteResult) => {
         if (err) {
           console.error(err);
-          res.status(500).send({ message:`Internal server error${err}`});
+          res.status(400).send({ message:`Internal server error${err}`});
           return;
         }
         res
