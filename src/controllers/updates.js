@@ -40,7 +40,7 @@ const updatePort = async (req, res) => {
         } 
         else 
         {
-          res.status(200).send({ message: "Port Entry updated successfully", query: true });
+          res.status(200).send({ message: `Port Entry : ${resobj.name} updated successfully`, query: true });
         }
       });
     } catch (err) {
@@ -78,7 +78,7 @@ const updatePort = async (req, res) => {
           res.status(500).send({ message:`Internal server error ${err.sqlMessage}`});
           return;
                 } else {
-          res.status(200).send({ message: "Country Entry updated successfully", query: true });
+          res.status(200).send({ message: `Country ${resobj.name} updated successfully`, query: true });
         }
       });
     } catch (err) {
@@ -102,7 +102,7 @@ const updatePort = async (req, res) => {
         if (err) {
           throw { message: "Error updating the entry in the Database, Try Again", status: false };
         } else {
-          res.status(200).send({ message: "Ship Type Entry updated successfully", query: true });
+          res.status(200).send({ message: `Ship Type ${resobj.name} updated successfully`, query: true });
         }
       });
     } catch (error) {
@@ -129,7 +129,7 @@ const updatePort = async (req, res) => {
         if (err) {
           throw { message: "Error updating the entry in the Database, Try Again", status: false };
         } else {
-          res.status(200).send({ message: "Operation Entry updated successfully", query: true });
+          res.status(200).send({ message: `Operation ${resobj.name} updated successfully`, query: true });
         }
       });
     } catch (err) {

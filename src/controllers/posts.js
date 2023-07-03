@@ -74,7 +74,7 @@ const addnewport = async (req, res) => {
         res
           .status(200)
           .send({
-            message: "Add_New_Port Query Executed Correctly",
+            message:  `Port ${resobj.name} added Correctly` ,
             query: true,
           });
       }
@@ -107,7 +107,7 @@ const addnewcountry = async (req, res) => {
         res
           .status(200)
           .send({
-            message: "Add_New_Country Query Executed Correctly",
+            message: `Country  ${resobj.name} added Correctly`,
             query: true,
           });
       }
@@ -140,7 +140,7 @@ const addnewshiptype = async (req, res) => {
         res
           .status(200)
           .send({
-            message: "Ad_New_Ship_Type Query Executed Correctly",
+            message: `Ship Type  ${resobj.name} added Correctly`,
             query: true,
           });
       }
@@ -178,7 +178,7 @@ const addnewoperation = async (req, res) => {
         res
           .status(200)
           .send({
-            message: "Add_New_Operation Query Executed Correctly",
+            message: `Operation  ${resobj.name} added Correctly`,
             query: true,
           });
       }
@@ -230,7 +230,7 @@ const addshipdesc = async (req, res) => {
           res
             .status(200)
             .send({
-              message: "add_ship Query Executed Correctly",
+              message: `ship with ${IMO} added Correctly`,
               query: true,
             });
         }
@@ -274,7 +274,7 @@ const addAgent = async (req, res) => {
         } else {
           res
             .status(200)
-            .send({ message: "Agent Query Executed Correctly", query: true });
+            .send({ message: `Agent with code ${Agent_Code} added Correctly`, query: true });
         }
       }
     );
