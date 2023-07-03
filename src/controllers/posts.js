@@ -55,34 +55,27 @@ const addnewport = async (req, res) => {
   try {
     const resobj = req.body;
 
-    if (resobj == undefined) {
-      res.send( { message: "Parameter was not received", status: false });
+    if (resobj === undefined) {
+      return res.status(400).json({ message: 'Parameter was not received', status: false });
     }
 
     const exists = await gets.getportcode(resobj.name);
 
     if (exists !== undefined) {
-      res.send( {
-        message: "That entry already exists in the Database",
-        status: true,
-      });
+      return res.status(200).json({ message: 'That entry already exists in the Database', status: true });
     }
 
-    const sql = `INSERT INTO ports (Port_Name, Port_Code) VALUES ('${resobj.name}', '${resobj.code}'); `;
+    const sql = `INSERT INTO ports (Port_Name, Port_Code) VALUES ('${resobj.name}', '${resobj.code}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        res.status(500).send({ message: err.sqlMessage, query: false });
+        return res.status(500).json({ message: err.sqlMessage, query: false });
       } else {
-        res
-          .status(200)
-          .send({
-            message:  `Port ${resobj.name} added Correctly` ,
-            query: true,
-          });
+        return res.status(200).json({ message: `Port ${resobj.name} added correctly`, query: true });
       }
     });
   } catch (err) {
-    res.status(400).send(err);
+    console.error(err);
+    return res.status(500).json({ message: 'Internal server error', query: false });
   }
 };
 
@@ -90,15 +83,19 @@ const addnewcountry = async (req, res) => {
   try {
     const resobj = req.body;
     if (resobj == undefined) {
-      res.send( { message: "Parameter was not received", status: false });
+      // res.send( { message: "Parameter was not received", status: false });
+      throw { message: "Parameter was not received", status: false };
+
     }
     const exists = await gets.getcountrycode(resobj.name);
 
     if (exists !== undefined) {
-      res.send({
-        message: "That entry already exists in the Database",
-        status: true,
-      })
+      // res.send({
+      //   message: "That entry already exists in the Database",
+      //   status: true,
+      // })
+      throw { message: "That entry already exists in the Database", status: true };
+
     }
 
     const sql = `INSERT INTO countries (Country_Name, Country_Code) VALUES ('${resobj.name}','${resobj.code}');`;
