@@ -215,8 +215,7 @@ const addshipdesc = async (req, res) => {
       ],
       function (err, result) {
         if (err) {
-          const sqlerr = err.sqlMessage
-          return res.status(500).json({ message: `error is ${sqlerr}` , query: false });
+          return res.status(500).json({ message: `abdo`, query: false });
         } else {
           return res.status(200).json({
               message: `ship with ${IMO} added Correctly`,
