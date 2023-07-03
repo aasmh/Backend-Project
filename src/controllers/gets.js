@@ -393,7 +393,7 @@ const fetchArrival = async (req, res) => {
   con.query(sql, function (err, result) {
     if (err) {
       console.error(err);
-      res.status(500).send("Internal server error");
+      res.status(500).send({ message:`Internal server error ${err}`});
       return;
     }
     res
@@ -414,7 +414,7 @@ const fetchDepart = async (req, res) => {
   con.query(sql, function (err, result) {
     if (err) {
       console.error(err);
-      res.status(500).send("Internal server error");
+      res.status(500).send({ message:`Internal server error${err}`});
       return;
     }
     res

@@ -263,10 +263,10 @@ const login = async (req, res) => {
       } else {
         res
           .status(401)
-          .send({ error: "Email and password combination is not correct" });
+          .send({ message: "Email and password combination is not correct" });
       }
     } else {
-      res.status(401).send({ error: "User not found" });
+      res.status(401).send({  message: "User not found" });
     }
   });
 };

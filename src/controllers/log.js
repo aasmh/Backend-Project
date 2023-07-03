@@ -39,7 +39,7 @@ const fetchemployee = async (req, res) => {
       });
     }
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send({ message:err});
   }
 };
 
@@ -107,12 +107,12 @@ const addDepart = async (req, res) => {
     con.query(checkDepartureSql, [departureID], (err, result) => {
       if (err) {
         console.error(err);
-        res.status(500).send("Internal server error");
+        res.status(500).send({ message:"Internal server error"});
         return;
       }
 
       if (result.length > 0) {
-        res.status(409).send("Arrival_ID already exists in ship_departure table");
+        res.status(409).send({ message:"Arrival_ID already exists in ship_departure table"});
         return;
       }
 
