@@ -68,7 +68,7 @@ const addnewport = async (req, res) => {
     const sql = `INSERT INTO ports (Port_Name, Port_Code) VALUES ('${resobj.name}', '${resobj.code}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        return res.status(500).json({ message: err.sqlMessage, query: false });
+        return res.status(400).json({ message: err.sqlMessage, query: false });
       } else {
         return res.status(200).json({ message: `Port ${resobj.name} added correctly`, query: true });
       }
@@ -97,7 +97,7 @@ const addnewcountry = async (req, res) => {
     const sql = `INSERT INTO countries (Country_Name, Country_Code) VALUES ('${resobj.name}','${resobj.code}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        return res.status(500).json({ message: err.sqlMessage, query: false });
+        return res.status(400).json({ message: err.sqlMessage, query: false });
 
       } else {
         return res.status(200).json({
@@ -129,7 +129,7 @@ const addnewshiptype = async (req, res) => {
     const sql = `INSERT INTO ship_types (Ship_type_nm,Type_Code) VALUES ('${resobj.name}','${resobj.code}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        return res.status(500).json({ message: err.sqlMessage, query: false });
+        return res.status(400).json({ message: err.sqlMessage, query: false });
       } else {
         return res.status(200).json({
             message: `Ship Type  ${resobj.name} added Correctly`,
@@ -165,7 +165,7 @@ const addnewoperation = async (req, res) => {
     const sql = `INSERT INTO operations (Operation_nm, Operation_Code) VALUES ('${resobj.name}','${resobj.code}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        return res.status(500).json({ message: err.sqlMessage, query: false });
+        return res.status(400).json({ message: err.sqlMessage, query: false });
       } else {
         return res.status(200).json({
             message: `Operation  ${resobj.name} added Correctly`,
@@ -215,7 +215,7 @@ const addshipdesc = async (req, res) => {
       ],
       function (err, result) {
         if (err) {
-          return res.status(200).json({ message: err.sqlMessage, query: false });
+          return res.status(400).json({ message: err.sqlMessage, query: false });
         } else {
           return res.status(200).json({
               message: `ship with ${IMO} added Correctly`,
@@ -311,7 +311,7 @@ const addlogs = async (req, res) => {
     const sql = `INSERT INTO logs (name,message, log_date) VALUES ('${resobj.name}','${resobj.message}','${logDate}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        return res.status(500).json({ message: err.sqlMessage, query: false });
+        return res.status(400).json({ message: err.sqlMessage, query: false });
       } else {
         res
           .status(200)
