@@ -62,7 +62,7 @@ const addnewport = async (req, res) => {
     const exists = await gets.getportcode(resobj.name);
 
     if (exists !== undefined) {
-      return res.status(200).json({ message: 'That entry already exists in the Database', status: true });
+      return res.status(500).json({ message: 'That entry already exists in the Database', status: true });
     }
 
     const sql = `INSERT INTO ports (Port_Name, Port_Code) VALUES ('${resobj.name}', '${resobj.code}');`;
@@ -75,7 +75,7 @@ const addnewport = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: 'Internal server error', query: false });
+    res.status(400).send(err);
   }
 };
 
@@ -84,7 +84,7 @@ const addnewcountry = async (req, res) => {
     const resobj = req.body;
     if (resobj == undefined) {
       // res.send( { message: "Parameter was not received", status: false });
-      throw { message: "Parameter was not received", status: false };
+      return res.status(400).json({ message: 'Parameter was not received', status: false });
 
     }
     const exists = await gets.getcountrycode(resobj.name);
@@ -94,7 +94,7 @@ const addnewcountry = async (req, res) => {
       //   message: "That entry already exists in the Database",
       //   status: true,
       // })
-      throw { message: "That entry already exists in the Database", status: true };
+      return res.status(200).json({ message: 'That entry already exists in the Database', status: true });
 
     }
 
@@ -120,7 +120,7 @@ const addnewshiptype = async (req, res) => {
   try {
     const resobj = req.body;
     if (resobj == undefined) {
-      res.send( { message: "Parameter was not received", status: false });
+      return res.status(400).json( { message: "Parameter was not received", status: false });
     }
     const exists = await Ifsqlexists("ship_types", "Type_Code", resobj.code);
 
@@ -134,7 +134,7 @@ const addnewshiptype = async (req, res) => {
     const sql = `INSERT INTO ship_types (Ship_type_nm,Type_Code) VALUES ('${resobj.name}','${resobj.code}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        res.status(500).send({ message: err.sqlMessage, query: false });
+        return res.status(500).json({ message: err.sqlMessage, query: false });
       } else {
         res
           .status(200)
@@ -153,7 +153,7 @@ const addnewoperation = async (req, res) => {
   try {
     const resobj = req.body;
     if (resobj == undefined) {
-      res.send( { message: "Parameter was not received", status: false });
+      return res.status(400).json( { message: "Parameter was not received", status: false });
     }
 
     const exists = await Ifsqlexists(
@@ -172,7 +172,7 @@ const addnewoperation = async (req, res) => {
     const sql = `INSERT INTO operations (Operation_nm, Operation_Code) VALUES ('${resobj.name}','${resobj.code}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        res.status(500).send({ message: err.sqlMessage, query: false });
+        return res.status(500).json({ message: err.sqlMessage, query: false });
       } else {
         res
           .status(200)
@@ -224,7 +224,7 @@ const addshipdesc = async (req, res) => {
       ],
       function (err, result) {
         if (err) {
-          res.status(500).send({ message: err.sqlMessage, query: false });
+          return res.status(500).json({ message: err.sqlMessage, query: false });
         } else {
           res
             .status(200)
@@ -269,7 +269,7 @@ const addAgent = async (req, res) => {
       ],
       (err, result) => {
         if (err) {
-          res.status(500).send({ message: err.sqlMessage, query: false });
+          return res.status(500).json({ message: err.sqlMessage, query: false });
         } else {
           res
             .status(200)
@@ -315,7 +315,7 @@ const addlogs = async (req, res) => {
   try {
     const resobj = req.body;
     if (resobj == undefined) {
-      res.send( { message: "Parameter was not received", status: false });
+      return res.status(400).json( { message: "Parameter was not received", status: false });
     }
 
     const logDate = new Date().toISOString().slice(0, 19).replace("T", " ");
@@ -323,7 +323,7 @@ const addlogs = async (req, res) => {
     const sql = `INSERT INTO logs (name,message, log_date) VALUES ('${resobj.name}','${resobj.message}','${logDate}');`;
     con.query(sql, (err, result) => {
       if (err) {
-        res.status(500).send({ message: err.sqlMessage, query: false });
+        return res.status(500).json({ message: err.sqlMessage, query: false });
       } else {
         res
           .status(200)
