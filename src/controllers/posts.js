@@ -282,10 +282,8 @@ const addAgent = async (req, res) => {
     res.status(400).send(err);
   }
 };
-const logout = async (req, res) => {
-  res.cookie('emp', ' ' , {httpOnly:true, maxAge:1} );
-  res.end();
-}
+
+
 const login = async (req, res) => {
   const { Email, Employee_Password } = req.body;
   const sql = "SELECT * FROM employees WHERE Email=?";
@@ -293,20 +291,23 @@ const login = async (req, res) => {
     if (err === null && result.length > 0) {
       const storedPassword = result[0].Employee_Password;
       if (Employee_Password === storedPassword) {
-        res
-          .status(200)
-          .cookie("emp", result[0].Role, { httpOnly: true, maxAge: 120 * 60 })
-          .send({ result: result[0] });
+        res.status(200).cookie('emp',result[0].Role,{httpOnly:true, maxAge:120*60 }).send({ result: result[0] });
       } else {
+        
         res
           .status(401)
-          .send({ message: "Email and password combination is not correct" });
+          .send({ error: "Email and password combination is not correct" });
       }
     } else {
-      res.status(401).send({ message: "User not found" });
+      res.status(401).send({ error: "User not found" });
     }
   });
 };
+
+const logout = async (req, res) => {
+  res.cookie('emp', ' ' , {httpOnly:true, maxAge:1} );
+  res.end();
+}
 
 const addlogs = async (req, res) => {
   try {
