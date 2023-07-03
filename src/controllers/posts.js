@@ -304,10 +304,13 @@ const login = async (req, res) => {
   });
 };
 
+
 const logout = async (req, res) => {
   res.cookie('emp', ' ' , {httpOnly:true, maxAge:1} );
   res.end();
 }
+
+
 
 const addlogs = async (req, res) => {
   try {
@@ -332,6 +335,8 @@ const addlogs = async (req, res) => {
     res.status(400).send(err);
   }
 };
+
+
 
 module.exports = {
   addnewport,
