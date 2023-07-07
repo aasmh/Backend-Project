@@ -3,6 +3,34 @@ const posts = require("./posts");
 const gets = require("./gets");
 const con = dbconnect.connection;
 
+const updatePassword = async (req, res)=> {
+  try {
+    const resobj = req.body;
+
+    if(resobj.email === undefined){
+      throw { message: "Email Parameter was not received", status: false };
+    }
+    if(resobj.pass === undefined){
+      throw { message: "Password Parameter was not received", status: false };
+    }
+
+    var sql = `UPDATE employees SET Employee_Password = '${resobj.pass}' WHERE Email = '${resobj.email}';`;
+    
+    con.query(sql, (err, result) => {
+      if (err) {
+        throw { message: "Error updating the entry in the Database, Try Again", status: false , err};
+      } 
+      else 
+      {
+        res.status(200).send({ message: `Password for mail : ${resobj.email} updated successfully`, query: true });
+      }
+    });
+
+  } catch (err) {
+      res.status(400).send(err);
+  }
+}
+
 const updatePort = async (req, res) => {
     try {
       const resobj = req.body;
@@ -442,4 +470,4 @@ const updatePort = async (req, res) => {
   
   
   
-  module.exports = { updatePort , updateCountry , updateShipType , updateOperation , updateDepart , updateArrival , updateShipDesc ,updateAgent};
+  module.exports = { updatePort , updateCountry , updateShipType , updateOperation , updateDepart , updateArrival , updateShipDesc ,updateAgent , updatePassword};

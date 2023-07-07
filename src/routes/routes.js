@@ -47,6 +47,7 @@ router.put('/update/updatedepart', (req, res) => putctrl.updateDepart(req, res))
 router.put('/update/updatearrival', (req, res) => putctrl.updateArrival(req, res));
 router.put('/update/updateShipDesc', (req, res) => putctrl.updateShipDesc(req, res));
 router.put('/update/updateAgent', (req, res) => putctrl.updateAgent(req, res));
+router.put('/update/updatepassword', (req, res) => putctrl.updatePassword(req, res));
 
 router.get('/login/emp', (req, res) => logCtrl.fetchemployee(req, res));
 router.get('/login/fetchemployee', (req, res) => logCtrl.fetchemployee(req, res));
